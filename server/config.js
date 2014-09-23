@@ -24,5 +24,6 @@ module.exports = function(app,express){
   app.use(express.static(path.join(__dirname, '/../app')));
   // app.use(express.static(path.join(__dirname, '../client')));
 
+
   require('./routes.js')(app);
 }
