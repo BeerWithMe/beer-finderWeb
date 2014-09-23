@@ -1,5 +1,5 @@
 var db = require('./dbConfig.js')
-var passport = require('./config/middleware.js');
+var passport = require('./passport-config.js');
 
 
 
@@ -24,19 +24,31 @@ module.exports = function(app) {
     res.send(testResponse);
   });
 
-  app.post('/signup', function(req, res) {
+  app.post('/login', function(req, res){  //write login function in service file, controlled by main controller
+    console.log('REQ', req)
     var params = {username: req.body.signup_username, password: req.body.signup_password};
-    db.query('CREATE (n:User {username: ({username}), password: ({password}) })', params, function(err) {
-      if (err) {console.log('error: ', err)}
-
-      res.redirect //not sure how to handle redirects with the storyboard thing
+    db.query('OPTIONAL MATCH (n:User {username: ({username})}) RETURN n', params, function(err, data) {
+      if (err) console.log('error: ', err);  //when n is null, res.send(data) sends [{"n": null}]
+      var data = data[0];
+      if (data.n !== null) {   
+        console.log(data)
+        console.log('Sorry, that username is taken.');
+        res.redirect('/')
+      } else { 
+        db.query('CREATE (n:User {username: ({username}), password: ({password}) })', params, function(err) {
+          if (err) {console.log('error: ', err)}
+          console.log('user created')
+          // res.redirect('/#/homepage/:username');
+          res.redirect('/');
+        })
+      }
     })
   })
 
-  app.post('/login', 
-    passport.authenticate('local'), 
-    function(req, res) {
-    res.redirect(); //normally this would be homepage plus the username in the url... not sure here)
+  app.post('/', passport.authenticate('local'), function(req, res){  //write login function in service file, controlled by main controller
+    console.log(req.user);
+    res.redirect('/')
+    // res.redirect('/#/homepage/' + req.user._data.data.username);
   })
 
   app.get('/beer/:beername', function(req, res){
