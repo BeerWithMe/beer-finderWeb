@@ -12,7 +12,7 @@ module.exports = function(app,express){
     resave: true,
     saveUninitialized: true
   }))
-  // app.use(express.static(__dirname + '/../../client'));
+  app.use(express.static(__dirname + '/../app'));
   require('./routes.js')(app);
 
 }
