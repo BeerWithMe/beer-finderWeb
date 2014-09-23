@@ -12,8 +12,10 @@ body {
   overflow-y: hidden;
   height:100%;
 }
+/*BEERME---------------This is the container for the main view------------------BEERME*/
 .mainElement{
-  height:calc(100% - 51px);
+  /*height:calc(100% - 51px);*/
+  height: 100%;
   background-size: cover;
 }
 
@@ -52,7 +54,7 @@ body {
 
 /* Custom page footer */
 .footer {
-  visibility:hidden;
+  /*visibility:hidden;*/
   padding-top:15px;
   color: #777;
   height:40px;
@@ -74,8 +76,7 @@ body {
 .container-narrow > hr {
   margin: 10px 0;
 }
-
-/* Input fields and buttons formatting */
+/*BEERME--------------Input fields and buttons formatting-------------------BEERME*/
 
 .input {
   background-color: #F5F2EB;
@@ -131,7 +132,7 @@ body {
        -o-transition: border-radius .35s ease;
           transition: border-radius .35s ease;
 }
-.btn-primary:hover,
+/*.btn-primary:hover,
 .btn-primary:focus,
 .btn-primary:active,
 .btn-primary.active,
@@ -144,7 +145,7 @@ body {
   -webkit-transition: border-radius .35s ease;
        -o-transition: border-radius .35s ease;
           transition: border-radius .35s ease;
-}
+}*/
 
 
 /* -------------- Styling for main.html -------------- */
