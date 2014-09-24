@@ -56,8 +56,10 @@ module.exports = function(app) {
     console.log("This is the beername: ", beername);
     db.getOneBeer(beername, function(beerObj){
       if(!beerObj){
+        console.log('This beer has not been found');
         res.status(404).send("Beer not Found");
       }else{
+        console.log('This beer has been found');
         res.send(JSON.stringify(beerObj));
       }
     });

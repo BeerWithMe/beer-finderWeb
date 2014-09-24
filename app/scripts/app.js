@@ -16,7 +16,8 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'beerMeApp.oneBeer'
+    'beerMeApp.oneBeer',
+    'beerMeApp.services'
   ])
   .config(function ($routeProvider) {
     $routeProvider
