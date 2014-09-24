@@ -60,6 +60,7 @@ module.exports = function(app) {
         res.status(404).send("Beer not Found");
       }else{
         console.log('This beer has been found');
+        console.log(beerObj)
         res.send(JSON.stringify(beerObj));
       }
     });
