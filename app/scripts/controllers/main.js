@@ -8,10 +8,20 @@
  * Controller of the beerMeApp
  */
 angular.module('beerMeApp')
-  .controller('MainCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('MainCtrl', function ($scope,$http) {
+    $scope.login = function(userName, passWord){
+    	var data = JSON.stringify({username: userName, password: passWord})
+    	$http({
+          method: 'POST',
+          url: '/login',
+          data: data
+        }).success(function(data,status){
+        	console.log('success: ',data)
+        }).error(function(error,status){
+        	console.log('error: ',error)
+        })
+    }
+    $scope.signup = function(userName){
+    	alert('sign up!'+userName)
+    }
   });
