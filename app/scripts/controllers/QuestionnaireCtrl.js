@@ -12,7 +12,8 @@ angular.module('beerMeApp')
     }  
     // loads the next beer in the predetermined survey list
     $scope.nextbeer = function(){
-      var response = Questionnaire.changeBeer()  
+      var response = Questionnaire.changeBeer() 
+
         $scope.beername = response.beername;
         $scope.imgUrl = response.imgUrl
         if (response.message !=  null) {

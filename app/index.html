@@ -20,8 +20,8 @@
     <!-- endbuild -->
   </head>
   <body ng-app="beerMeApp">
-
-    <div ng-view="" class="mainElement"></div>
+    <h3><a ui-sref="home">Home</a></h3>
+    <div ui-view="" class="mainElement"></div>
     
     <div class="footer">
       <p> Created 2014 at Hack Reactor by the beer people. </p>
@@ -50,6 +50,7 @@
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/affix.js"></script>
     <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/alert.js"></script>
