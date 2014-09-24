@@ -15,14 +15,14 @@ module.exports = function(app) {
   //   // console.log('response: ',res)
   // });
 
-  app.get('/questionnaire', function (req, res) {
-    var testResponse = [{'id': 41220, 'name': 'Budweiser', 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/1P45iR/upload_upBR4q-large.png'},
-    {'id': 58978, 'name': 'Racer 5 IPA', 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/o1OELJ/upload_OutGJZ-large.png'},
-    {'id': 37259, 'name': 'Anchor Steam' , 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/Uiol9p/upload_drOw0u-large.png'},
-    {'id': 47942, 'name': 'Guinness Draught', 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/StkEiv/upload_etArOb-large.png'},
-    {'id': 40135, 'name': 'Blue Moon Belgian White' , 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/dDXOEp/upload_SZEtGz-large.png'}];
-    res.send(testResponse);
-  });
+  // app.get('/questionnaire', function (req, res) {
+  //   var testResponse = [{'id': 41220, 'name': 'Budweiser', 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/1P45iR/upload_upBR4q-large.png'},
+  //   {'id': 58978, 'name': 'Racer 5 IPA', 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/o1OELJ/upload_OutGJZ-large.png'},
+  //   {'id': 37259, 'name': 'Anchor Steam' , 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/Uiol9p/upload_drOw0u-large.png'},
+  //   {'id': 47942, 'name': 'Guinness Draught', 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/StkEiv/upload_etArOb-large.png'},
+  //   {'id': 40135, 'name': 'Blue Moon Belgian White' , 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/dDXOEp/upload_SZEtGz-large.png'}];
+  //   res.send(testResponse);
+  // });
 
   app.post('/login', function(req, res){  //write login function in service file, controlled by main controller
     var params = {
@@ -81,8 +81,21 @@ module.exports = function(app) {
         res.status(404).send("Beer not Found");
       }else{
         console.log('This beer has been found');
+        console.log(beerObj)
         res.send(JSON.stringify(beerObj));
       }
     });
   });
+
+  app.get('/like/:beername', function(req, res){
+    console.log("You made it to the like function, but it's still broken")
+    var params = { beername: req.params.beername, user: parseInt(req.user.id) };
+    db.query('MATCH (n:User),(b:Beer)\nWHERE id(n)=({user}) AND name(b)=({beername})\nCREATE (n)-[:LIKES {rating:1}]->(b)', params, function(err){
+      if (err) console.log(err);
+      console.log('like created!');
+      console.log(req.user);
+      console.log(params);
+      res.end();
+    })
+  })
 };

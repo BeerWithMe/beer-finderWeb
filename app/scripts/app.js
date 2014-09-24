@@ -37,6 +37,10 @@ angular
         templateUrl: 'views/oneBeer.html',
         controller: 'OneBeerController'
       })
+      .when('/questionnaire', {
+        templateUrl: 'views/questionnaire.html',
+        controller: 'QuestionnaireCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
