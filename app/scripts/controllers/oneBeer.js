@@ -3,6 +3,7 @@
 angular.module('beerMeApp.oneBeer', [])
 
 .controller('OneBeerController', function($scope, $routeParams, beerRequest){
+
 	beerRequest.getSingleBeer($routeParams.beername)
 		.success(function(data, status, headers, config) {
 			$scope.beername = data.name;
@@ -12,6 +13,6 @@ angular.module('beerMeApp.oneBeer', [])
 			$scope.imgUrl = data.imgUrl;
 		})
 		.error(function(data, status, headers, config) {
-			// $scope.beername = "This beer doesn't exist."
+			$scope.beername = '';
   		});
 })
