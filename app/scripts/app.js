@@ -17,6 +17,7 @@ angular
     'ui.router',
     'ngSanitize',
     'ngTouch',
+    // 'ui.bootstrap',
     'beerMeApp.oneBeer',
     'beerMeApp.services'
   ])
@@ -36,7 +37,8 @@ angular
       .state('/questionnaire', {
         url: '/questionnaire',
         templateUrl: 'views/questionnaire.html',
-        controller: 'QuestionnaireCtrl'
+        controller: 'QuestionnaireCtrl',
+        controllerAs: 'questCtrl'
       })
       .state('beer', {
         url: '/beer/:beername',
