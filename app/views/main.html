@@ -12,12 +12,12 @@
             <form action="/" method="post">
               <input class="input" type="text" name="username" placeholder="Username"/>
               <input class="input" type="password" name="password" placeholder="Password"/>
-              <input class="btn btn-primary entryButton" type="submit" value="LOG IN" />
+              <input ng-click="login()" class="btn btn-primary entryButton" type="submit" value="LOG IN" />
             </form>
             <form action="/" method="post" accept-charset="UTF-8">
               <input class="input" type="text" name="signup_username" placeholder="Username"/>
               <input class="input" type="password" name="signup_password" placeholder="Password"/>
-              <input class="btn btn-primary entryButton" type="submit" name="commit" value="SIGN UP" />
+              <input ng-click="signup()" class="btn btn-primary entryButton" type="submit" name="commit" value="SIGN UP" />
             </form>
 
     </div> 
