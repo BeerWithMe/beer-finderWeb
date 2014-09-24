@@ -17,7 +17,8 @@ angular.module('beerMeApp')
           $scope.message = response.message;
         }
     };
-
+    
+    //makes initial beer list available for ng-repeat in html
     this.questionnaire = Questionnaire
 
     // immediately invoke nextbeer to load first beer

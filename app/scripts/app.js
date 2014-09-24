@@ -39,7 +39,6 @@ angular
         templateUrl: 'views/questionnaire.html',
         controller: 'QuestionnaireCtrl',
         controllerAs: 'questCtrl'
-        // $scope.questCtrl = new QuestionnaireCtrl
       })
       .state('beer', {
         url: '/beer/:beername',
