@@ -8,8 +8,10 @@ angular.module('beerMeApp')
       {'id': 47942, 'name': 'Guinness Draught', 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/StkEiv/upload_etArOb-large.png'},
       {'id': 40135, 'name': 'Blue Moon Belgian White' , 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/dDXOEp/upload_SZEtGz-large.png'}],
       
-      counter: -1,
-
+      counter: -1, //incremented to zero immediately on first invocation of changeBeer
+      
+      //this function returns the next beer in the list
+      //if we're at the end of the list, it loads a message
       changeBeer:  function() {
         this.counter++;
         if (this.counter >= this.initialBeers.length) {
