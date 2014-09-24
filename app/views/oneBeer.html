@@ -1,0 +1,12 @@
+<div>
+	<div ng-if="beername">
+		<img ng-if="imgUrl != 'undefined' && imgUrl != undefined" ng-src="{{imgUrl}}"/>
+		<div>{{beername}}</div>
+		<div ng-if="abv !='undefined' && abv != undefined">abv: {{abv}}</div>
+		<div ng-if="ibu != 'undefined' && ibu != undefined">ibu: {{ibu}}</div>
+		<div ng-if="description != 'undefined' && description != undefined">description: {{description}}</div>
+	</div>
+	<div ng-if="beername === ''">
+		This beer doesn't exist
+	</div>
+</div>

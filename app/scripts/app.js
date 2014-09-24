@@ -15,7 +15,9 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'beerMeApp.oneBeer',
+    'beerMeApp.services'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -30,6 +32,10 @@ angular
       .when('/recommendations', {
         templateUrl: 'views/recommendations.html',
         controller: 'RecommendCtrl'
+      })
+      .when('/beer/:beername', {
+        templateUrl: 'views/oneBeer.html',
+        controller: 'OneBeerController'
       })
       .otherwise({
         redirectTo: '/'
