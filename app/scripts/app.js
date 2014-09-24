@@ -45,7 +45,9 @@ angular
         templateUrl: 'views/oneBeer.html',
         controller: 'OneBeerController'
       })
-
+      .otherwise({
+        redirectTo: '/'
+      });
   });
   // .config(function ($routeProvider) {
   //   $routeProvider

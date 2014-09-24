@@ -23,4 +23,4 @@ angular.module('beerMeApp')
 
     // immediately invoke nextbeer to load first beer
     $scope.nextbeer();
-})
+  })
