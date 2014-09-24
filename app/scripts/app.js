@@ -17,7 +17,7 @@ angular
     'ui.router',
     'ngSanitize',
     'ngTouch',
-    // 'ui.bootstrap',
+    'ui.bootstrap',
     'beerMeApp.oneBeer',
     'beerMeApp.services'
   ])
@@ -39,6 +39,7 @@ angular
         templateUrl: 'views/questionnaire.html',
         controller: 'QuestionnaireCtrl',
         controllerAs: 'questCtrl'
+        // $scope.questCtrl = new QuestionnaireCtrl
       })
       .state('beer', {
         url: '/beer/:beername',

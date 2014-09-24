@@ -2,9 +2,8 @@
 @import url(http://fonts.googleapis.com/css?family=Muli:300,400,300italic,400italic);
 
 /* Space out content a bit */
-html{
-  height:100%;
-}
+html{}
+
 body {
   margin-top: 0;
   font-family: 'Muli', sans-serif;
@@ -15,7 +14,7 @@ body {
 /*BEERME---------------This is the container for the main view------------------BEERME*/
 .mainElement{
   /*height:calc(100% - 51px);*/
-  height: 100%;
+  /*height: 100%;*/
   background-size: cover;
 }
 
