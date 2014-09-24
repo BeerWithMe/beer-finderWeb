@@ -28,15 +28,6 @@ angular
         url: '/home',
         templateUrl: 'views/main.html'
       })
-      .state('home.list', {
-        url: '/list',
-        templateUrl: 'views/main-nestedList.html',
-        controller: 'MainCtrl'
-      })
-      .state('home.paragraph', {
-        url: '/paragraph',
-        template: 'I could sure use a drink right now.'
-      })
       .state('recommendations', {
         url: '/recommendations',
         templateUrl: 'views/recommendations.html',
@@ -48,7 +39,7 @@ angular
         controller: 'QuestionnaireCtrl'
       })
       .state('beer', {
-        url: '/beer',
+        url: '/beer/:beername',
         templateUrl: 'views/oneBeer.html',
         controller: 'OneBeerController'
       })

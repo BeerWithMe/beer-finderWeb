@@ -2,9 +2,9 @@
 
 angular.module('beerMeApp.oneBeer', [])
 
-.controller('OneBeerController', function($scope, $routeParams, beerRequest){
+.controller('OneBeerController', function($scope, $stateParams, beerRequest){
 
-	beerRequest.getSingleBeer($routeParams.beername)
+	beerRequest.getSingleBeer($stateParams.beername)
 		.success(function(data, status, headers, config) {
 			$scope.beername = data.name;
 			$scope.ibu = data.ibu;
