@@ -13,6 +13,7 @@ angular.module('beerMeApp.oneBeer', [])
 			$scope.imgUrl = data.imgUrl;
 		})
 		.error(function(data, status, headers, config) {
+			console.log('hi')
 			$scope.beername = '';
   		});
 })

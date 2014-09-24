@@ -12,7 +12,9 @@
           <input type="password" placeholder="Enter password" ng-model="password">
           <button ng-click="login(userName,password)">Login</button>
           <button ng-click="signup(userName)">Sign up</button>
-
+          <a ui-sref=".list" class="btn btn-primary">List</a>
+          <a ui-sref=".paragraph" class="btn btn-danger">Paragraph</a>
     </div> 
   </div>
 </div>
+<div ui-view></div>

@@ -24,4 +24,5 @@ angular.module('beerMeApp')
     $scope.signup = function(userName){
     	alert('sign up!'+userName)
     }
+    $scope.dogs = ['Bulldog','Golden Retriever','Corgi']
   });
