@@ -25,24 +25,45 @@ module.exports = function(app) {
   });
 
   app.post('/login', function(req, res){  //write login function in service file, controlled by main controller
-    console.log('REQ', req)
-    var params = {username: req.body.signup_username, password: req.body.signup_password};
-    db.query('OPTIONAL MATCH (n:User {username: ({username})}) RETURN n', params, function(err, data) {
-      if (err) console.log('error: ', err);  //when n is null, res.send(data) sends [{"n": null}]
+    var params = {
+      username: req.body.username,
+      password: req.body.password
+    }
+    db.query('OPTIONAL MATCH (n:User {username: ({username})}) RETURN n',params, function(err,data) {
+      if(err) console.log('OptionalMatch error: ',err);
       var data = data[0];
-      if (data.n !== null) {   
-        console.log(data)
-        console.log('Sorry, that username is taken.');
-        res.redirect('/')
-      } else { 
-        db.query('CREATE (n:User {username: ({username}), password: ({password}) })', params, function(err) {
-          if (err) {console.log('error: ', err)}
-          console.log('user created')
-          // res.redirect('/#/homepage/:username');
-          res.redirect('/');
+      if (data.n !== null) {
+        res.send('Username taken')
+      } else {
+        db.query("CREATE (n:User {username: ({username}), password: ({password})})",params,function(err,data){
+          if(err){
+            console.log(err)
+          } else {
+            console.log('successfully created user',data)
+            res.send('Hello '+params['username']+' your password is '+params.password)
+          }
         })
       }
     })
+    console.log(params)
+
+    // var params = {username: req.body.signup_username, password: req.body.signup_password};
+    // db.query('OPTIONAL MATCH (n:User {username: ({username})}) RETURN n', params, function(err, data) {
+    //   if (err) console.log('error: ', err);  //when n is null, res.send(data) sends [{"n": null}]
+    //   var data = data[0];
+    //   if (data.n !== null) {   
+    //     console.log(data)
+    //     console.log('Sorry, that username is taken.');
+    //     res.redirect('/')
+    //   } else { 
+    //     db.query('CREATE (n:User {username: ({username}), password: ({password}) })', params, function(err) {
+    //       if (err) {console.log('error: ', err)}
+    //       console.log('user created')
+    //       // res.redirect('/#/homepage/:username');
+    //       res.redirect('/');
+    //     })
+    //   }
+    // })
   })
 
   app.post('/', passport.authenticate('local'), function(req, res){  //write login function in service file, controlled by main controller
