@@ -16,6 +16,7 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
+    // 'ui.bootstrap',
     'beerMeApp.oneBeer',
     'beerMeApp.services'
   ])
@@ -39,7 +40,8 @@ angular
       })
       .when('/questionnaire', {
         templateUrl: 'views/questionnaire.html',
-        controller: 'QuestionnaireCtrl'
+        controller: 'QuestionnaireCtrl',
+        controllerAs: 'questCtrl'
       })
       .otherwise({
         redirectTo: '/'
