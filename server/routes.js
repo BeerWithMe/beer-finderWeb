@@ -33,7 +33,7 @@ module.exports = function(app) {
       if(err) console.log('OptionalMatch error: ',err);
       var data = data[0];
       if (data.n !== null) {
-        res.send('Username taken')
+        res.redirect('Username taken')
       } else {
         db.query("CREATE (n:User {username: ({username}), password: ({password})})",params,function(err,data){
           if(err){
