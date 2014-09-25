@@ -3,10 +3,6 @@
 angular.module('beerMeApp')
   .controller('QuestionnaireCtrl', function ($scope, $routeParams, likeButton, Questionnaire) {
 
-    $scope.like = function(beername){
-      likeButton.like($scope.beername); 
-    }  
-
     // loads the next beer in the predetermined survey list
     $scope.nextbeer = function(){
       var response = Questionnaire.changeBeer() 
