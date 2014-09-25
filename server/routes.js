@@ -1,18 +1,11 @@
 var db = require('./dbConfig.js')
-var passport = require('./passport-config.js');
+var passport = require('./passport-config.js');//currently not using passport
 var bcrypt = require('bcrypt-nodejs');
 
 
 module.exports = function(app) {
   app.use(passport.initialize());
   app.use(passport.session());
-
-  // Define which routers are assigned to each route.
-  // app.get('/', function (req, res) {
-  //   console.log('request received');
-  //   res.send('<html><body><h1>Hello World</h1></body></html>');
-  //   // console.log('response: ',res)
-  // });
 
   // app.get('/questionnaire', function (req, res) {
   //   var testResponse = [{'id': 41220, 'name': 'Budweiser', 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/1P45iR/upload_upBR4q-large.png'},
