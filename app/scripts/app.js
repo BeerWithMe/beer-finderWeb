@@ -17,6 +17,7 @@ angular
     'ui.router',
     'ngSanitize',
     'ngTouch',
+    'ui.bootstrap',
     'beerMeApp.oneBeer',
     'beerMeApp.services'
   ])
@@ -37,14 +38,22 @@ angular
       .state('/questionnaire', {
         url: '/questionnaire',
         templateUrl: 'views/questionnaire.html',
-        controller: 'QuestionnaireCtrl'
+        controller: 'QuestionnaireCtrl',
+        controllerAs: 'questCtrl'
       })
       .state('beer', {
         url: '/beer/:beername',
         templateUrl: 'views/oneBeer.html',
         controller: 'OneBeerController'
       })
+      .state("otherwise", {
+        url: "*path",
+        templateUrl: "views/error-not-found.html"
+      });
 
+      // .otherwise({
+      //   redirectTo: '/'
+      // });
   });
   // .config(function ($routeProvider) {
   //   $routeProvider

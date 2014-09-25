@@ -1,22 +1,29 @@
-<h2> Help us get to know you and figure out what you like.  Give each beer 1-5 stars.  If you haven't had it, that's ok. Just skip it and move on.</h2>
-
-<div class="beerImage"></div>
-  <img ng-if="imgUrl != 'undefined'" ng-src="{{imgUrl}}"/>
-<div class="beerInfo"></div>
-  <div>{{beername}}</div>
-<div class="message"></div>
-  <div>{{message}}</div>
-<button class="likeButtonClass" ng-click="like(beername)">Like</a>
-<button class="likeButtonClass" ng-click="nextbeer()">Next Beer</a>
+<div class='container'>
+  <h2 class='surveyHead center-block'> Help us get to know you and figure out what you like.  Give each beer 1-5 stars.  If you haven't had it, that's ok. Just skip it and move on.</h2>
 
 
-<!-- <div class="btn-group">
-  <button type="button" class="btn btn-default">1<span class="glyphicon glyphicon-star"></span></button>
-  <button type="button" class="btn btn-default">2<span class="glyphicon glyphicon-star"></span></button>
-  <button type="button" class="btn btn-default">3<span class="glyphicon glyphicon-star"></span></button>
-  <button type="button" class="btn btn-default">4<span class="glyphicon glyphicon-star"></span></button>
-  <button type="button" class="btn btn-default">5<span class="glyphicon glyphicon-star"></span></button>
+    <div class="beerImageBox center-block">
+      <!-- <h2 class="beerInfo">{{beername}}</h2> -->
+      <img class="beerImage" ng-src="{{imgUrl}}"/>
+    </div>
+
+  <div ng-controller="ratingCtrl" class="ratingContainer center-block">
+    <h4>My Rating</h4>
+    <rating class="stars center-block"  ng-model="rate" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null" ng-click="setRating()"></rating>
+
+    <button class="likeButtonClass" ng-click="nextbeer()">Next Beer</button>
+    {{message}}
+    <a ui-sref="recommendations">
+      <button class="likeButtonClass" ng-show="message!=null">See Recommendations</div>
+    </a>
+  </div>
+  
+
 </div>
 
- -->
+<!-- This pre-loads the images in the background so they load faster.  -->
+<img ng-repeat="beer in questCtrl.questionnaire.initialBeers" ng-src="{{beer.imgUrl}}" ng-hide="true"/>
+
+
+
   
