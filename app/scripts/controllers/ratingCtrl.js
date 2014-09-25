@@ -1,16 +1,14 @@
 angular.module('beerMeApp')
-  .controller('ratingCtrl', function ($scope) {
+  .controller('ratingCtrl', function ($scope, likeButton) {
 
-    $scope.rate = 0;
+    $scope.rate;
     $scope.max = 5;
     $scope.isReadonly = false;
 
-    console.log($scope.rate)
-
-  // $scope.hoveringOver = function(value) {
-  //   $scope.overStar = value;
-  //   $scope.percent = 100 * (value / $scope.max);
-  // };
+    $scope.setRating = function() {
+      console.log($scope.rate);
+      likeButton.like($scope.$parent.beername, $scope.rate);
+    };
 
     $scope.ratingStates = [
       {stateOn: 'glyphicon-star', stateOff: 'glyphicon-star-empty'},

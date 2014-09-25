@@ -1,29 +1,30 @@
-<h2> Help us get to know you and figure out what you like.  Give each beer 1-5 stars.  If you haven't had it, that's ok. Just skip it and move on.</h2>
+<div class='container'>
+  <h2> Help us get to know you and figure out what you like.  Give each beer 1-5 stars.  If you haven't had it, that's ok. Just skip it and move on.</h2>
 
-<div class="beerImage"></div>
-  <img ng-src="{{imgUrl}}"/>
-<div class="beerInfo"></div>
-  <div>{{beername}}</div>
-<div class="message"></div>
-  <div>{{message}}</div>
-<button class="likeButtonClass" ng-click="like(beername)">Like</button>
-<button class="likeButtonClass" ng-click="nextbeer()">Next Beer</button>
+  <div class="beerInfoContainer">
+    <div class="beerImageBox">
+      <img class="beerImage" ng-src="{{imgUrl}}"/>
+    </div>
+    <label class="beerInfo">{{beername}}</label>
+  </div>
 
   <div ng-controller="ratingCtrl">
     <h4>My Rating</h4>
-    <rating ng-model="rate" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+    <rating class="stars" ng-model="rate" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null" ng-click="setRating()"></rating>
   </div>
 
+  <button class="likeButtonClass" ng-click="nextbeer()">Next Beer</button>
+  {{message}}
+  <a ui-sref="recommendations">
+    <button class="likeButtonClass" ng-show="message!=null">See Recommendations</div>
+  </a>
+  
+
+</div>
+
+<!-- This pre-loads the images in the background so they load faster.  -->
 <img ng-repeat="beer in questCtrl.questionnaire.initialBeers" ng-src="{{beer.imgUrl}}" ng-hide="true"/>
 
 
-<!-- <div class="btn-group">
-  <button type="button" class="btn btn-default">1<span class="glyphicon glyphicon-star"></span></button>
-  <button type="button" class="btn btn-default">2<span class="glyphicon glyphicon-star"></span></button>
-  <button type="button" class="btn btn-default">3<span class="glyphicon glyphicon-star"></span></button>
-  <button type="button" class="btn btn-default">4<span class="glyphicon glyphicon-star"></span></button>
-  <button type="button" class="btn btn-default">5<span class="glyphicon glyphicon-star"></span></button>
-</div>
 
- -->
   

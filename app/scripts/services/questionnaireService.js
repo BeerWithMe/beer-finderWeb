@@ -16,7 +16,7 @@ angular.module('beerMeApp')
         this.counter++;
         if (this.counter >= this.initialBeers.length) {
           return {
-            message: "Soon we'll put a button here to redirect you to your recommendations."
+            message: "Cool!  Go check out your recommendations!"
           } 
         } else {
           var newBeer = this.initialBeers[this.counter];
