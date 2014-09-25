@@ -46,10 +46,10 @@ angular
         templateUrl: 'views/oneBeer.html',
         controller: 'OneBeerController'
       })
-      .state("otherwise", {
-        url: "*path",
-        templateUrl: "views/error-not-found.html"
-      });
+      // .state("otherwise", {
+      //   url: "*path",
+      //   templateUrl: "views/error-not-found.html"
+      // });
 
       // .otherwise({
       //   redirectTo: '/'
