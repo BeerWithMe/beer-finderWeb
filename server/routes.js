@@ -61,8 +61,7 @@ module.exports = function(app) {
       }
     })
   })
-  
-  // when main.html sends a post request to /signup
+  // When main.html sends a post request to /signup
   app.post('/signup', function(req,res) {
     // grab the username and password
     var params = {
@@ -73,7 +72,6 @@ module.exports = function(app) {
     db.query('OPTIONAL MATCH (n:User {username: ({username})}) RETURN n', params, function(err,data) {
       if(err) console.log('signup error: ',err);
       var dbData = data[0];
-      console.log('data: ',data[0])
       // if the username is already taken, send back message
       if(dbData.n !== null){
         res.send('Username already taken')
@@ -84,8 +82,6 @@ module.exports = function(app) {
           params.password = hash;
           // then create a user node in the database with a password equal to the hash
           db.query("CREATE (n:User {username: ({username}), password: ({password})})",params,function(err,data){
-            console.log('successfully created user :',params.username);
-            console.log('the hashed pass is ', params.password);
             // send a url for the client to re-route to
             res.send('/recommendations')
             ////////////////////////////////////////////
@@ -98,7 +94,6 @@ module.exports = function(app) {
   })
 
   app.post('/', passport.authenticate('local'), function(req, res){  //write login function in service file, controlled by main controller
-    console.log(req.user);
     res.redirect('/')
     // res.redirect('/#/homepage/' + req.user._data.data.username);
   })
