@@ -9,6 +9,7 @@
  */
 angular.module('beerMeApp')
   .controller('MainCtrl', function ($scope,$http,$location,userService) {
+    console.log(userService.loggedIn)
     $scope.login = function(userName, passWord){
       console.log('inside login func')
     	var data = JSON.stringify({username: userName, password: passWord})
@@ -19,8 +20,10 @@ angular.module('beerMeApp')
         }).success(function(data,status){
           if(data === 'Wrong password' || data === 'sorry no such user'){
             alert('Wrong username or password');
+          } else {
+            // If user's password is correct, set username in userservice
+            userService.setUserName(userName);
           }
-
         	$location.path(data)
         }).error(function(error,status){
         	console.log('error: ',error)
@@ -36,7 +39,8 @@ angular.module('beerMeApp')
         if(data === 'Username already taken'){
           alert(data);
         } else {
-        console.log('User created!');  
+        console.log('User created!');
+        userService.setUserName(userName);
         $location.path(data)
         }
       }).error(function(error,status){

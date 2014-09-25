@@ -1,12 +1,10 @@
 angular.module('beerMeApp')
-  .factory('userService', function ($http){
+  .factory('userService', function ($http,$window){
 
     var userService = {
-    	userName: null,
-    	loggedIn: false,
     	setUserName: function(name){
-    		this.userName = name;
-    		this.loggedIn = true;
+    		localStorage.setItem('userName',name); //async, be careful
+    		localStorage.setItem('loggedIn',true); //async, be careful
     	}
     }
     return userService
