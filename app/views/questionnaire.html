@@ -1,23 +1,22 @@
 <div class='container'>
-  <h2> Help us get to know you and figure out what you like.  Give each beer 1-5 stars.  If you haven't had it, that's ok. Just skip it and move on.</h2>
+  <h2 class='surveyHead center-block'> Help us get to know you and figure out what you like.  Give each beer 1-5 stars.  If you haven't had it, that's ok. Just skip it and move on.</h2>
 
-  <div class="beerInfoContainer">
-    <div class="beerImageBox">
+
+    <div class="beerImageBox center-block">
+      <!-- <h2 class="beerInfo">{{beername}}</h2> -->
       <img class="beerImage" ng-src="{{imgUrl}}"/>
     </div>
-    <label class="beerInfo">{{beername}}</label>
-  </div>
 
-  <div ng-controller="ratingCtrl">
+  <div ng-controller="ratingCtrl" class="ratingContainer center-block">
     <h4>My Rating</h4>
-    <rating class="stars" ng-model="rate" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null" ng-click="setRating()"></rating>
-  </div>
+    <rating class="stars center-block"  ng-model="rate" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null" ng-click="setRating()"></rating>
 
-  <button class="likeButtonClass" ng-click="nextbeer()">Next Beer</button>
-  {{message}}
-  <a ui-sref="recommendations">
-    <button class="likeButtonClass" ng-show="message!=null">See Recommendations</div>
-  </a>
+    <button class="likeButtonClass" ng-click="nextbeer()">Next Beer</button>
+    {{message}}
+    <a ui-sref="recommendations">
+      <button class="likeButtonClass" ng-show="message!=null">See Recommendations</div>
+    </a>
+  </div>
   
 
 </div>
