@@ -17,7 +17,7 @@ angular
     'ui.router',
     'ngSanitize',
     'ngTouch',
-    'ui.bootstrap',
+    // 'ui.bootstrap', commented this out for now, because it's bugging
     'beerMeApp.oneBeer',
     'beerMeApp.services'
   ])
@@ -27,7 +27,8 @@ angular
     $stateProvider
       .state('home', {
         url: '/home',
-        templateUrl: 'views/main.html'
+        templateUrl: 'views/main.html',
+        controller: 'MainCtrl'
       })
       .state('recommendations', {
         url: '/recommendations',
