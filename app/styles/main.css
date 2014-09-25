@@ -58,16 +58,11 @@ body {
 }
 /*------Ratings directive styling-----------*/
 
-.glyphicon.ng-scope.glyphicon-star {
+.stars {
   font-size: 55px;
-}
-.glyphicon.ngscope.glyphicon-star-empty {
-  font-size: 55px;
+  outline: none;
 }
 
-.stars.ng-isolate-scope {
-  font-size: 55px;
-}
 
 /*----------------------------*/
 /* Everything but the jumbotron gets side spacing for mobile first views */
