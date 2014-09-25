@@ -26,7 +26,8 @@ angular
     $stateProvider
       .state('home', {
         url: '/home',
-        templateUrl: 'views/main.html'
+        templateUrl: 'views/main.html',
+        controller: 'MainCtrl'
       })
       .state('recommendations', {
         url: '/recommendations',
