@@ -2,6 +2,7 @@
 
 // This function takes in the returned nodes from neo4j query
 // and return all nodes as object back.
+// This function gets required by dbConfig.js
 exports.makeData = function(data, key){
   if(!data || !(data.length)){
     return false;

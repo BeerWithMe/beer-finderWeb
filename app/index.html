@@ -1,11 +1,11 @@
 <!doctype html>
-<html class="no-js" style="height:100%">
+<html class="no-js" \>
   <head>
     <meta charset="utf-8">
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <!-- <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css" /> -->
 
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
@@ -20,31 +20,9 @@
     <!-- endbuild -->
   </head>
   <body ng-app="beerMeApp">
-    <div class='imgDiv'>
-      <div class="mainViewContainer">
-
-        <div class="centerbox">
-
-          <h2>Beer Me!</h2>
+    <h3><a ui-sref="home">Home</a></h3>
+    <div ui-view="" class="mainElement"></div>
     
-        <div class="clearfix"></div>
-
-          <p>Discover tasty new brews that we know you'll love.</p>
-            
-            <form action="/login" method="post">
-              <input class="input" type="text" name="username" placeholder="Username"/>
-              <input class="input" type="password" name="password" placeholder="Password"/>
-              <input class="btn btn-primary entryButton" type="submit" value="LOG IN" />
-            </form>
-            <form action="/signup" method="post" accept-charset="UTF-8">
-              <input class="input" type="text" name="signup_username" placeholder="Username"/>
-              <input class="input" type="password" name="signup_password" placeholder="Password"/>
-              <input class="btn btn-primary entryButton" type="submit" name="commit" value="SIGN UP" />
-            </form>
-
-        </div> 
-      </div>
-    </div>
     <div class="footer">
       <p> Created 2014 at Hack Reactor by the beer people. </p>
     </div>
@@ -70,9 +48,15 @@
 
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
+    <!--Commenting these out for now.
+    <script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+-->
     <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/affix.js"></script>
     <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/alert.js"></script>
     <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/button.js"></script>
@@ -98,6 +82,13 @@
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/about.js"></script>
+        <script src="scripts/controllers/recommendations.js"></script>
+        <script src="scripts/controllers/oneBeer.js"></script>
+        <script src="scripts/controllers/QuestionnaireCtrl.js"></script>
+        <script src="scripts/controllers/ratingCtrl.js"></script>
+        <script src="scripts/services/services.js"></script>
+        <script src="scripts/services/questionnaireService.js"></script>
+        <script src="scripts/services/likeService.js"></script>
         <!-- endbuild -->
 </body>
 </html>
