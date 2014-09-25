@@ -19,18 +19,34 @@ body {
 }
 
 /*BEERME---------------Questionnaire page styling-----------------BEERME*/
+
+.surveyHead {
+  width:500px;
+}
+
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .beerImage {
-  max-width: 400px;
-  max-height: 400px;
+  max-width: 300px;
+  max-height: 300px;
   border: none;
 }
 
 .beerImageBox{
-  width:400px;
-  height:400px;
+  width:300px;
+  height:300px;
   margin:auto;
-  margin-top: 30px;
-  margin-bottom: 20px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.ratingContainer {
+  width: 600px;
+  text-align: center;
 }
 /*------Ratings directive styling-----------*/
 
