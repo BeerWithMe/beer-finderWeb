@@ -113,15 +113,20 @@ module.exports = function(app) {
     });
   });
 
-  app.get('/like/:beername', function(req, res){
-    console.log("You made it to the like function, but it's still broken")
-    var params = { beername: req.params.beername, user: parseInt(req.user.id) };
-    db.query('MATCH (n:User),(b:Beer)\nWHERE id(n)=({user}) AND name(b)=({beername})\nCREATE (n)-[:Likes {rating:1}]->(b)', params, function(err){
-      if (err) console.log(err);
-      console.log('like created!');
-      console.log(req.user);
-      console.log(params);
-      res.end();
-    })
+  app.post('/like/:beername', function(req, res){
+    // console.log("You made it to the like function, but it's still broken")
+    // var params = { beername: req.params.beername, user: parseInt(req.user.id) };
+    // db.query('MATCH (n:User),(b:Beer)\nWHERE id(n)=({user}) AND name(b)=({beername})\nCREATE (n)-[:LIKES {rating:1}]->(b)', params, function(err){
+    //   if (err) console.log(err);
+    //   console.log('like created!');
+    //   console.log(req.user);
+    //   console.log(params);
+    //   res.end();
+    // })
+    var user = {username: req.body.username};
+    var beer = {beername: req.params.beername};
+    var rating = parseInt(req.body.rating);
+
+
   })
 };
