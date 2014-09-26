@@ -21,24 +21,27 @@ angular
     'beerMeApp.oneBeer',
     'beerMeApp.recommendations'
   ])
-  .config(function($stateProvider, $urlRouterProvider){
-
+  .config(function ($stateProvider, $urlRouterProvider, $httpProvider){
+    $httpProvider.interceptors.push('TokenInterceptor');
     $stateProvider
       .state('home', {
         url: '/home',
         templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+        controller: 'MainCtrl',
+        access: {requiredLogin: false}
       })
       .state('recommendations', {
         url: '/recommendations',
         templateUrl: 'views/recommendations.html',
-        controller: 'RecommendCtrl'
+        controller: 'RecommendCtrl',
+        access: {requiredLogin: true}
       })
       .state('/questionnaire', {
         url: '/questionnaire',
         templateUrl: 'views/questionnaire.html',
         controller: 'QuestionnaireCtrl',
-        controllerAs: 'questCtrl'
+        controllerAs: 'questCtrl',
+        access: {requiredLogin: true}
       })
       .state('beer', {
         url: '/beer',
@@ -52,6 +55,13 @@ angular
       });
 
     $urlRouterProvider.otherwise('/home');
+  })
+  .run(function ($rootScope, $location, userService) {
+    $rootScope.$on('$routeChangeStart', function(event, nextRoute, currentRoute){
+      if (nextRoute.access.requiredLogin && localStorage.loggedIn === false) {
+        $location.path('/home');
+      }
+    })
   });
   // .config(function ($routeProvider) {
   //   $routeProvider

@@ -50,4 +50,10 @@ angular.module('beerMeApp')
         console.log('signup Error: ',error)
       })
     }
+    $scope.logout = function() {
+      if (localStorage.loggedIn === true) { 
+        var currentUser = localStorage.getItem('Username');
+        userService.logout(currentUser);
+      }
+    }
   });
