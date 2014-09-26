@@ -19,10 +19,10 @@ angular
     'ngTouch',
     // 'ui.bootstrap', commented this out for now, because it's bugging
     'beerMeApp.oneBeer',
-    'beerMeApp.services'
+    'beerMeApp.recommendations',
+    'beerMeApp.services',
   ])
   .config(function($stateProvider, $urlRouterProvider){
-    $urlRouterProvider.otherwise('/home');
 
     $stateProvider
       .state('home', {
@@ -31,7 +31,7 @@ angular
         controller: 'MainCtrl'
       })
       .state('recommendations', {
-        url: '/recommendations',
+        url: '/:user/recommendations',
         templateUrl: 'views/recommendations.html',
         controller: 'RecommendCtrl'
       })
@@ -45,15 +45,9 @@ angular
         url: '/beer/:beername',
         templateUrl: 'views/oneBeer.html',
         controller: 'OneBeerController'
-      })
-      .state("otherwise", {
-        url: "/home",
-        templateUrl: 'views/main.html'
       });
 
-      // .otherwise({
-      //   redirectTo: '/'
-      // });
+    $urlRouterProvider.otherwise('/home');
   });
   // .config(function ($routeProvider) {
   //   $routeProvider

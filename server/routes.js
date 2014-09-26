@@ -106,15 +106,36 @@ module.exports = function(app) {
     });
   });
 
-  app.get('/like/:beername', function(req, res){
-    console.log("You made it to the like function, but it's still broken")
-    var params = { beername: req.params.beername, user: parseInt(req.user.id) };
-    db.query('MATCH (n:User),(b:Beer)\nWHERE id(n)=({user}) AND name(b)=({beername})\nCREATE (n)-[:Likes {rating:1}]->(b)', params, function(err){
-      if (err) console.log(err);
-      console.log('like created!');
-      console.log(req.user);
-      console.log(params);
-      res.end();
+  app.post('/like/:beername', function(req, res){
+    var user = {username: req.body.username};
+    var beer = {beername: req.params.beername};
+    var rating = parseInt(req.body.rating);
+
+    db.generateLikes(user, beer, rating, function(err){
+      if(err){
+        res.status(400).send("Error");
+      }else{
+        db.generateSimilarity(user, function(err){
+          if(err){
+            res.status(400).send("Error");
+          }else{
+            res.send("Success");
+          }
+        });
+      }
     })
-  })
+  });
+
+  app.get('/:user/recommendations', function(req, res){
+    var user = {username: req.params.user};
+
+    db.generateRecommendation(user, function(err, result){
+      if(err){
+        res.status(400).send("Error");
+      }else{
+        var data = {beers: result};
+        res.send(data);
+      }
+    });
+  });
 };

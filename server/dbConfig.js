@@ -27,10 +27,34 @@ module.exports = db;
 //How to delete everything in the database: db.query("match (n) optional match (n)-[r]-() delete n, r",function(){})
 
 var getAllBeerQuery = "MATCH (n:Beer) RETURN n;";
+
 var createNewBeerQuery = ["CREATE (n:Beer {name: ({name}), ibu: ({ibu}), abv: ({abv}), description: ({description}), imgUrl: ({imgUrl}), iconUrl: ({iconUrl}), medUrl: ({medUrl}), brewery: ({brewery}), website: ({website}) })",
 						  "RETURN n;"].join('\n');
 createNewBeerQueryWithBrewery = "CREATE (n:Beer {name: ({name}), ibu: ({ibu}), abv: ({abv}), description: ({description}), imgUrl: ({imgUrl}), iconUrl: ({iconUrl}), medUrl: ({medUrl}), brewery: ({brewery}), website: ({website}) })"
 var getOneBeerByNameQuery = "MATCH (n:Beer {name: {name}}) RETURN n;"
+
+var getOneBeerByNameQuery = "MATCH (n:Beer {name: {name}}) RETURN n;";
+var generateSimilarityQuery = ["MATCH (u1:User {username: ({username})})-[x:Likes]->(b:Beer)<-[y:Likes]-(u2:User)",
+                               "WITH SUM(x.rating * y.rating) AS xyDotProduct,",
+                                    "SQRT(REDUCE(xDot = 0.0, a IN COLLECT(x.rating) | xDot + a^2)) AS xLength,", 
+                                    "SQRT(REDUCE(yDot = 0.0, b IN COLLECT(y.rating) | yDot + b^2)) AS yLength,",
+                                    "u1, u2", 
+                               "MERGE (u1)-[s:Similarity]->(u2) SET s.similarity = xyDotProduct / (xLength * yLength)"].join('\n');
+var generateLikseQuery = 'MATCH (u:User),(b:Beer)\nWHERE u.username=({username}) AND b.name=({beername})\nMERGE (u)-[l:Likes {rating: ({rating})}]->(b)'
+var checkLikesQuery = "MATCH (u:User)-[l:Likes]->(b:Beer) WHERE u.username =({username}) AND b.name =({beername}) return l";
+var updateLikesQuery = "MATCH (u:User)-[l:Likes]->(b:Beer) WHERE u.username =({username}) AND b.name =({beername}) SET l.rating = ({rating})"
+var generateRecommendationQuery = ['MATCH (u1:User)-[r:Likes]->(b:Beer),',
+                                  '(u1)-[s:Similarity]-(u2:User {username:({username})})',
+                                  'WHERE NOT((u2)-[:Likes]->(b))',
+                                  'WITH b, s.similarity AS similarity,',
+                                  'r.rating AS rating', 
+                                  'ORDER BY b.name, similarity DESC',
+                                  'WITH b.name AS beer, COLLECT(rating)[0..3] AS ratings',
+                                  'WITH beer, REDUCE(s = 0, i IN ratings | s + i)*1.0 / LENGTH(ratings) AS reco ORDER BY reco DESC',
+                                  'RETURN beer AS Beer, reco AS Recommendation'].join('\n');
+
+
+
 
 db.createBeerNode = function(beerObj){
 	// If the beer object comes with a picture, use it, otherwise we will use a
@@ -281,9 +305,80 @@ db.getOneBeer = function(beername, callback){
   });
 };
 
+db.generateSimilarity = function(user, callback){
+  var params = {
+    username: user.username
+  };
 
+  db.query(generateSimilarityQuery, params, function(err){
+    if(err){
+      console.log("Error is here:", err);
+      callback(err);
+    }else{
+      console.log("Successfully created similarity relationships for: ", user.username);
+      callback(null);
+    }
+  });
+};
 
+db.generateLikes = function(user, beer, rating, callback){
+  var params = {
+    username: user.username,
+    beername: beer.beername,
+    rating: rating
+  };
 
+  db.query(checkLikesQuery, params, function(err, likes){
+    if(err){
+      console.log(err);
+      callback(err);
+    }else{
+      console.log(likes);
+      if(likes.length === 0){
+          db.query(generateLikseQuery, params, function(err){
+            if(err){
+              console.log(err);
+              callback(err);
+            }else{
+              console.log("Successfully created likes relationships between user and beer");
+              callback(null);
+            }
+          });
+      }else{
+        db.query(updateLikesQuery, params, function(err){
+          if(err){
+            console.log(err);
+            callback(err);
+          }else{
+            console.log("Successfully updated likes relationships between user and beer");
+            callback(null);
+          }
+        });
+      }
+    }
+  });
+};
+
+db.generateRecommendation = function(user, callback){
+  var params = {
+    username: user.username
+  };
+
+  db.query(generateRecommendationQuery, params, function(err, result){
+    if(err){
+      console.log("Error is here: ", err);
+      callback(err, null);
+    }else{
+      console.log("Here is the result: ", result);
+      callback(null, result);
+    }
+  });
+};
+
+// db.generateRecommendation({username: "Mike"}, function(){});
+// db.generateSimilarity({username: "Mike"}, function(){});
+// db.generateLikes({username: "Mike"}, {beername: "Budweiser"}, 4);
+// db.generateLikes({username: "lauren"}, {beername: 'Anchor Steam'}, 4);
 
 // Example of what beer data looks like when it comes from brewDB API.
 // These objects are contained within an array that belongs to a 'data'
