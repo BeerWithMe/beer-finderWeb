@@ -57,8 +57,8 @@ var generateRecommendationQuery = ['MATCH (u1:User)-[r:Likes]->(b:Beer),',
 
 
 db.createBeerNode = function(beerObj){
-	// If the beer object comes with a picture, use it, otherwise we will use a
-  // default image later
+	// If the beer object comes with a labels property, use the pictures it comes with, otherwise we will use a
+  // default image later. 
 
 	var imgUrl;
   var iconUrl;
@@ -137,7 +137,8 @@ db.createBeerNode = function(beerObj){
             // console.log('locations.length ',locations.length)
             // console.log('please workkkkk params',params)
             //[{zip:,state:,etc...},{zip:,state:,etc...}]
-            
+              
+              
               for(var i=0;i<locations.length;i++){
                 (function(k){
                   console.log('k should be a number ',k)
@@ -216,7 +217,7 @@ db.dumpBeersIntoDB = function(path) {
 
   // BrewDB requests only return 1 page at a time, and there are 650 pages,
   // so we have to send a get request for every page, one at a time
-  for(var i=1;i<2;i++){
+  for(var i=1;i<650;i++){
 
     // Using IIFE in order to have console.log transparency while get
     // requests are being made. this is not necessary for the program's
@@ -253,7 +254,7 @@ db.dumpBeersIntoDB = function(path) {
             db.createBeerNode(beers[k]);
            }
            // When counter reaches 650, we know we've finished
-           if(counter===2){
+           if(counter===650){
              console.log('final page');
            }
         });
@@ -270,7 +271,7 @@ db.dumpBeersIntoDB = function(path) {
 // We have already called it once and filled our database with all of brewDB's
 // beer information, so we do not have to call beerget ever again, unless we need to re-do
 // our database or implement updates later.
-// db.dumpBeersIntoDB('/beers');
+db.dumpBeersIntoDB('/beers');
 
 
 
