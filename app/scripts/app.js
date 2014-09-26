@@ -31,7 +31,7 @@ angular
         controller: 'MainCtrl'
       })
       .state('recommendations', {
-        url: '/:user/recommendations',
+        url: '/recommendations',
         templateUrl: 'views/recommendations.html',
         controller: 'RecommendCtrl'
       })
