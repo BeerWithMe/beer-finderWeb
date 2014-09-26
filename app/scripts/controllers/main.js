@@ -24,7 +24,7 @@ angular.module('beerMeApp')
             // If user's password is correct, set username in userservice
             userService.setUserName(userName);
           }
-        	$location.path(data)
+        	$location.path('/:'+localStorage.username + data)
         }).error(function(error,status){
         	console.log('error: ',error)
         })
