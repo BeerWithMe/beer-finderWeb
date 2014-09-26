@@ -67,7 +67,7 @@ module.exports = function(app) {
           // then create a user node in the database with a password equal to the hash
           db.query("CREATE (n:User {username: ({username}), password: ({password})})",params,function(err,data){
             // send a url for the client to re-route to
-            res.send('/recommendations')
+            res.send('/questionnaire')
             ////////////////////////////////////////////
             //now we need to create a session or a token
             ////////////////////////////////////////////

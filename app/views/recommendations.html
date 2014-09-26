@@ -14,13 +14,13 @@ So each object in array is a "beer" in "beer in recommendationsList"
  -->
 <table>
 	<tr ng-repeat-start="beer in recommendationsList">
-		<th rowspan="2"><img ng-src="{{beer.imgUrl}}"/></th>
-	  <td><strong>{{beer.name}}</strong></td>
-	  <td>ABV: {{beer.abv}}</td>
-	  <td>IBU: {{beer.ibu}}</td>
+		<th rowspan="2"><img ng-src="{{beer.beer.iconUrl}}"/></th>
+	  <td><strong>{{beer.beer.name}}</strong></td>
+	  <td>ABV: {{beer.beer.abv}}</td>
+	  <td>IBU: {{beer.beer.ibu}}</td>
 	</tr>
 	<tr ng-repeat-end>
-		<td><em>{{beer.brewery}}</em></td>
+		<td><em>{{beer.beer.brewery}}</em></td>
 	</tr>
 </table>
 
