@@ -271,7 +271,7 @@ db.dumpBeersIntoDB = function(path) {
 // We have already called it once and filled our database with all of brewDB's
 // beer information, so we do not have to call beerget ever again, unless we need to re-do
 // our database or implement updates later.
-db.dumpBeersIntoDB('/beers');
+// db.dumpBeersIntoDB('/beers');
 
 
 

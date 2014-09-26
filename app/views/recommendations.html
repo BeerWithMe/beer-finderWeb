@@ -1,4 +1,7 @@
-
+<div>
+	<input type="text" class="searchBar" ng-model="searchTerms" placeholder="Search for a beer">
+	<input type="submit">
+</div>
 <div class="recommendationContainer" ng-repeat="beer in recommendationsList">
 	<div class="recommendationImage">
 		<img ng-src="{{beer.beer.iconUrl}}"/>
