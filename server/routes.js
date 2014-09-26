@@ -1,6 +1,9 @@
 var db = require('./dbConfig.js')
 var passport = require('./passport-config.js');//currently not using passport
 var bcrypt = require('bcrypt-nodejs');
+var jwt = require('jwt-simple');
+var payload = {foo: 'bar'};
+var secret = 'BEERMEBEERMEBEERME';
 
 
 module.exports = function(app) {
@@ -28,7 +31,7 @@ module.exports = function(app) {
           // if the password matches
           if(match){
             console.log('matchh')
-            var token = jwt.sign(user, secret.secretToken, {expiresInMinutes: 60});
+            var token = jwt.encode(username, 'secret');
             // send the authenticated user to recommendations
             return res.json({token:token});
             // res.send('/recommendations');
@@ -70,7 +73,10 @@ module.exports = function(app) {
           // then create a user node in the database with a password equal to the hash
           db.query("CREATE (n:User {username: ({username}), password: ({password})})",params,function(err,data){
             // send a url for the client to re-route to
-            res.send('/questionnaire')
+            // res.send('/questionnaire')
+            var token = jwt.encode(username, 'secret');
+            // send the authenticated user to recommendations
+            return res.json({token:token});
             ////////////////////////////////////////////
             //now we need to create a session or a token
             ////////////////////////////////////////////
@@ -96,9 +102,14 @@ module.exports = function(app) {
     // res.redirect('/#/homepage/' + req.user._data.data.username);
   })
 
+
   app.post('/beer', jwt({secret: secret.secretToken}), function(req, res){
     // var beername = req.params.beername;
     var beername = req.body.beername;
+
+  // app.get('/beer/:beername', function(req, res){
+  //   var beername = req.params.beername;
+
     console.log("This is the beername: ", beername);
     console.log("This is the beername from req.body:", req.body);
 
@@ -114,11 +125,12 @@ module.exports = function(app) {
     });
   });
 
-<<<<<<< HEAD
-  app.post('/like', function(req, res){
-=======
-  app.post('/like/:beername', jwt({secret: secret.secretToken}), function(req, res){
->>>>>>> added jwt it should just magically work hahahahaha
+
+  app.post('/like', jwt({secret: secret.secretToken}), function(req, res){
+
+  // app.post('/like/:beername', jwt({secret: secret.secretToken}), function(req, res){
+
+  // app.post('/like/:beername', function(req, res){
     var user = {username: req.body.username};
     var beer = {beername: req.body.beername};
     var rating = parseInt(req.body.rating);
@@ -138,7 +150,7 @@ module.exports = function(app) {
     })
   });
 
-  app.get('/:user/recommendations', jwt({secret: secret.secretToken}),function(req, res){
+  app.get('/:user/recommendations', function(req, res){
     var user = {username: req.params.user};
 
     db.generateRecommendation(user, function(err, result){

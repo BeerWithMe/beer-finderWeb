@@ -30,6 +30,7 @@ angular.module('beerMeApp')
             userService.setUserName(userName, jwttoken);
           }
         	$state.go('recommendations')
+        	// $location.path('/:'+localStorage.username + '/recommendations') //with uirouter this should be $state.go('recommendations')
         }).error(function(error,status){
         	console.log('error: ',error)
         })
