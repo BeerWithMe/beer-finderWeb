@@ -28,8 +28,10 @@ module.exports = function(app) {
           // if the password matches
           if(match){
             console.log('matchh')
+            var token = jwt.sign(user, secret.secretToken, {expiresInMinutes: 60});
             // send the authenticated user to recommendations
-            res.send('/recommendations');
+            return res.json({token:token});
+            // res.send('/recommendations');
             /////////////////////////////////
             //need to create token or session
             /////////////////////////////////
@@ -94,7 +96,7 @@ module.exports = function(app) {
     // res.redirect('/#/homepage/' + req.user._data.data.username);
   })
 
-  app.post('/beer', function(req, res){
+  app.post('/beer', jwt({secret: secret.secretToken}), function(req, res){
     // var beername = req.params.beername;
     var beername = req.body.beername;
     console.log("This is the beername: ", beername);
@@ -112,7 +114,11 @@ module.exports = function(app) {
     });
   });
 
+<<<<<<< HEAD
   app.post('/like', function(req, res){
+=======
+  app.post('/like/:beername', jwt({secret: secret.secretToken}), function(req, res){
+>>>>>>> added jwt it should just magically work hahahahaha
     var user = {username: req.body.username};
     var beer = {beername: req.body.beername};
     var rating = parseInt(req.body.rating);
@@ -132,7 +138,7 @@ module.exports = function(app) {
     })
   });
 
-  app.get('/:user/recommendations', function(req, res){
+  app.get('/:user/recommendations', jwt({secret: secret.secretToken}),function(req, res){
     var user = {username: req.params.user};
 
     db.generateRecommendation(user, function(err, result){
