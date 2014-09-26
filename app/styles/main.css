@@ -18,6 +18,14 @@ body {
   background-size: cover;
 }
 
+/*BEERME---------------Recommendation page styling-----------------BEERME*/
+.recommendationImage{
+  display: inline-block
+}
+.recommendationText{
+  display: inline-block
+}
+
 /*BEERME---------------Questionnaire page styling-----------------BEERME*/
 
 .surveyHead {

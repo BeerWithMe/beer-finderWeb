@@ -168,8 +168,10 @@ db.generateSimilarity = function(user, callback){
   db.query(generateSimilarityQuery, params, function(err){
     if(err){
       console.log("Error is here:", err);
+      callback(err);
     }else{
       console.log("Successfully created similarity relationships for: ", user.username);
+      callback(null);
     }
   });
 };
@@ -184,22 +186,27 @@ db.generateLikes = function(user, beer, rating, callback){
   db.query(checkLikesQuery, params, function(err, likes){
     if(err){
       console.log(err);
+      callback(err);
     }else{
       console.log(likes);
       if(likes.length === 0){
           db.query(generateLikseQuery, params, function(err){
             if(err){
               console.log(err);
+              callback(err);
             }else{
               console.log("Successfully created likes relationships between user and beer");
+              callback(null);
             }
           });
       }else{
         db.query(updateLikesQuery, params, function(err){
           if(err){
             console.log(err);
+            callback(err);
           }else{
             console.log("Successfully updated likes relationships between user and beer");
+            callback(null);
           }
         });
       }
@@ -215,9 +222,10 @@ db.generateRecommendation = function(user, callback){
   db.query(generateRecommendationQuery, params, function(err, result){
     if(err){
       console.log("Error is here: ", err);
+      callback(err, null);
     }else{
       console.log("Here is the result: ", result);
-      // callback();
+      callback(null, result);
     }
   });
 };
