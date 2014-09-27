@@ -29,7 +29,7 @@ angular.module('beerMeApp')
             var jwttoken = data;
             console.log('TOKEN IS: ', jwttoken);
             userService.setUserName(userName, jwttoken);
-            $location.path('/:'+localStorage.username + '/recommendations') //with uirouter this should be $state.go('recommendations')
+            $state.go('recommendations') 
           }
         	$state.go('recommendations')
         	// $location.path('/:'+localStorage.username + '/recommendations') //with uirouter this should be $state.go('recommendations')
@@ -49,8 +49,10 @@ angular.module('beerMeApp')
           alert(data);
         } else {
         console.log('User created!');
-        userService.setUserName(userName);
-        $location.path(data);
+        var jwttoken = data;
+        console.log('TOKEN', jwttoken.token, ' ', jwttoken.expires, ' ', jwttoken.user)
+        userService.setUserName(userName, jwttoken);
+        $state.go('questionnaire');
         }
       }).error(function(error,status){
         console.log('signup Error: ',error)

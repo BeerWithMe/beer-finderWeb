@@ -34,7 +34,7 @@ angular
         templateUrl: 'views/recommendations.html',
         controller: 'RecommendCtrl'
       })
-      .state('/questionnaire', {
+      .state('questionnaire', {
         url: '/questionnaire',
         templateUrl: 'views/questionnaire.html',
         controller: 'QuestionnaireCtrl',
