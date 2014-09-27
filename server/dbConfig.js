@@ -376,6 +376,27 @@ db.generateRecommendation = function(user, callback){
   });
 };
 
+// This function gets called by routes.js in response to POST requests to '/searchBeer' 
+// It takes a string and a callback, it queries the database for all beers that have a name
+// that contains the string, and then it invokes the callback on an array containing all of
+// the resulting beer nodes. The callback will be a function that invokes res.send(beers)
+db.findAllBeersWithNameContaining = function(beerString,callback){
+  //query the server for all beer nodes with a name property that contains the characters in beerString
+  return db.query("MATCH (n) WHERE n.name =~ '(?i).*"+beerString+".*' RETURN n",function(err,data){
+    if(err){
+      console.log('error :',err)
+    }
+    //iterate over the results of the query
+    var beers = [];
+    for(var i=0;i<data.length;i++){
+      var beerNode = data[i].n.data;
+      beers.push(beerNode);
+    }
+    // invoke the callback on the results
+    callback(beers);
+  })
+}
+
 // db.generateRecommendation({username: "Mike"}, function(){});
 // db.generateSimilarity({username: "Mike"}, function(){});
 // db.generateLikes({username: "Mike"}, {beername: "Budweiser"}, 4);

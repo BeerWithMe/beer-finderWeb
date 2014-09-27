@@ -85,6 +85,17 @@ module.exports = function(app) {
       }
     })
   })
+  
+  //When users search for a beer, searchCtrl.js sends a post request to this handler
+  app.post('/searchBeer', function(req,res){
+    // Grab the search string
+    var beer = req.body.beername;
+    // Find beer matches using regex, send results back as an array
+    db.findAllBeersWithNameContaining(beer,function(beers){
+      // beers will look like this: [{abv:,ibu:,name:,etc...},{abv:,ibu:,name:,etc...}]
+      res.send(beers);
+    });
+  })
 
   app.post('/', passport.authenticate('local'), function(req, res){  //write login function in service file, controlled by main controller
     res.redirect('/')
