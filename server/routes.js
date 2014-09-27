@@ -77,30 +77,20 @@ module.exports = function(app) {
         res.send('Username already taken')
       } else { 
         // if the username is available, hash the password
-        console.log('about to add salt--------------')
         var salt = bcrypt.genSaltSync(10);
         bcrypt.hash(params.password, salt,null, function(err,hash){
           if (err) console.log('bcrypt error', err)
-          console.log('inside bcrypt---------------------')
           params.password = hash;
           // then create a user node in the database with a password equal to the hash
           db.query("CREATE (n:User {username: ({username}), password: ({password})})", params, function(err,data){
-            // send a url for the client to re-route to
-            // res.send('/questionnaire')
             if (err) {
               console.log('error', err)
             }
-            console.log('in query, params are ', params)
             var expires = moment().add('days', 7).valueOf();
-            console.log('expires is ', expires)
-            console.log('JWT ', jwt)
-            console.log(jwt.encode)
             var token = jwt.encode({
               iss: username,
-              exp: 'expires'
+              exp: expires
             }, app.get('jwtTokenSecret'));
-            console.log('made token', token)
-            // send the authenticated user to recommendations
             console.log(username)
             res.json({
               token: token,
