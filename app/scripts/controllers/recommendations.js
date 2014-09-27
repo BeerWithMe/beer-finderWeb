@@ -1,5 +1,6 @@
 'use strict';
 
+
 // fake data for testing
 var recomList = [ {beer: {
 					name: "A",

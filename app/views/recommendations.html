@@ -1,12 +1,35 @@
 
+
 <div ng-controller="searchCtrl">
 	<input type="text" class="searchBar" ng-model="searchTerms" placeholder="Search for a beer">
 	<input type="submit" ng-click="submitSearch(searchTerms)">
 </div>
 
+
 <div class="recommendationContainer" ng-repeat="beer in recommendationsList">
 	<div class="recommendationImage">
 		<img ng-src="{{beer.beer.iconUrl}}"/>
+
+<h1>
+Recommendations!
+</h1>
+
+<!-- Assuming data comes like this (NEED TO ADD BREWERY):
+[{name: 'name', brewery: 'brewery' ibu: 'ibu', abv: 'abv', description: 'description', imgUrl: 'imgUrl', recommendationRating: 'recRating'}]
+So each object in array is a "beer" in "beer in recommendationsList"
+ -->
+<table>
+	<tr ng-repeat-start="beer in recommendationsList">
+		<th rowspan="2"><img ng-src="{{beer.beer.iconUrl}}"/></th>
+	  <td><strong>{{beer.beer.name}}</strong></td>
+	  <td>ABV: {{beer.beer.abv}}</td>
+	  <td>IBU: {{beer.beer.ibu}}</td>
+	</tr>
+	<tr ng-repeat-end>
+		<td><em>{{beer.beer.brewery}}</em></td>
+	</tr>
+</table>
+
 	</div>
 	<div class="recommendationText">
 		<ul>

@@ -17,7 +17,7 @@ angular
     'ui.router',
     'ngSanitize',
     'ngTouch',
-    // 'ui.bootstrap', commented this out for now, because it's bugging
+    'ui.bootstrap',
     'beerMeApp.oneBeer',
     'beerMeApp.recommendations',
     'beerMeApp.services',
