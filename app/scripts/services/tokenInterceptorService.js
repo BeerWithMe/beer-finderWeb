@@ -3,10 +3,12 @@ angular.module('beerMeApp')
     var attach = {
       request: function(config){
         var jwt = localStorage.getItem('token');
-        if (jwt) {
+        if (jwt) { 
           config.headers['x-access-token'] = jwt;
+          console.log('header shoulc be', localStorage.getItem('userName'))
+          config.headers['x-username'] = localStorage.getItem('userName');
         }
-        config.headers['Allow-Control-Allow-Origin'] = '*';
+        // config.headers['Allow-Control-Allow-Origin'] = '*';
         return config;
       }
     };

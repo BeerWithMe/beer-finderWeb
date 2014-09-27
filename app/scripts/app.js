@@ -55,8 +55,9 @@ angular
     $urlRouterProvider.otherwise('/home');
   })
   .run(function ($rootScope, $location, userService) {
-    $rootScope.$on('$routeChangeStart', function(event, nextRoute, currentRoute){
-      if (nextRoute.access.requiredLogin && localStorage.loggedIn === false) {
+    $rootScope.$on('$locationChangeStart', function(event, nextRoute, currentRoute){
+      debugger;
+      if (nextRoute !== '/home' && localStorage.loggedIn === "false") {
         $location.path('/home');
       }
     })

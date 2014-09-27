@@ -3,6 +3,7 @@ angular.module('beerMeApp')
 
     var userService = {
     	setUserName: function(name, token){
+        console.log('token in setusername', token)
     		localStorage.setItem('userName', name); //async, be careful
     		localStorage.setItem('loggedIn', true); //async, be careful
         localStorage.setItem('token', token);

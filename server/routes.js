@@ -7,8 +7,6 @@ var jwtauth = require('./config/middleware.js');
 var moment = require('moment');
 // moment().format();
 
-
-
 module.exports = function(app) {
   // app.use(passport.initialize());
   // app.use(passport.session());
@@ -34,17 +32,20 @@ module.exports = function(app) {
           // if the password matches
           if(match){
             console.log('matchh')
-            var expires = moment().add('days', 7).valueOf();
-            var token = jwt.encode({
-              iss: username,
-              exp: expires
-            }, app.get('jwtTokenSecret'));
-            // send the authenticated user to recommendations
-            res.json({
-              token: token,
-              expires: expires,
-              username: JSON.stringify(username)
-            });
+            var token = jwt.encode(username, 'secret');
+            res.json({token: token});
+            //uncomment below and refactor to add token expiration
+            // var expires = moment().add('days', 7).valueOf();
+            // var token = jwt.encode({
+            //   iss: username,
+            //   exp: expires
+            // }, app.get('jwtTokenSecret'));
+            // // send the authenticated user to recommendations
+            // res.json({
+            //   token: token,
+            //   expires: expires,
+            //   username: JSON.stringify(username)
+            // });
           } else {
             // if the password doesn't match
             console.log('wrong password')
@@ -86,17 +87,20 @@ module.exports = function(app) {
             if (err) {
               console.log('error', err)
             }
-            var expires = moment().add('days', 7).valueOf();
-            var token = jwt.encode({
-              iss: username,
-              exp: expires
-            }, app.get('jwtTokenSecret'));
-            console.log(username)
-            res.json({
-              token: token,
-              expires: expires,
-              user: JSON.stringify(username)
-            });
+            var token = jwt.encode(username, 'secret');
+            res.json({token: token});
+            //uncomment below and refactor to add token expiration
+            // var expires = moment().add('days', 7).valueOf();
+            // var token = jwt.encode({
+            //   iss: username,
+            //   exp: expires
+            // }, app.get('jwtTokenSecret'));
+            // // send the authenticated user to recommendations
+            // res.json({
+            //   token: token,
+            //   expires: expires,
+            //   username: JSON.stringify(username)
+            // });
           })
         })
       }
@@ -153,6 +157,7 @@ module.exports = function(app) {
 
   // app.post('/like/:beername', function(req, res){
   // app.post('/like/:beername', [bodyParser(), jwtauth], function(req, res){
+  
     var user = {username: req.body.username};
     var beer = {beername: req.body.beername};
     var rating = parseInt(req.body.rating);
@@ -172,7 +177,7 @@ module.exports = function(app) {
     })
   });
 
-  app.get('/:user/recommendations', [bodyParser(), jwtauth], function(req, res){
+  app.get('/recommendations', [bodyParser(), jwtauth], function(req, res){
     var user = {username: req.params.user};
 
     db.generateRecommendation(user, function(err, result){

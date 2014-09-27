@@ -24,12 +24,12 @@ angular.module('beerMeApp')
             // If user's password is correct, set username in userservice
             userService.setUserName(userName);
             console.log(localStorage.userName);
-        
-            var jwttoken = data;
+            var jwttoken = data.token;
+            // console.log(jwttoken)
             userService.setUserName(userName, jwttoken);
             $state.go('recommendations') 
           }
-        	$state.go('recommendations')
+        	
         	// $location.path('/:'+localStorage.username + '/recommendations') //with uirouter this should be $state.go('recommendations')
 
         }).error(function(error,status){
@@ -47,7 +47,7 @@ angular.module('beerMeApp')
           alert(data);
         } else {
         console.log('User created!');
-        var jwttoken = data;
+        var jwttoken = data.token;
         userService.setUserName(userName, jwttoken);
         $state.go('questionnaire');
         }
