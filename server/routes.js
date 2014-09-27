@@ -182,17 +182,25 @@ module.exports = function(app) {
   });
 
   app.get('/:user/recommendations', [bodyParser(), jwtauth], function(req, res){
-    var user = {username: req.params.user};
+    var username = req.headers['x-username'];
+    var Urluser = {username: req.params.user};
+    if(username !== Urluser.username){
+      console.log(username,Urluser)
+      res.status(400).send("Error")
 
-    console.log("recommendationsRoute" );
+    } else {
+      console.log("recommendationsRoute" );
 
-    db.generateRecommendation(user, function(err, result){
-      if(err){
-        res.status(400).send("Error");
-      }else{
-        var data = {beers: result};
-        res.send(data);
-      }
-    });
+      db.generateRecommendation(Urluser, function(err, result){
+        if(err){
+          res.status(400).send("Error");
+        }else{
+          var data = {beers: result};
+          res.send(data);
+        }
+      });
+      
+    }
+
   });
 };
