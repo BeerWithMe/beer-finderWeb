@@ -15,23 +15,26 @@ module.exports = function(req, res, next){
 
   var token = req.headers['x-access-token'];
   var username = req.headers['x-username'];
-  console.log('username = ', username, '  token =  ', token)
-  if (token && username) {
+  var expires = req.headers['x-expires'];
+  console.log('username = ', username, '  token =  ', token, 'expires = ', expires)
+  if (token && username && expires) {
     console.log('looking at token')
+    if (expires <= Date.now()) {
+      console.log('expired token')
+      // res.end('Access token has expired', 400);
+      //rather than doing that, I thought we should just redirect them home to log in again.
+      res.redirect('/#/home');
+    }
     var decoded = jwt.decode(token, 'secret');
     if (decoded === username) {
       console.log('OOOOOOOK', decoded)
-    // if (decoded.exp <= Date.now()) {
-    //   // res.end('Access token has expired', 400);
-    //   //rather than doing that, I thought we should just redirect them home to log in again.
-    //   res.redirect('/home');
     } else {
     console.log('denied', decoded)
-    res.redirect('/home')
+    res.redirect('/#/home')
     } 
   } else {
     console.log('denied', decoded)
-    res.redirect('/home')
+    res.redirect('/#/home')
   }
 };
 

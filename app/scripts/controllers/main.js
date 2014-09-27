@@ -47,7 +47,10 @@ angular.module('beerMeApp')
         } else {
         console.log('User created!');
         var jwttoken = data.token;
-        userService.setUserName(userName, jwttoken);
+        console.log('token in scope.signup', jwttoken)
+        var tokenExpire = data.expires
+        console.log('expire in scope.signup', tokenExpire)
+        userService.setUserName(userName, jwttoken, tokenExpire);
         $state.go('questionnaire');
         }
       }).error(function(error,status){

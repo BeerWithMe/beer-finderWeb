@@ -88,7 +88,8 @@ module.exports = function(app) {
               console.log('error', err)
             }
             var token = jwt.encode(username, 'secret');
-            res.json({token: token});
+            var expires = moment().add('days', 7).valueOf();
+            res.json({token: token, expires: expires});
             //uncomment below and refactor to add token expiration
             // var expires = moment().add('days', 7).valueOf();
             // var token = jwt.encode({
