@@ -9,8 +9,7 @@ angular.module('beerMeApp')
 		      url: '/searchBeer',
 		      data: data
 		    }).success(function(data,status){
-		    	// searchResultsService.beerResults = data;
-		    	// console.log(searchResultsService.beerResults);
+		    	//the data looks like this: [{abv:,ibu:,name:,etc...},{abv:,ibu:,name:,etc...}]
 		    	console.log('the data has been received',data)
 		    	callback(data)
 		    }).error(function(error,status){
