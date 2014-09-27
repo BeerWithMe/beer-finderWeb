@@ -25,8 +25,10 @@ angular.module('beerMeApp')
             userService.setUserName(userName);
             console.log(localStorage.userName);
             var jwttoken = data.token;
-            // console.log(jwttoken)
-            userService.setUserName(userName, jwttoken);
+            console.log('token in scope.signup', jwttoken)
+            var tokenExpire = data.expires
+            console.log('expire in scope.signup', tokenExpire)
+            userService.setUserName(userName, jwttoken, tokenExpire);
             $location.path('/recommendations')
           }
         	// $location.path('/:'+localStorage.username + '/recommendations') //with uirouter this should be $state.go('recommendations')
