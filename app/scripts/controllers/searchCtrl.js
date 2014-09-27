@@ -1,7 +1,7 @@
 'user strict';
 
 angular.module('beerMeApp')
-	.controller('searchCtrl',function($scope,$http,searchResultsService){
+	.controller('searchCtrl',function($scope,$http,searchResultsService,$location){
 		$scope.submitSearch = function(beerName){
 			// send searchValue to server, where server will generate results and send them
 			// back as JSON, then we save the results into the resultsSerivce and 
@@ -18,8 +18,11 @@ angular.module('beerMeApp')
 		    	///////////////////////////////////////////
 		    	searchResultsService.beerResults = data;
 		    	console.log(searchResultsService.beerResults)
+		    	$location.path('/searchResults');
 		    }).error(function(error,status){
 		    	console.log('error: ',error)
 		    })
 		}
+		//searchResults will look like this: [{abv:,ibu:,name:,etc...},{abv:,ibu:,name:,etc...}]
+		$scope.searchResults = searchResultsService.beerResults;
 	})
