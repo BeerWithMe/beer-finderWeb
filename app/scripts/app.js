@@ -19,8 +19,7 @@ angular
     'ngTouch',
     'ui.bootstrap',
     'beerMeApp.oneBeer',
-    'beerMeApp.recommendations',
-    'beerMeApp.services',
+    'beerMeApp.recommendations'
   ])
   .config(function($stateProvider, $urlRouterProvider){
 
@@ -42,7 +41,7 @@ angular
         controllerAs: 'questCtrl'
       })
       .state('beer', {
-        url: '/beer/:beername',
+        url: '/beer',
         templateUrl: 'views/oneBeer.html',
         controller: 'OneBeerController'
       });
