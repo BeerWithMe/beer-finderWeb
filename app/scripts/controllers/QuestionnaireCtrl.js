@@ -15,7 +15,9 @@ angular.module('beerMeApp')
     };
 
     $scope.goToRecs = function() {
-      $location.path('/' + localStorage.getItem('username') + '/recommendations')
+      console.log('with get item = ', localStorage.getItem('userName'))
+      console.log('without = ', localStorage.userName)
+      $location.path('/' + localStorage.getItem('userName') + '/recommendations')
     }
     
     //makes initial beer list available for ng-repeat in html
