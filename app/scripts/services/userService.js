@@ -7,7 +7,8 @@ angular.module('beerMeApp')
     		localStorage.setItem('loggedIn', true); //async, be careful
         localStorage.setItem('token', token);
     	},
-      logout: function(name){
+      logout: function(){
+        console.log('loggingout')
         localStorage.setItem('userName', null);
         localStorage.setItem('loggedIn', false);
         delete localStorage.token;

@@ -9,7 +9,6 @@
  */
 angular.module('beerMeApp')
   .controller('MainCtrl', function ($scope, $http, $location, $state, userService) {
-    console.log(userService.loggedIn)
     $scope.login = function(userName, passWord){
       console.log('inside login func')
     	var data = JSON.stringify({username: userName, password: passWord})
@@ -27,7 +26,6 @@ angular.module('beerMeApp')
             console.log(localStorage.userName);
         
             var jwttoken = data;
-            console.log('TOKEN IS: ', jwttoken);
             userService.setUserName(userName, jwttoken);
             $state.go('recommendations') 
           }
@@ -50,7 +48,6 @@ angular.module('beerMeApp')
         } else {
         console.log('User created!');
         var jwttoken = data;
-        console.log('TOKEN', jwttoken.token, ' ', jwttoken.expires, ' ', jwttoken.user)
         userService.setUserName(userName, jwttoken);
         $state.go('questionnaire');
         }
@@ -58,10 +55,5 @@ angular.module('beerMeApp')
         console.log('signup Error: ',error)
       })
     }
-    $scope.logout = function() {
-      if (localStorage.loggedIn === true) { 
-        var currentUser = localStorage.getItem('userName');
-        userService.logout(currentUser);
-      }
-    }
+    $scope.logout = userService.logout;
   });
