@@ -30,10 +30,9 @@ var getAllBeerQuery = "MATCH (n:Beer) RETURN n;";
 
 var createNewBeerQuery = ["CREATE (n:Beer {name: ({name}), ibu: ({ibu}), abv: ({abv}), description: ({description}), imgUrl: ({imgUrl}), iconUrl: ({iconUrl}), medUrl: ({medUrl}), brewery: ({brewery}), website: ({website}) })",
 						  "RETURN n;"].join('\n');
-createNewBeerQueryWithBrewery = "CREATE (n:Beer {name: ({name}), ibu: ({ibu}), abv: ({abv}), description: ({description}), imgUrl: ({imgUrl}), iconUrl: ({iconUrl}), medUrl: ({medUrl}), brewery: ({brewery}), website: ({website}) })"
+var createNewBeerQueryWithBrewery = "CREATE (n:Beer {name: ({name}), ibu: ({ibu}), abv: ({abv}), description: ({description}), imgUrl: ({imgUrl}), iconUrl: ({iconUrl}), medUrl: ({medUrl}), brewery: ({brewery}), website: ({website}) })"
 var getOneBeerByNameQuery = "MATCH (n:Beer {name: {name}}) RETURN n;"
 
-var getOneBeerByNameQuery = "MATCH (n:Beer {name: {name}}) RETURN n;";
 var generateSimilarityQuery = ["MATCH (u1:User {username: ({username})})-[x:Likes]->(b:Beer)<-[y:Likes]-(u2:User)",
                                "WITH SUM(x.rating * y.rating) AS xyDotProduct,",
                                     "SQRT(REDUCE(xDot = 0.0, a IN COLLECT(x.rating) | xDot + a^2)) AS xLength,", 
@@ -49,7 +48,7 @@ var generateRecommendationQuery = ['MATCH (u1:User)-[r:Likes]->(b:Beer),',
                                   'WITH b, s.similarity AS similarity,',
                                   'r.rating AS rating', 
                                   'ORDER BY b.name, similarity DESC',
-                                  'WITH b.name AS beer, COLLECT(rating)[0..3] AS ratings',
+                                  'WITH b AS beer, COLLECT(rating)[0..3] AS ratings',
                                   'WITH beer, REDUCE(s = 0, i IN ratings | s + i)*1.0 / LENGTH(ratings) AS reco ORDER BY reco DESC',
                                   'RETURN beer AS Beer, reco AS Recommendation'].join('\n');
 
@@ -369,13 +368,19 @@ db.generateRecommendation = function(user, callback){
       console.log("Error is here: ", err);
       callback(err, null);
     }else{
+      var recommendationBeers = utils.makeData(result, 'Beer');
+
+      for(var i = 0; i < result.length; i++){
+        result[i].Beer = recommendationBeers[i];
+      }
+
       console.log("Here is the result: ", result);
       callback(null, result);
     }
   });
 };
 
-// db.generateRecommendation({username: "Mike"}, function(){});
+// db.generateRecommendation({username: "Bo"}, function(){});
 // db.generateSimilarity({username: "Mike"}, function(){});
 // db.generateLikes({username: "Mike"}, {beername: "Budweiser"}, 4);
 // db.generateLikes({username: "lauren"}, {beername: 'Anchor Steam'}, 4);
