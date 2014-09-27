@@ -33,7 +33,9 @@ module.exports = function(app) {
           if(match){
             console.log('matchh')
             var token = jwt.encode(username, 'secret');
-            res.json({token: token});
+            var expires = moment().add('days', 7).valueOf();
+            console.log('token in routes js = ', token, 'expires', expires)
+            res.json({token: token, expires: expires});
             //uncomment below and refactor to add token expiration
             // var expires = moment().add('days', 7).valueOf();
             // var token = jwt.encode({
@@ -89,6 +91,7 @@ module.exports = function(app) {
             }
             var token = jwt.encode(username, 'secret');
             var expires = moment().add('days', 7).valueOf();
+            console.log('token in routes js = ', token, 'expires', expires)
             res.json({token: token, expires: expires});
             //uncomment below and refactor to add token expiration
             // var expires = moment().add('days', 7).valueOf();
@@ -178,8 +181,10 @@ module.exports = function(app) {
     })
   });
 
-  app.get('/recommendations', [bodyParser(), jwtauth], function(req, res){
+  app.get('/:user/recommendations', [bodyParser(), jwtauth], function(req, res){
     var user = {username: req.params.user};
+
+    console.log("recommendationsRoute" );
 
     db.generateRecommendation(user, function(err, result){
       if(err){

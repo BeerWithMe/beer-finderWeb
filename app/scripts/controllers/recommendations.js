@@ -29,7 +29,7 @@ angular.module('beerMeApp.recommendations', [])
 		
 		return $http({
 			method: 'GET',
-			url: '/recommendations'
+			url: '/' + username + '/recommendations'
 		});
 	}
 

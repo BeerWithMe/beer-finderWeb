@@ -22,14 +22,13 @@ angular.module('beerMeApp')
             $state.go('home');
           } else {
             // If user's password is correct, set username in userservice
-            userService.setUserName(userName);
-            console.log(localStorage.userName);
             var jwttoken = data.token;
-            console.log('token in scope.signup', jwttoken)
-            var tokenExpire = data.expires
-            console.log('expire in scope.signup', tokenExpire)
+            console.log('token in scope.signin', jwttoken)
+            var tokenExpire = data.expires;
+            console.log('expire in scope.signin', tokenExpire)
             userService.setUserName(userName, jwttoken, tokenExpire);
-           $location.path('/'+localStorage.userName + data)          }
+           $location.path('/'+ localStorage.userName + '/recommendations');
+          }          
         }).error(function(error,status){
         	console.log('error: ',error)
         })

@@ -27,7 +27,8 @@ module.exports = function(req, res, next){
     }
     var decoded = jwt.decode(token, 'secret');
     if (decoded === username) {
-      console.log('OOOOOOOK', decoded)
+      console.log('OOOOOOOK', decoded);
+      next();
     } else {
     console.log('denied', decoded)
     res.redirect('/#/home')
