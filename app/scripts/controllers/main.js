@@ -23,9 +23,8 @@ angular.module('beerMeApp')
           } else {
             // If user's password is correct, set username in userservice
             var jwttoken = data.token;
-            console.log('token in scope.signin', jwttoken)
             var tokenExpire = data.expires;
-            console.log('expire in scope.signin', tokenExpire)
+            //send username, token, and token expiration time to userService
             userService.setUserName(userName, jwttoken, tokenExpire);
            $location.path('/'+ localStorage.userName + '/recommendations');
           }          
@@ -45,9 +44,7 @@ angular.module('beerMeApp')
         } else {
         console.log('User created!');
         var jwttoken = data.token;
-        console.log('token in scope.signup', jwttoken)
         var tokenExpire = data.expires
-        console.log('expire in scope.signup', tokenExpire)
         userService.setUserName(userName, jwttoken, tokenExpire);
         $state.go('questionnaire');
         }

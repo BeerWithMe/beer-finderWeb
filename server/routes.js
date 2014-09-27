@@ -36,18 +36,6 @@ module.exports = function(app) {
             var expires = moment().add('days', 7).valueOf();
             console.log('token in routes js = ', token, 'expires', expires)
             res.json({token: token, expires: expires});
-            //uncomment below and refactor to add token expiration
-            // var expires = moment().add('days', 7).valueOf();
-            // var token = jwt.encode({
-            //   iss: username,
-            //   exp: expires
-            // }, app.get('jwtTokenSecret'));
-            // // send the authenticated user to recommendations
-            // res.json({
-            //   token: token,
-            //   expires: expires,
-            //   username: JSON.stringify(username)
-            // });
           } else {
             // if the password doesn't match
             console.log('wrong password')
@@ -156,12 +144,6 @@ module.exports = function(app) {
 
 
   app.post('/like', [bodyParser(), jwtauth], function(req, res){
-
-  // app.post('/like/:beername', jwt({secret: secret.secretToken}), function(req, res){
-
-  // app.post('/like/:beername', function(req, res){
-  // app.post('/like/:beername', [bodyParser(), jwtauth], function(req, res){
-  
     var user = {username: req.body.username};
     var beer = {beername: req.body.beername};
     var rating = parseInt(req.body.rating);
