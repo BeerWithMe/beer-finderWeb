@@ -56,7 +56,7 @@ angular
   })
   .run(function ($rootScope, $location, userService) {
     $rootScope.$on('$locationChangeStart', function(event, nextRoute, currentRoute){
-      debugger;
+    // $rootScope.$on('$routeChangeStart', function(event, nextRoute, currentRoute){
       if (nextRoute !== '/home' && localStorage.loggedIn === "false") {
         $location.path('/home');
       }

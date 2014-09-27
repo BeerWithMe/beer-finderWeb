@@ -25,16 +25,16 @@
 angular.module('beerMeApp.recommendations', [])
 
 .factory('recommendationsRequest', function($http){
-	var getRecommendatoin = function(username){
+	var getRecommendation = function(username){
 		
 		return $http({
 			method: 'GET',
-			url: '/' + username + '/recommendations'
+			url: '/recommendations'
 		});
 	}
 
 	return {
-		getRecommendatoin: getRecommendatoin
+		getRecommendation: getRecommendation
 	}
 })
 
@@ -43,7 +43,7 @@ angular.module('beerMeApp.recommendations', [])
 
     $scope.userName = $stateParams.user;
 
-    recommendationsRequest.getRecommendatoin($scope.userName)
+    recommendationsRequest.getRecommendation($scope.userName)
     	.success(function(data, status, headers, config){
     		 $scope.recommendationsList = data.beers;
     	})
