@@ -46,10 +46,10 @@ angular
         templateUrl: 'views/oneBeer.html',
         controller: 'OneBeerController'
       })
-      .state('searchResults', {
-        url: '/searchResults',
+      .state('showSearchResults', {
+        url: '/searchResults/:searchTerm',
         templateUrl: 'views/searchResults.html',
-        controller: 'searchCtrl'
+        controller: 'searchResults'
       });
 
     $urlRouterProvider.otherwise('/home');

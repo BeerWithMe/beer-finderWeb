@@ -3,7 +3,7 @@
 	<input type="text" class="searchBar" ng-model="searchTerms" placeholder="Search for a beer">
 	<input type="submit" ng-click="submitSearch(searchTerms)">
 </div>
-<div ng-repeat= "beer in searchResults">
+<div ng-repeat= "beer in beerResults">
 	<div class="beerImage">
 		<img ng-src="{{beer.imgUrl}}"/>
 	</div>
