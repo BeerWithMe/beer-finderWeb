@@ -8,8 +8,7 @@
  * Controller of the beerMeApp
  */
 angular.module('beerMeApp')
-  .controller('MainCtrl', function ($scope,$http,$location,userService) {
-    console.log(userService.loggedIn)
+  .controller('MainCtrl', function ($scope, $http, $location, $state, userService) {
     $scope.login = function(userName, passWord){
       console.log('inside login func')
     	var data = JSON.stringify({username: userName, password: passWord})
@@ -20,14 +19,16 @@ angular.module('beerMeApp')
         }).success(function(data,status){
           if(data === 'Wrong password' || data === 'sorry no such user'){
             alert('Wrong username or password');
+            $state.go('home');
           } else {
             // If user's password is correct, set username in userservice
-            userService.setUserName(userName);
-            console.log(localStorage.userName);
-          }
-          console.log(data)
-        	$location.path('/'+localStorage.userName + data)
-          // $location.path(data);
+            var jwttoken = data.token;
+            console.log('token in scope.signin', jwttoken)
+            var tokenExpire = data.expires;
+            console.log('expire in scope.signin', tokenExpire)
+            userService.setUserName(userName, jwttoken, tokenExpire);
+           $location.path('/'+ localStorage.userName + '/recommendations');
+          }          
         }).error(function(error,status){
         	console.log('error: ',error)
         })
@@ -43,11 +44,16 @@ angular.module('beerMeApp')
           alert(data);
         } else {
         console.log('User created!');
-        userService.setUserName(userName);
-        $location.path(data)
+        var jwttoken = data.token;
+        console.log('token in scope.signup', jwttoken)
+        var tokenExpire = data.expires
+        console.log('expire in scope.signup', tokenExpire)
+        userService.setUserName(userName, jwttoken, tokenExpire);
+        $state.go('questionnaire');
         }
       }).error(function(error,status){
         console.log('signup Error: ',error)
       })
     }
+    $scope.logout = userService.logout;
   });

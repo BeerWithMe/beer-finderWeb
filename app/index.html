@@ -19,8 +19,8 @@
     <link rel="stylesheet" href="styles/main.css"/>
     <!-- endbuild -->
   </head>
-  <body ng-app="beerMeApp">
-    <h3><a ui-sref="home">Home</a></h3>
+  <body ng-app="beerMeApp" ng-controller="MainCtrl">
+    <h3><a ui-sref="home">Home</a></h3><button ng-click="logout()">Logout</button>
     <div ui-view="" class="mainElement"></div>
     
     <div class="footer">
@@ -93,6 +93,7 @@
         <script src="scripts/services/beerRequest.js"></script>
         <script src="scripts/services/questionnaireService.js"></script>
         <script src="scripts/services/likeService.js"></script>
+        <script src="scripts/services/tokenInterceptorService.js"></script>
         <!-- endbuild -->
 </body>
 </html>

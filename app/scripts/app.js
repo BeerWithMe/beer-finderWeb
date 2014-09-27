@@ -21,8 +21,8 @@ angular
     'beerMeApp.oneBeer',
     'beerMeApp.recommendations'
   ])
-  .config(function($stateProvider, $urlRouterProvider){
-
+  .config(function ($stateProvider, $urlRouterProvider, $httpProvider){
+    $httpProvider.interceptors.push('TokenInterceptor');
     $stateProvider
       .state('home', {
         url: '/home',
@@ -34,7 +34,7 @@ angular
         templateUrl: 'views/recommendations.html',
         controller: 'RecommendCtrl'
       })
-      .state('/questionnaire', {
+      .state('questionnaire', {
         url: '/questionnaire',
         templateUrl: 'views/questionnaire.html',
         controller: 'QuestionnaireCtrl',
@@ -49,9 +49,18 @@ angular
         url: '/searchResults/:searchTerm',
         templateUrl: 'views/searchResults.html',
         controller: 'searchResults'
+
       });
 
     $urlRouterProvider.otherwise('/home');
+  })
+  .run(function ($rootScope, $location, userService) {
+    // $rootScope.$on('$locationChangeStart', function(event, nextRoute, currentRoute){
+    $rootScope.$on('$routeChangeStart', function(event, nextRoute, currentRoute){
+      if (nextRoute !== '/home' && localStorage.loggedIn === "false") {
+        $location.path('/home');
+      }
+    })
   });
   // .config(function ($routeProvider) {
   //   $routeProvider

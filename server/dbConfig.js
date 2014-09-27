@@ -217,7 +217,8 @@ db.dumpBeersIntoDB = function(path) {
 
   // BrewDB requests only return 1 page at a time, and there are 650 pages,
   // so we have to send a get request for every page, one at a time
-  for(var i=1;i<650;i++){
+
+  for(var i=1;i<651;i++){
 
     // Using IIFE in order to have console.log transparency while get
     // requests are being made. this is not necessary for the program's
