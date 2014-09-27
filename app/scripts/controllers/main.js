@@ -26,7 +26,8 @@ angular.module('beerMeApp')
             console.log(localStorage.userName);
           }
           console.log(data)
-        	$location.path('/'+localStorage.userName + data)
+        	// $location.path('/'+localStorage.userName + data)
+          $location.path(data);
         }).error(function(error,status){
         	console.log('error: ',error)
         })

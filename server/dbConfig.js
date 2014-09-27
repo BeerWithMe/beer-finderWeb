@@ -56,8 +56,8 @@ var generateRecommendationQuery = ['MATCH (u1:User)-[r:Likes]->(b:Beer),',
 
 
 db.createBeerNode = function(beerObj){
-	// If the beer object comes with a picture, use it, otherwise we will use a
-  // default image later
+	// If the beer object comes with a labels property, use the pictures it comes with, otherwise we will use a
+  // default image later. 
 
 	var imgUrl;
   var iconUrl;
@@ -136,7 +136,8 @@ db.createBeerNode = function(beerObj){
             // console.log('locations.length ',locations.length)
             // console.log('please workkkkk params',params)
             //[{zip:,state:,etc...},{zip:,state:,etc...}]
-            
+              
+              
               for(var i=0;i<locations.length;i++){
                 (function(k){
                   console.log('k should be a number ',k)
@@ -215,7 +216,7 @@ db.dumpBeersIntoDB = function(path) {
 
   // BrewDB requests only return 1 page at a time, and there are 650 pages,
   // so we have to send a get request for every page, one at a time
-  for(var i=1;i<2;i++){
+  for(var i=1;i<650;i++){
 
     // Using IIFE in order to have console.log transparency while get
     // requests are being made. this is not necessary for the program's
@@ -252,7 +253,7 @@ db.dumpBeersIntoDB = function(path) {
             db.createBeerNode(beers[k]);
            }
            // When counter reaches 650, we know we've finished
-           if(counter===2){
+           if(counter===650){
              console.log('final page');
            }
         });
@@ -380,7 +381,32 @@ db.generateRecommendation = function(user, callback){
   });
 };
 
+
+// This function gets called by routes.js in response to POST requests to '/searchBeer' 
+// It takes a string and a callback, it queries the database for all beers that have a name
+// that contains the string, and then it invokes the callback on an array containing all of
+// the resulting beer nodes. The callback will be a function that invokes res.send(beers)
+db.findAllBeersWithNameContaining = function(beerString,callback){
+  //query the server for all beer nodes with a name property that contains the characters in beerString
+  return db.query("MATCH (n) WHERE n.name =~ '(?i).*"+beerString+".*' RETURN n",function(err,data){
+    if(err){
+      console.log('error :',err)
+    }
+    //iterate over the results of the query
+    var beers = [];
+    for(var i=0;i<data.length;i++){
+      var beerNode = data[i].n.data;
+      beers.push(beerNode);
+    }
+    // invoke the callback on the results
+    callback(beers);
+  })
+}
+
+// db.generateRecommendation({username: "Mike"}, function(){});
+
 // db.generateRecommendation({username: "Bo"}, function(){});
+
 // db.generateSimilarity({username: "Mike"}, function(){});
 // db.generateLikes({username: "Mike"}, {beername: "Budweiser"}, 4);
 // db.generateLikes({username: "lauren"}, {beername: 'Anchor Steam'}, 4);

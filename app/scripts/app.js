@@ -30,7 +30,7 @@ angular
         controller: 'MainCtrl'
       })
       .state('recommendations', {
-        url: '/:user/recommendations',
+        url: '/recommendations',
         templateUrl: 'views/recommendations.html',
         controller: 'RecommendCtrl'
       })
@@ -44,6 +44,11 @@ angular
         url: '/beer',
         templateUrl: 'views/oneBeer.html',
         controller: 'OneBeerController'
+      })
+      .state('showSearchResults', {
+        url: '/searchResults/:searchTerm',
+        templateUrl: 'views/searchResults.html',
+        controller: 'searchResults'
       });
 
     $urlRouterProvider.otherwise('/home');
