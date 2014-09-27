@@ -43,11 +43,16 @@ body {
 
 
 /*BEERME---------------Recommendation page styling-----------------BEERME*/
-.recommendationImage{
-  display: inline-block
+.loadingText{
+  position: center;
 }
+
+.recommendationImage{
+  float: left;
+}
+
 .recommendationText{
-  display: inline-block
+  margin-left: 100px;
 }
 
 

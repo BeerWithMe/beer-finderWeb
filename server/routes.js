@@ -22,6 +22,7 @@ module.exports = function(app) {
         var node = data[0].n.data;
         var username = node.username;
         var password = node.password;
+        console.log(password);
         // hash the password and check if it matches
         bcrypt.compare(params.password,password, function(err,match){
           // if the password matches
@@ -93,9 +94,12 @@ module.exports = function(app) {
     // res.redirect('/#/homepage/' + req.user._data.data.username);
   })
 
-  app.get('/beer/:beername', function(req, res){
-    var beername = req.params.beername;
+  app.post('/beer', function(req, res){
+    // var beername = req.params.beername;
+    var beername = req.body.beername;
     console.log("This is the beername: ", beername);
+    console.log("This is the beername from req.body:", req.body);
+
     db.getOneBeer(beername, function(beerObj){
       if(!beerObj){
         console.log('This beer has not been found');
@@ -108,9 +112,9 @@ module.exports = function(app) {
     });
   });
 
-  app.post('/like/:beername', function(req, res){
+  app.post('/like', function(req, res){
     var user = {username: req.body.username};
-    var beer = {beername: req.params.beername};
+    var beer = {beername: req.body.beername};
     var rating = parseInt(req.body.rating);
 
     db.generateLikes(user, beer, rating, function(err){

@@ -2,9 +2,26 @@
 
 angular.module('beerMeApp.oneBeer', [])
 
-.controller('OneBeerController', function($scope, $stateParams, beerRequest){
+.factory('beerRequest', function($http){
 
-	beerRequest.getSingleBeer($stateParams.beername)
+	var getSingleBeer = function(beername){
+		// console.log("Inside getSingleBeer: " beername);
+		return $http({
+			method: 'POST',
+			url: '/beer',
+			data: JSON.stringify({beername: beername})
+		});
+	}
+
+	return {
+		getSingleBeer: getSingleBeer
+	}
+})
+
+.controller('OneBeerController', function($scope, $rootScope, beerRequest){
+
+	console.log("$rootScope.beer in OneBeerController: ", $rootScope.beer)
+	beerRequest.getSingleBeer($rootScope.beer)
 		.success(function(data, status, headers, config) {
 			$scope.beername = data.name;
 			$scope.ibu = data.ibu;

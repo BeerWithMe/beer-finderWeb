@@ -1,5 +1,6 @@
 
 
+
 <div ng-controller="searchCtrl">
 	<input type="text" class="searchBar" ng-model="searchTerms" placeholder="Search for a beer">
 	<input type="submit" ng-click="submitSearch(searchTerms)">
@@ -10,35 +11,30 @@
 	<div class="recommendationImage">
 		<img ng-src="{{beer.beer.iconUrl}}"/>
 
+
 <h1>
-Recommendations!
+Recommendations For You.
 </h1>
 
-<!-- Assuming data comes like this (NEED TO ADD BREWERY):
-[{name: 'name', brewery: 'brewery' ibu: 'ibu', abv: 'abv', description: 'description', imgUrl: 'imgUrl', recommendationRating: 'recRating'}]
-So each object in array is a "beer" in "beer in recommendationsList"
- -->
-<table>
-	<tr ng-repeat-start="beer in recommendationsList">
-		<th rowspan="2"><img ng-src="{{beer.beer.iconUrl}}"/></th>
-	  <td><strong>{{beer.beer.name}}</strong></td>
-	  <td>ABV: {{beer.beer.abv}}</td>
-	  <td>IBU: {{beer.beer.ibu}}</td>
-	</tr>
-	<tr ng-repeat-end>
-		<td><em>{{beer.beer.brewery}}</em></td>
-	</tr>
-</table>
+<div class="loadingText" ng-if="recommendationsList.length === 0">
+	<strong>Loading...</Strong>
+</div>
 
+<div class="recommendationContainer" ng-repeat="beer in recommendationsList" ng-click='clicked(beer.Beer.name)'>
+	<div class="recommendationImage">
+		<img ng-src="{{beer.Beer.iconUrl}}"/>
 	</div>
 	<div class="recommendationText">
 		<ul>
-			<li><strong>{{beer.beer.name}}</strong></li>
-			<li>abv: {{beer.beer.abv}}</li>
-			<li>ibu: {{beer.beer.ibu}}</li>
-			<li>description: {{beer.beer.description}}</li>
-			<li>brewery: {{beer.beer.brewery}}</li>
-			<li>Recommendation: {{beer.recommendation}}</li>
+			<li><strong>{{beer.Beer.name}}</strong></li>
+			<li ng-if="beer.Beer.abv !='undefined'">abv: {{beer.Beer.abv}}</li>
+			<li ng-if="beer.Beer.ibu !='undefined'">ibu: {{beer.Beer.ibu}}</li>
+			<!-- <li ng-if="beer.Beer.description !='undefined'">description: {{beer.Beer.description}}</li> -->
+			<!-- <li ng-if="beer.Beer.brewery !='undefined'">brewery: {{beer.Beer.brewery}}</li> -->
+			<li>Recommendation: <rating ng-model="beer.Recommendation" max="5" readonly="true"></rating>
+
+
+
 		</ul>
 	</div>
 </div>
