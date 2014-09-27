@@ -8,7 +8,7 @@
  * Controller of the beerMeApp
  */
 angular.module('beerMeApp')
-  .controller('MainCtrl', function ($scope,$http,$location,userService) {
+  .controller('MainCtrl', function ($scope, $http, $location, $state, userService) {
     console.log(userService.loggedIn)
     $scope.login = function(userName, passWord){
       console.log('inside login func')
@@ -20,6 +20,7 @@ angular.module('beerMeApp')
         }).success(function(data,status){
           if(data === 'Wrong password' || data === 'sorry no such user'){
             alert('Wrong username or password');
+            $state.go('home');
           } else {
             // If user's password is correct, set username in userservice
             userService.setUserName(userName);
@@ -28,9 +29,11 @@ angular.module('beerMeApp')
             var jwttoken = data;
             console.log('TOKEN IS: ', jwttoken);
             userService.setUserName(userName, jwttoken);
+            $location.path('/:'+localStorage.username + '/recommendations') //with uirouter this should be $state.go('recommendations')
           }
         	$state.go('recommendations')
         	// $location.path('/:'+localStorage.username + '/recommendations') //with uirouter this should be $state.go('recommendations')
+
         }).error(function(error,status){
         	console.log('error: ',error)
         })
@@ -55,7 +58,7 @@ angular.module('beerMeApp')
     }
     $scope.logout = function() {
       if (localStorage.loggedIn === true) { 
-        var currentUser = localStorage.getItem('Username');
+        var currentUser = localStorage.getItem('userName');
         userService.logout(currentUser);
       }
     }

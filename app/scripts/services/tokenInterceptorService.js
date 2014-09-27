@@ -6,7 +6,7 @@ angular.module('beerMeApp')
         if (jwt) {
           config.headers['x-access-token'] = jwt;
         }
-        confit.headers['Allow-Control-Allow-Origin'] = '*';
+        config.headers['Allow-Control-Allow-Origin'] = '*';
         return config;
       }
     };

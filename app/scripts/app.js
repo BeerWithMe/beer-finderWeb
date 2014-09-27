@@ -27,21 +27,18 @@ angular
       .state('home', {
         url: '/home',
         templateUrl: 'views/main.html',
-        controller: 'MainCtrl',
-        access: {requiredLogin: false}
+        controller: 'MainCtrl'
       })
       .state('recommendations', {
         url: '/recommendations',
         templateUrl: 'views/recommendations.html',
-        controller: 'RecommendCtrl',
-        access: {requiredLogin: true}
+        controller: 'RecommendCtrl'
       })
       .state('/questionnaire', {
         url: '/questionnaire',
         templateUrl: 'views/questionnaire.html',
         controller: 'QuestionnaireCtrl',
-        controllerAs: 'questCtrl',
-        access: {requiredLogin: true}
+        controllerAs: 'questCtrl'
       })
       .state('beer', {
         url: '/beer',
@@ -52,6 +49,7 @@ angular
         url: '/searchResults/:searchTerm',
         templateUrl: 'views/searchResults.html',
         controller: 'searchResults'
+
       });
 
     $urlRouterProvider.otherwise('/home');

@@ -1,5 +1,5 @@
 angular.module('beerMeApp')
-  .factory('userService', function ($http, $window, $location){
+  .factory('userService', function ($window, $location){
 
     var userService = {
     	setUserName: function(name, token){
