@@ -446,16 +446,11 @@ db.authenticateUser = function( userInfo, callback){
           // res.send('Wrong password');
         }
       })
-    } else {
-      // if the user does not exist
-      console.log('the user does not exist')
-      callback('sorry no such user')
-      // res.send('sorry no such user')
     }
   })
 }
 
-db.signUpUser = function(userInfo, callback){
+db.addUserToDatabaseIfUserDoesNotExist = function(userInfo, callback){
   var params = {
       username: userInfo.body.username,
       password: userInfo.body.password
