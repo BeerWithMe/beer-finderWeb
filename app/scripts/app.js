@@ -17,9 +17,9 @@ angular
     'ui.router',
     'ngSanitize',
     'ngTouch',
-    'ui.bootstrap',
-    'beerMeApp.oneBeer',
-    'beerMeApp.recommendations'
+    'ui.bootstrap'
+    // 'beerMeApp.oneBeer',
+    // 'beerMeApp.recommendations'
   ])
   .config(function ($stateProvider, $urlRouterProvider, $httpProvider){
     $httpProvider.interceptors.push('TokenInterceptor');

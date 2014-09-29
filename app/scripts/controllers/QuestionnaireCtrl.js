@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('beerMeApp')
-  .controller('QuestionnaireCtrl', function ($scope, $routeParams, likeButton, Questionnaire) {
+  .controller('QuestionnaireCtrl', function ($scope, $routeParams, likeButton, Questionnaire,$location) {
 
     // loads the next beer in the predetermined survey list
     $scope.nextbeer = function(){
@@ -13,7 +13,9 @@ angular.module('beerMeApp')
           $scope.message = response.message;
         }
     };
-    
+    $scope.goToRecommendations = function(){
+      $location.path('/'+ localStorage.userName + '/recommendations');
+    }
     //makes initial beer list available for ng-repeat in html
     this.questionnaire = Questionnaire
 
