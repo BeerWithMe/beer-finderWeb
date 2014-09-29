@@ -441,7 +441,7 @@ db.authenticateUser = function( userInfo, callback){
           // res.json({token: token, expires: expires});
         } else {
           // if the password doesn't match
-          console.log('wrong password')
+          console.log('Wrong password')
           callback('wrong password')
           // res.send('Wrong password');
         }

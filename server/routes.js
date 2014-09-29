@@ -13,24 +13,28 @@ module.exports = function(app) {
 
 
   app.post('/login', function(req, res){  
-    db.authenticateUser(req,function(data,token){
-      if(data === 'sendToken'){
+
+    db.authenticateUser(req,function(message,token){
+
+      if(message === 'sendToken'){
         res.send(token);
-      } else if(data === 'wrong password'){
-        res.send('Wrong password');
       } else {
-        res.send('sorry no such user');
+        res.send('Wrong password');
       }
+
     });
   })
   // When main.html sends a post request to /signup
   app.post('/signup', function(req,res) {
-    db.signUpUser(req,function(data,token){
-      if(data === 'createUser'){
+
+    db.signUpUser(req,function(message,token){
+
+      if(message === 'createUser'){
         res.json(token);
-      } else if(data === 'Username already taken'){
+      } else {
         res.send('Username already taken');
       }
+
     })
     // grab the username and password
     // console.log("IN SIGNUP ROUTE")
