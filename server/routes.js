@@ -109,6 +109,10 @@ module.exports = function(app) {
     var beer = {beername: req.body.beername};
     var rating = parseInt(req.body.rating);
 
+    console.log("like username: ", req.body.username);
+    console.log("like beername: ", req.body.beername);
+    console.log("like rating: ", req.body.rating);
+
     db.generateLikes(user, beer, rating, function(err){
       if(err){
         res.status(400).send("Error");
