@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('beerMeApp.oneBeer', [])
+angular.module('beerMeApp')
 
 .factory('beerRequest', function($http){
 

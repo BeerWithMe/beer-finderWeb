@@ -22,7 +22,7 @@
 // 				  recommendation: 4}
 // ];
 
-angular.module('beerMeApp.recommendations', [])
+angular.module('beerMeApp')
 
 .factory('recommendationsRequest', function($http){
 	var getRecommendation = function(username){
