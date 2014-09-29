@@ -9,7 +9,7 @@
 
   <div ng-controller="ratingCtrl" class="ratingContainer center-block">
     <h4>My Rating</h4>
-    <rating class="stars center-block"  ng-model="rate" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null" ng-click="setRating()"></rating>
+    <rating class="stars center-block"  ng-model="rate" max="max" readonly="isReadonly"></rating>
 
     <button class="likeButtonClass" ng-click="nextbeer()">Next Beer</button>
     <strong>{{message}}</strong>
