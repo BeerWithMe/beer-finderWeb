@@ -10,7 +10,8 @@
     "moment": "^2.8.3",
     "neo4j": "^1.1.0",
     "passport": "^0.2.1",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "underscore": "^1.7.0"
   },
   "devDependencies": {
     "grunt": "^0.4.1",
