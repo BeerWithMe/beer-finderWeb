@@ -33,7 +33,7 @@ angular.module('beerMeApp')
                 var tokenExpire = data.expires;
                 console.log('expire in scope.signin', tokenExpire)
                 userService.setUserName(userName, jwttoken, tokenExpire);
-               $location.path('/'+ localStorage.userName + '/recommendations');
+               $location.path('/userPage/'+ localStorage.userName);
               }          
             }).error(function(error,status){
                 console.log('error: ',error)

@@ -388,7 +388,36 @@ db.generateRecommendation = function(user, callback){
   });
 };
 
-
+db.showUserLikes = function(username,callback){
+  var params = {username: username}
+  console.log('inside showUserLikes')
+  db.query("MATCH (n:User {username: ({username})})-[r:Likes]-(b) RETURN b,r",params,function(err,data){
+    if(err){
+      console.log('Error :', err)
+    }
+    var ratedBeers = {
+      1: [],
+      2: [],
+      3: [],
+      4: [],
+      5: []
+    }
+    console.log('rated Beers',ratedBeers)
+    for(var i=0; i<data.length; i++) {
+      var beerObj = data[i]['b']['data']; // [{abv:,ibu:,name:,etc...},{abv:,ibu:,name:,etc...}]
+      var ratingObj = data[i]['r']['data']; //{rating: 3}
+      var rating = ratingObj.rating;
+      console.log('rating: ',rating)
+      ratedBeers[rating].push(beerObj);
+    }
+    console.log('hello?')
+    // console.log('beer results :',data[0]['b']['data']);
+    // console.log('rating results: ',data[0]['r']['data']);
+    // console.log('rated beers collection: ',ratedBeers)
+    console.log('about to invoke callback')
+    callback(ratedBeers)
+  })
+}
 // This function gets called by routes.js in response to POST requests to '/searchBeer' 
 // It takes a string and a callback, it queries the database for all beers that have a name
 // that contains the string, and then it invokes the callback on an array containing all of
@@ -441,21 +470,16 @@ db.authenticateUser = function( userInfo, callback){
           // res.json({token: token, expires: expires});
         } else {
           // if the password doesn't match
-          console.log('wrong password')
+          console.log('Wrong password')
           callback('wrong password')
           // res.send('Wrong password');
         }
       })
-    } else {
-      // if the user does not exist
-      console.log('the user does not exist')
-      callback('sorry no such user')
-      // res.send('sorry no such user')
     }
   })
 }
 
-db.signUpUser = function(userInfo, callback){
+db.addUserToDatabaseIfUserDoesNotExist = function(userInfo, callback){
   var params = {
       username: userInfo.body.username,
       password: userInfo.body.password
