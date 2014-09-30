@@ -3,7 +3,7 @@ angular.module('beerMeApp')
   	var username = localStorage.userName;
 
     var like = function(beername, rating){
-      console.log(beername, rating)
+      console.log(beername, rating, username);
 
       var data = JSON.stringify(
 			{

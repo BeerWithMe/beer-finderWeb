@@ -526,7 +526,7 @@ db.addUserToDatabaseIfUserDoesNotExist = function(userInfo, callback){
 // db.generateRecommendation({username: "Bo"}, function(){});
 
 // db.generateSimilarity({username: "Mike"}, function(){});
-// db.generateLikes({username: "Mike"}, {beername: "Budweiser"}, 4);
+// db.generateLikes({username: "Tony"}, {beername: "Flossmoor Station Brewing Company-15 Anniversary"}, 4, function(){});
 // db.generateLikes({username: "lauren"}, {beername: 'Anchor Steam'}, 4);
 
 // Example of what beer data looks like when it comes from brewDB API.
