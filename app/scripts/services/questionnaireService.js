@@ -2,16 +2,15 @@ angular.module('beerMeApp')
   .factory('Questionnaire', function () {
     return { 
       initialBeers:  
-      [{'name': 'Anheuser-Busch InBev-Budweiser', 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/1P45iR/upload_upBR4q-large.png'},
-      // {'name': 'Racer 5 IPA', 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/o1OELJ/upload_OutGJZ-large.png'},
-      {'name': 'Anchor Brewing Company-Anchor Steam' , 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/Uiol9p/upload_drOw0u-large.png'},
-      {'name': 'Guinness-Guinness Draught', 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/StkEiv/upload_etArOb-large.png'},
-      {'name': 'Blue Moon Brewing Company-Blue Moon Belgian White' , 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/dDXOEp/upload_SZEtGz-large.png'},
-      {'name': 'Lagunitas Brewing Company-IPA', 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/iLlMCb/upload_xp2OJo-large.png'},
-      // {'name': 'Pliny the Elder', 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/XAXGgF/upload_or9CTI-large.png'}
-      {'name': 'Magic Hat Brewing Company-#9', 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/hB0QeO/upload_hLDTGW-large.png'}],
+      [{'name': 'Budweiser', 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/1P45iR/upload_upBR4q-large.png', 'beernameInDB':'Anheuser-Busch InBev-Budweiser'},
+      {'name': 'Racer 5 IPA', 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/o1OELJ/upload_OutGJZ-large.png', 'beernameInDB':'Bear Republic Brewing Company-Racer 5 IPA'},
+      {'name': 'Anchor Steam' , 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/Uiol9p/upload_drOw0u-large.png', 'beernameInDB':'Anchor Brewing Company-Anchor Steam'},
+      {'name': 'Guinness Draught', 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/StkEiv/upload_etArOb-large.png', 'beernameInDB':'Guinness-Guinness Draught'},
+      {'name': 'Blue Moon Belgian White' , 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/dDXOEp/upload_SZEtGz-large.png', 'beernameInDB':'Blue Moon Brewing Company-Blue Moon Belgian White'},
+      {'name': 'Lagunitas - IPA', 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/iLlMCb/upload_xp2OJo-large.png', 'beernameInDB':'Lagunitas Brewing Company-IPA'},
+      {'name': 'Pliny the Elder', 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/XAXGgF/upload_or9CTI-large.png', 'beernameInDB':'Russian River Brewing Company-Pliny the Elder'}],
       
-      counter: -1, //incremented to zero immediately on first invocation of changeBeer
+      counter: 0, //incremented to one immediately on first invocation of changeBeer
       
       //this function returns the next beer in the list
       //if we're at the end of the list, it loads a message
@@ -26,6 +25,7 @@ angular.module('beerMeApp')
           return {
             beername: newBeer.name,
             imgUrl: newBeer.imgUrl,
+            beernameInDB: newBeer.beernameInDB
           }
         }
       }

@@ -4,6 +4,11 @@ var db = new neo4j.GraphDatabase('http://beeradvisor.cloudapp.net:7474/');
 var http = require('http');
 var fs = require('fs');
 var utils = require('./utils');
+var jwt = require('jwt-simple');
+var jwtauth = require('./config/middleware.js');
+var moment = require('moment');
+var bcrypt = require('bcrypt-nodejs');
+var bodyParser = require('body-parser');
 
 module.exports = db;
 ///////////////////////////
@@ -426,7 +431,36 @@ db.generateRecommendation = function(user, callback){
   });
 };
 
-
+db.showUserLikes = function(username,callback){
+  var params = {username: username}
+  console.log('inside showUserLikes')
+  db.query("MATCH (n:User {username: ({username})})-[r:Likes]-(b) RETURN b,r",params,function(err,data){
+    if(err){
+      console.log('Error :', err)
+    }
+    var ratedBeers = {
+      1: [],
+      2: [],
+      3: [],
+      4: [],
+      5: []
+    }
+    console.log('rated Beers',ratedBeers)
+    for(var i=0; i<data.length; i++) {
+      var beerObj = data[i]['b']['data']; // [{abv:,ibu:,name:,etc...},{abv:,ibu:,name:,etc...}]
+      var ratingObj = data[i]['r']['data']; //{rating: 3}
+      var rating = ratingObj.rating;
+      console.log('rating: ',rating)
+      ratedBeers[rating].push(beerObj);
+    }
+    console.log('hello?')
+    // console.log('beer results :',data[0]['b']['data']);
+    // console.log('rating results: ',data[0]['r']['data']);
+    // console.log('rated beers collection: ',ratedBeers)
+    console.log('about to invoke callback')
+    callback(ratedBeers)
+  })
+}
 // This function gets called by routes.js in response to POST requests to '/searchBeer' 
 // It takes a string and a callback, it queries the database for all beers that have a name
 // that contains the string, and then it invokes the callback on an array containing all of
@@ -448,6 +482,88 @@ db.findAllBeersWithNameContaining = function(beerString,callback){
   })
 };
 
+db.authenticateUser = function( userInfo, callback){
+  console.log('inside authenticateUser')
+  var params = {
+      username: userInfo.body.username,
+      password: userInfo.body.password
+    }
+  db.query('MATCH (n:User {username: ({username})}) RETURN n',params, function(err,data) {
+    if(err) {console.log('OptionalMatch error: ',err)};
+    // if the user exists
+    if (data.length) {
+      var node = data[0].n.data;
+      var username = node.username;
+      var password = node.password;
+      console.log('thepassword: ',password);
+      // hash the password and check if it matches
+      bcrypt.compare(params.password,password, function(err,match){
+        // if the password matches
+        if(match){
+          console.log('matchh')
+          var token = jwt.encode(username, 'secret');
+          var expires = moment().add(7, 'days').valueOf();
+          console.log('token in routes js = ', token, 'expires', expires)
+          var tokenData = {}
+          tokenData.token = token;
+          tokenData.expires = expires;
+          tokenData = JSON.stringify(tokenData)
+          console.log('tokenData :',tokenData)
+          callback('sendToken',tokenData);
+          // res.json({token: token, expires: expires});
+        } else {
+          // if the password doesn't match
+          console.log('Wrong password')
+          callback('wrong password')
+          // res.send('Wrong password');
+        }
+      })
+    }
+  })
+}
+
+db.addUserToDatabaseIfUserDoesNotExist = function(userInfo, callback){
+  var params = {
+      username: userInfo.body.username,
+      password: userInfo.body.password
+    }
+  // check whether the username is already taken
+  db.query('OPTIONAL MATCH (n:User {username: ({username})}) RETURN n', params, function(err,data) {
+    if(err) console.log('signup error: ',err);
+    var dbData = data[0];
+    // if the username is already taken, send back message
+    if(dbData.n !== null){
+      callback('Username already taken')
+      // res.send('Username already taken')
+    } else { 
+      // if the username is available, hash the password
+      var salt = bcrypt.genSaltSync(10);
+      bcrypt.hash(params.password, salt,null, function(err,hash){
+        if (err) console.log('bcrypt error', err)
+        params.password = hash;
+        // then create a user node in the database with a password equal to the hash
+        db.query("CREATE (n:User {username: ({username}), password: ({password})})", params, function(err,data){
+          if (err) {
+            console.log('error', err)
+          }
+          var token = jwt.encode(params.username, 'secret');
+          var expires = moment().add('days', 7).valueOf();
+          console.log('token in routes js = ', token, 'expires', expires)
+          var tokenData = {};
+          tokenData.token = token;
+          tokenData.expires = expires;
+          callback('createUser',tokenData)
+          // res.json({token: token, expires: expires});
+        })
+      })
+    }
+  })
+}
+///////////////////////////////////////////////////////
+// grab the username and password
+
+// check if the username exists
+//////////////////////////////////////////////////////
 // db.generateRecommendation({username: "Mike"}, function(){});
 
 // db.generateRecommendation({username: "Bo"}, function(){});

@@ -17,9 +17,9 @@ angular
     'ui.router',
     'ngSanitize',
     'ngTouch',
-    'ui.bootstrap',
-    'beerMeApp.oneBeer',
-    'beerMeApp.recommendations'
+    'ui.bootstrap'
+    // 'beerMeApp.oneBeer',
+    // 'beerMeApp.recommendations'
   ])
   .config(function ($stateProvider, $urlRouterProvider, $httpProvider){
     $httpProvider.interceptors.push('TokenInterceptor');
@@ -49,7 +49,11 @@ angular
         url: '/searchResults/:searchTerm',
         templateUrl: 'views/searchResults.html',
         controller: 'searchResults'
-
+      })
+      .state('userPage', {
+        url:'/userPage/:user',
+        templateUrl: 'views/userPage.html',
+        controller: 'userPageCtrl'
       });
 
     $urlRouterProvider.otherwise('/home');
@@ -62,29 +66,3 @@ angular
       }
     })
   });
-  // .config(function ($routeProvider) {
-  //   $routeProvider
-  //     .when('/', {
-  //       templateUrl: 'views/main.html',
-  //       controller: 'MainCtrl'
-  //     })
-  //     .when('/about', {
-  //       templateUrl: 'views/about.html',
-  //       controller: 'AboutCtrl'
-  //     })
-  //     .when('/recommendations', {
-  //       templateUrl: 'views/recommendations.html',
-  //       controller: 'RecommendCtrl'
-  //     })
-  //     .when('/beer/:beername', {
-  //       templateUrl: 'views/oneBeer.html',
-  //       controller: 'OneBeerController'
-  //     })
-  //     .when('/questionnaire', {
-  //       templateUrl: 'views/questionnaire.html',
-  //       controller: 'QuestionnaireCtrl'
-  //     })
-  //     .otherwise({
-  //       redirectTo: '/'
-  //     });
-  // });

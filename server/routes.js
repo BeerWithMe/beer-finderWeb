@@ -1,5 +1,4 @@
 var db = require('./dbConfig.js')
-// var passport = require('./passport-config.js');//currently not using passport
 var bcrypt = require('bcrypt-nodejs');
 var bodyParser = require('body-parser');
 var jwt = require('jwt-simple');
@@ -8,125 +7,46 @@ var moment = require('moment');
 // moment().format();
 
 module.exports = function(app) {
-  // app.use(passport.initialize());
-  // app.use(passport.session());
 
-
+  //When users LOG IN, main.html sends a post request to /login
   app.post('/login', function(req, res){  
-    // grab the username and password
-    var params = {
-      username: req.body.username,
-      password: req.body.password
-    }
-    // check if the username exists
-    db.query('MATCH (n:User {username: ({username})}) RETURN n',params, function(err,data) {
-      if(err) {console.log('OptionalMatch error: ',err)};
-      // if the user exists
-      if (data.length) {
-        var node = data[0].n.data;
-        var username = node.username;
-        var password = node.password;
-        console.log(password);
-        // hash the password and check if it matches
-        bcrypt.compare(params.password,password, function(err,match){
-          // if the password matches
-          if(match){
-            console.log('matchh')
-            var token = jwt.encode(username, 'secret');
-            var expires = moment().add('days', 7).valueOf();
-            console.log('token in routes js = ', token, 'expires', expires)
-            res.json({token: token, expires: expires});
-          } else {
-            // if the password doesn't match
-            console.log('wrong password')
-            res.send('Wrong password');
-          }
-        })
+    db.authenticateUser(req, function(message,token){
+      if(message === 'sendToken'){
+        res.send(token);
       } else {
-        // if the user does not exist
-        console.log('the user does not exist')
-        res.send('sorry no such user')
+        res.send('Wrong password');
       }
-    })
+    });
   })
-  // When main.html sends a post request to /signup
-  app.post('/signup', function(req,res) {
-    // grab the username and password
-    console.log("IN SIGNUP ROUTE")
-    var username = req.body.username;
-    var password = req.body .password;
-    var params = {
-      username: req.body.username,
-      password: req.body.password
-    }
-    // check whether the username is already taken
-    db.query('OPTIONAL MATCH (n:User {username: ({username})}) RETURN n', params, function(err,data) {
-      if(err) console.log('signup error: ',err);
-      var dbData = data[0];
-      // if the username is already taken, send back message
-      if(dbData.n !== null){
-        res.send('Username already taken')
-      } else { 
-        // if the username is available, hash the password
-        var salt = bcrypt.genSaltSync(10);
-        bcrypt.hash(params.password, salt,null, function(err,hash){
-          if (err) console.log('bcrypt error', err)
-          params.password = hash;
-          // then create a user node in the database with a password equal to the hash
-          db.query("CREATE (n:User {username: ({username}), password: ({password})})", params, function(err,data){
-            if (err) {
-              console.log('error', err)
-            }
-            var token = jwt.encode(username, 'secret');
-            var expires = moment().add('days', 7).valueOf();
-            console.log('token in routes js = ', token, 'expires', expires)
-            res.json({token: token, expires: expires});
-            //uncomment below and refactor to add token expiration
-            // var expires = moment().add('days', 7).valueOf();
-            // var token = jwt.encode({
-            //   iss: username,
-            //   exp: expires
-            // }, app.get('jwtTokenSecret'));
-            // // send the authenticated user to recommendations
-            // res.json({
-            //   token: token,
-            //   expires: expires,
-            //   username: JSON.stringify(username)
-            // });
-          })
-        })
+
+  // When users SIGN UP, main.html sends a post request to /signup
+  app.post('/signup', function(req, res) {
+    db.addUserToDatabaseIfUserDoesNotExist(req, function(message, token){
+      if(message === 'createUser'){
+        res.json(token);
+      } else {
+        res.send('Username already taken');
       }
     })
   })
   
-  //When users search for a beer, searchCtrl.js sends a post request to this handler
-  app.post('/searchBeer', function(req,res){
+  // When users SEARCH FOR A BEER, searchCtrl.js sends a post request to /searchBeer
+  app.post('/searchBeer', function(req, res){
     // Grab the search string
     var beer = req.body.beername;
     // Find beer matches using regex, send results back as an array
-    db.findAllBeersWithNameContaining(beer,function(beers){
+    db.findAllBeersWithNameContaining(beer, function(beers){
       // beers will look like this: [{abv:,ibu:,name:,etc...},{abv:,ibu:,name:,etc...}]
       res.send(beers);
     });
   })
 
-  // app.post('/', passport.authenticate('local'), function(req, res){  //write login function in service file, controlled by main controller
-  //   res.redirect('/')
-  //   // res.redirect('/#/homepage/' + req.user._data.data.username);
-  // })
 
 
 
+// This endpoint is for getting beer information for a specific beer
   app.post('/beer', [bodyParser(), jwtauth], function(req, res){
-    // var beername = req.params.beername;
     var beername = req.body.beername;
-
-  // app.get('/beer/:beername', function(req, res){
-  //   var beername = req.params.beername;
-
-
-  // app.get('/beer/:beername', [bodyParser(), jwtauth], function(req, res){
-  //   var beername = req.params.beername;
     console.log("This is the beername: ", beername);
     console.log("This is the beername from req.body:", req.body);
 
@@ -143,10 +63,15 @@ module.exports = function(app) {
   });
 
 
+// This endpoint is for creating like relationship between users and beers.
   app.post('/like', [bodyParser(), jwtauth], function(req, res){
     var user = {username: req.body.username};
     var beer = {beername: req.body.beername};
     var rating = parseInt(req.body.rating);
+
+    console.log("like username: ", req.body.username);
+    console.log("like beername: ", req.body.beername);
+    console.log("like rating: ", req.body.rating);
 
     db.generateLikes(user, beer, rating, function(err){
       if(err){
@@ -162,6 +87,27 @@ module.exports = function(app) {
       }
     })
   });
+
+
+  app.get('/:user/showLikes', [bodyParser(), jwtauth], function(req,res){
+    var username = req.headers['x-username'];
+    var Urluser = req.params.user
+    if(username !== Urluser){
+      console.log('Unauthorized user trying to access userpage: ',username,Urluser);
+      res.status(400).send("Error")
+    } else {
+      console.log('theusername is ',username)
+      db.showUserLikes(username, function(arrayOfLikedBeers){
+        console.log('about to send some info: ')
+        res.send(arrayOfLikedBeers);
+      })
+
+    }
+  })
+
+
+
+// This endpoint is for getting recommendations for a user.
 
   app.get('/:user/recommendations', [bodyParser(), jwtauth], function(req, res){
     var username = req.headers['x-username'];

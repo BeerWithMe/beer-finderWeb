@@ -22,7 +22,7 @@
 // 				  recommendation: 4}
 // ];
 
-angular.module('beerMeApp.recommendations', [])
+angular.module('beerMeApp')
 
 .factory('recommendationsRequest', function($http){
 	var getRecommendation = function(username){
@@ -38,10 +38,12 @@ angular.module('beerMeApp.recommendations', [])
 	}
 })
 
-.controller('RecommendCtrl', function ($scope, $stateParams, $rootScope, $state, recommendationsRequest) {
+.controller('RecommendCtrl', function ($scope, $stateParams, $rootScope, $state, recommendationsRequest,$window) {
+    
     $scope.recommendationsList = [];
 
-    $scope.userName = $stateParams.user;
+    $scope.userName = localStorage.getItem('userName');
+    console.log('the current username is ',$scope.userName);
 
     recommendationsRequest.getRecommendation($scope.userName)
     	.success(function(data, status, headers, config){

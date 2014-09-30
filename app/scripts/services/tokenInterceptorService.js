@@ -1,5 +1,5 @@
 angular.module('beerMeApp')
-  .factory('TokenInterceptor', function ($q, $window, $location, userService){
+  .factory('TokenInterceptor', function ($q, $window, $location){
     var attach = {
       request: function(config){
         var jwt = localStorage.getItem('token');
