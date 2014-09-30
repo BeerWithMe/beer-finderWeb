@@ -1,4 +1,4 @@
-
+var _ = require('underscore');
 var neo4j = require('neo4j');
 var db = new neo4j.GraphDatabase('http://beeradvisor.cloudapp.net:7474/');
 var http = require('http');
@@ -68,7 +68,7 @@ db.createBeerNode = function(beerObj){
 	var imgUrl;
   var iconUrl;
   var medUrl;
-	if(beerObj.labels){
+	if (beerObj.labels){
     imgUrl = beerObj.labels.large;
     iconUrl = beerObj.labels.icon;
     medUrl = beerObj.labels.medium;
@@ -78,28 +78,28 @@ db.createBeerNode = function(beerObj){
 	// Defining a params object allows us to use it for templating when we write
 	// our neo4j query
 	var params = {
-			ibu: beerObj.ibu || 'undefined',
-			abv: beerObj.abv || 'undefined',
-			description: beerObj.description || 'undefined',
-			imgUrl: imgUrl || 'http://darrylscouch.com/wp-content/uploads/2013/05/Mystery_Beer.png',
-      iconUrl: iconUrl || 'http://blogs.citypages.com/food/beer%20thumbnail.jpg',
-      medUrl: medUrl || 'http://foodimentaryguy.files.wordpress.com/2014/09/chromblog-thermoscientific-com.jpg',
-      name: beerObj.name || 'undefined',
-      brewery: '',
-      website: 'website unavailable'
+		ibu: beerObj.ibu || 'undefined',
+		abv: beerObj.abv || 'undefined',
+		description: beerObj.description || 'undefined',
+		imgUrl: imgUrl || 'http://darrylscouch.com/wp-content/uploads/2013/05/Mystery_Beer.png',
+    iconUrl: iconUrl || 'http://blogs.citypages.com/food/beer%20thumbnail.jpg',
+    medUrl: medUrl || 'http://foodimentaryguy.files.wordpress.com/2014/09/chromblog-thermoscientific-com.jpg',
+    name: beerObj.name || 'undefined',
+    brewery: '',
+    website: 'website unavailable'
 	}	
 
   //If the beer has a brewery
-  if(beerObj.breweries){
+  if (beerObj.breweries){
     var locations = [];
 
     var brewLocations = beerObj.breweries[0].locations || [];
 
     //add each brewery location to the location array, we will make nodes later
     //and draw relationships to the beer
-    if(brewLocations.length>0){
+    if (brewLocations.length > 0){
       // console.log('sdfasdhlfasdhflkadsjflidsajfldsajflsdajflkdsajflasd')  
-      for(var i=0;i<brewLocations.length;i++){
+      for(var i=0; i<brewLocations.length; i++){
         var zip = brewLocations[i]['postalCode'] || 'undefined';
         var state = brewLocations[i]['region'] || 'undefined';
         var city = brewLocations[i]['locality'] || 'undefined';
@@ -116,26 +116,36 @@ db.createBeerNode = function(beerObj){
         //locations now looks like this [{zip:,state:,etc...},{zip:,state:,etc...}]
       }
 
-    // set brewery, website, name parameters
-    params.brewery = beerObj.breweries[0].name || '';
-    params.website = beerObj.breweries[0].website || 'website unavailable';
-    params.name = params.brewery+"-"+beerObj.name || 'undefined';
+      // set brewery, website, name parameters
+      params.brewery = beerObj.breweries[0].name || '';
+      params.website = beerObj.breweries[0].website || 'website unavailable';
+      params.name = params.brewery+"-"+beerObj.name || 'undefined';
+
+      console.log('WITH BREWERY:', params.brewery, 'NAME: ', params.name);
     }
     ///////////////////////////////////////////////////////////////////////////////
     //if has brwery, add beer node, then create location nodes and add relationships
     ///////////////////////////////////////////////////////////////////////////////
     //before we insert beer into database, check if the beername exists
-    db.query('MATCH (n:Beer {name:({name})}) return n',params,function(err,data){
+
+    db.query('MATCH (n:Beer {name:({name})}) return n', params, function(err,data){
+      if (data.length) {
+        console.warn('FOUND A MATCH FOR', params.name)
+      }
+    })
+
+
+    db.query('MATCH (n:Beer {name:({name})}) return n', params, function(err,data){
       if(err){console.log('error: ',err)}
       //if beer does not exist
       if(!data.length){
-        // console.log('inside has brewery, about to create ndoe and relationships')
+        // console.log('inside has brewery, about to create node and relationships')
         // console.log('I can access params ',params.name)
         //create the beer
-        db.query(createNewBeerQueryWithBrewery,params,function(err,data){
+        db.query(createNewBeerQueryWithBrewery, params, function(err,data){
           // console.log('v=called!!!!')
           if(err){
-            console.log('error: ',err)
+            console.log('error: hi mom! ',err)
           } else {
             console.log('created a beer with a brewery')
             // console.log('about to iterate over brewery properties')
@@ -144,7 +154,7 @@ db.createBeerNode = function(beerObj){
             //[{zip:,state:,etc...},{zip:,state:,etc...}]
               
               
-              for(var i=0;i<locations.length;i++){
+              for(var i=0; i<locations.length; i++){
                 (function(k){
                   console.log('k should be a number ',k)
                     // console.log('inside locations for loop')
@@ -155,7 +165,7 @@ db.createBeerNode = function(beerObj){
                     params1.beername = beername;
                     // console.log('params ',params)
                     console.log('We should be logging 5 different keys now...')
-                  for(var key in locations[k]){
+                  for (var key in locations[k]) {
                     (function(x){
                       // console.log('inside key for loop')
                       console.log('The current key is ',x)
@@ -166,20 +176,17 @@ db.createBeerNode = function(beerObj){
                       (function(y){
                         db.query('MATCH (b:Beer {name: ({beername})}) with b MERGE (n:'+params1.type+' {'+params1.type+': "'+params1.value+'"}) merge (n)<-[:'+params1.type+']-(b)',params1,function(err,data){
                           if(err) console.log(err)
-                          console.log('wrote relationships between beer and ',params1.type)
+                          console.log('wrote relationships between beer and')
                         })
                       })(params1)
-
                     })(key)
-                  }
-                })(i)
-              }
-
+                  }  //matches for(var key in locations[k]){
+                })(i)  //matches function(k)
+              } //matches for loop
           }
-
-        })
-      }
-    })
+        })  // matches db.query(createNewBeerQueryWithBrewery,params,function(err,data){
+      }  // matches if(!data.length){
+    })  //matches db.query('MATCH (n:Beer {name:({name})}) return n',params,function(err,data){
 
   } else {
     //////////////////////////////////////////////////
@@ -187,24 +194,21 @@ db.createBeerNode = function(beerObj){
     //////////////////////////////////////////////////
     //before we insert beer into database, check if the beername exists
 
-
-    db.query('OPTIONAL MATCH (n:Beer {name: ({name})}) RETURN n', params, function(err,data) {
-      if(err) console.log('OptionalMatch beer name error: ',err,params);
+    db.query('OPTIONAL MATCH (n:Beer {name: ({name})}) RETURN n', params, function(err, data) {
+      if (err) console.log('OptionalMatch beer name error: ', err, params);
       var dbData = data[0];
-      if(dbData.n === null){
+      if (dbData.n === null){
         // create and save beer node into database
         db.query(createNewBeerQueryWithBrewery, params, function(err, newBeerNode){
-          if(err){
-            console.log(err,params);
-          }else{
+          if (err){
+            console.log(err);
+          } else {
             console.log('created a beer with no brewery');
           }
         });
       }
     })   
-
   }
- 
 };
 
 db.testQuery = function(){}
@@ -215,15 +219,20 @@ db.dumpBeersIntoDB = function(path) {
   var beerDBurl = 'http://api.brewerydb.com/v2'//delete this before publicizing on github
   var key = '7cce543c5ae17da2dba68c674c198d2d' //delete this before publicizing on github
   var requestUrl;
-  var page;
-  // Counter is only here so we can keep track of our queries via console logs
-  // It is not part of the program's functionality
-  var counter = 0;
+
+
+  var beerCache = {};
+  var beerCacheByName = {};
 
   // BrewDB requests only return 1 page at a time, and there are 650 pages,
   // so we have to send a get request for every page, one at a time
 
-  for(var i=1;i<651;i++){
+  // Counter is only here so we can keep track of our queries via console logs
+  // It is not part of the program's functionality
+  var counter = 500;
+
+  var totalPages = 525;
+  for (var i=counter; i<=totalPages; i++) {
 
     // Using IIFE in order to have console.log transparency while get
     // requests are being made. this is not necessary for the program's
@@ -231,7 +240,7 @@ db.dumpBeersIntoDB = function(path) {
     // to console log the pages as they get added to the db
     (function(x){
       // i gets passed in to IIFE, thus page gets set to i
-      page = x;
+      var page = x;
       // Insert the current page number into the request url
       requestUrl = beerDBurl + path + '/?p='+page+'&withBreweries=Y'+'&key=' + key;
       // Send get request to brewDB, the request Url looks something like this: 
@@ -252,21 +261,55 @@ db.dumpBeersIntoDB = function(path) {
            // The data from brewDB API comes inside the 'data' property of a larger
            // object. So we parse str, and then grab the data property.
            var beers = JSON.parse(str).data
-           console.log(beers.length)
+           console.log("Total num beers returned:", beers.length)
+
            // Beers is now an array of objects, and each object represents one beer.
            // So we iterate over every beer, and call db.createBeerNode(beer) in order
            // to add each beer to our database
-           for(var k=0;k<beers.length;k++){
-            db.createBeerNode(beers[k]);
+           for(var k=0; k<beers.length; k++){
+              var __b = beers[k];
+
+              if (__b.name.indexOf('Racer') >= 0 || __b.name.indexOf('racer') >= 0) {
+                // console.log('Saw: ', __b.name, 'page: ', x, 'id: ', __b.id, __b.breweries[0].name)
+              }
+
+              beerCache[__b.id] = __b
+
+              if (__b.breweries && __b.breweries.length) {
+                // if (__b.name == "(512) Whiskey Barrel Aged Double Pecan Porter") {
+                //   console.log("BEER", __b)
+                // }
+                beerCacheByName[__b.breweries[0].name + '-' + __b.name] = __b
+              } else {
+                // if (__b.name == "(512) Whiskey Barrel Aged Double Pecan Porter") {
+                //   console.log("BEER NO BREWERY", __b)
+                // }                
+                beerCacheByName[__b.name] = __b
+              }
+              db.createBeerNode(beers[k]);
            }
            // When counter reaches 650, we know we've finished
-           if(counter===650){
-             console.log('final page');
-           }
+            if(counter===totalPages){
+              console.log('final page');
+              console.log("Found this many beers:", Object.keys(beerCache).length)
+              console.log("Found this many beers:", Object.keys(beerCacheByName).length)
+
+              var knownIds = _.keys(beerCache);
+              var missingIds = _.uniq(_.map(_.values(beerCacheByName), function(b) {return b.id}))
+              var diff = _.difference(knownIds, missingIds)
+              console.log('difference', diff)
+
+              _.each(diff, function(beerId) {
+                console.log('missing', beerCache[beerId].name, '-', beerCache[beerId].breweries.length ? beerCache[beerId].breweries[0].name : 'NO BREWERY');
+              })
+              
+            }
         });
       });
-    })(i)
-  }
+    })(i);
+
+  }  //matches for(var i=1;i<660;i++)
+  // console.log('beercache', beerCache);
 };
 
 
@@ -277,7 +320,7 @@ db.dumpBeersIntoDB = function(path) {
 // We have already called it once and filled our database with all of brewDB's
 // beer information, so we do not have to call beerget ever again, unless we need to re-do
 // our database or implement updates later.
-// db.dumpBeersIntoDB('/beers');
+db.dumpBeersIntoDB('/beers');
 
 
 
@@ -437,7 +480,7 @@ db.findAllBeersWithNameContaining = function(beerString,callback){
     // invoke the callback on the results
     callback(beers);
   })
-}
+};
 
 db.authenticateUser = function( userInfo, callback){
   console.log('inside authenticateUser')

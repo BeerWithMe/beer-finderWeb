@@ -7,7 +7,6 @@ angular.module('beerMeApp')
         var expires = localStorage.getItem('expire')
         if (jwt) { 
           config.headers['x-access-token'] = jwt;
-          // console.log('header shoulc be', localStorage.getItem('userName'))
           config.headers['x-username'] = localStorage.getItem('userName');
           config.headers['x-expires'] = expires; 
         }
