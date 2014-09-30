@@ -49,7 +49,11 @@ angular
         url: '/searchResults/:searchTerm',
         templateUrl: 'views/searchResults.html',
         controller: 'searchResults'
-
+      })
+      .state('userPage', {
+        url:'/userPage/:user',
+        templateUrl: 'views/userPage.html',
+        controller: 'userPageCtrl'
       });
 
     $urlRouterProvider.otherwise('/home');

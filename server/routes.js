@@ -8,8 +8,7 @@ var moment = require('moment');
 
 module.exports = function(app) {
 
-
-  //When users log in, main.html sends a post request to /login
+  //When users LOG IN, main.html sends a post request to /login
   app.post('/login', function(req, res){  
     db.authenticateUser(req, function(message,token){
       if(message === 'sendToken'){
@@ -20,7 +19,7 @@ module.exports = function(app) {
     });
   })
 
-  // When users sign up, main.html sends a post request to /signup
+  // When users SIGN UP, main.html sends a post request to /signup
   app.post('/signup', function(req, res) {
     db.addUserToDatabaseIfUserDoesNotExist(req, function(message, token){
       if(message === 'createUser'){
@@ -31,7 +30,7 @@ module.exports = function(app) {
     })
   })
   
-  // When users search for a beer, searchCtrl.js sends a post request to /searchBeer
+  // When users SEARCH FOR A BEER, searchCtrl.js sends a post request to /searchBeer
   app.post('/searchBeer', function(req, res){
     // Grab the search string
     var beer = req.body.beername;
@@ -90,6 +89,22 @@ module.exports = function(app) {
       }
     })
   });
+
+  app.get('/:user/showLikes', [bodyParser(), jwtauth], function(req,res){
+    var username = req.headers['x-username'];
+    var Urluser = req.params.user
+    if(username !== Urluser){
+      console.log('Unauthorized user trying to access userpage: ',username,Urluser);
+      res.status(400).send("Error")
+    } else {
+      console.log('theusername is ',username)
+      db.showUserLikes(username, function(arrayOfLikedBeers){
+        console.log('about to send some info: ')
+        res.send(arrayOfLikedBeers);
+      })
+
+    }
+  })
 
   app.get('/:user/recommendations', [bodyParser(), jwtauth], function(req, res){
     var username = req.headers['x-username'];

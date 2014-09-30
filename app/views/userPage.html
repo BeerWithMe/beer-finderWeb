@@ -1,0 +1,26 @@
+<h1>{{userName}}'s Page!</h1>
+
+<div ng-controller="searchCtrl">
+	<input type="text" class="searchBar" ng-model="searchTerms" placeholder="Search for a beer">
+	<input type="submit" ng-click="submitSearch(searchTerms)">
+</div>
+
+<div ng-repeat="rating in userLikes track by $index">
+
+	<h2>Rating: {{$index + 1}}</h2>
+	<div ng-repeat="beer in rating">
+		<div class="beerImage">
+			<img ng-src="{{beer.iconUrl}}"/>
+		</div>
+		<ul>
+			<li><strong>{{beer.name}}</strong></li>
+			<li>abv: {{beer.abv}}</li>
+			<li>ibu: {{beer.ibu}}</li>
+			<li>description: {{beer.description}}</li>
+			<li>brewery: {{beer.brewery}}</li>
+			<li>website: {{beer.webiste}}</li>
+		</ul>
+	</div>
+
+</div>
+

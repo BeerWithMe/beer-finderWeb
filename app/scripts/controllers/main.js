@@ -18,5 +18,6 @@ angular.module('beerMeApp')
       // if username is unique. Paths user to questionnaire view.
       userService.signup(userName,data);
     }
+    
     $scope.logout = userService.logout;
   });
