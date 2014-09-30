@@ -278,16 +278,16 @@ module.exports = function (grunt) {
     //   }
     // },
 
-    svgmin: {
-      dist: {
-        files: [{
-          expand: true,
-          cwd: '<%= yeoman.app %>/images',
-          src: '{,*/}*.svg',
-          dest: '<%= yeoman.dist %>/images'
-        }]
-      }
-    },
+    // svgmin: {
+    //   dist: {
+    //     files: [{
+    //       expand: true,
+    //       cwd: '<%= yeoman.app %>/images',
+    //       src: '{,*/}*.svg',
+    //       dest: '<%= yeoman.dist %>/images'
+    //     }]
+    //   }
+    // },
 
     htmlmin: {
       dist: {
@@ -364,19 +364,19 @@ module.exports = function (grunt) {
     },
 
     // Run some tasks in parallel to speed up the build process
-    concurrent: {
-      server: [
-        'compass:server'
-      ],
-      test: [
-        'compass'
-      ],
-      dist: [
-        'compass:dist',
-        'imagemin',
-        'svgmin'
-      ]
-    },
+    // concurrent: {
+    //   server: [
+    //     'compass:server'
+    //   ],
+    //   test: [
+    //     'compass'
+    //   ],
+    //   dist: [
+    //     'compass:dist',
+    //     // 'imagemin',
+    //     // 'svgmin'
+    //   ]
+    // },
 
     // Test settings
     karma: {
@@ -420,7 +420,7 @@ module.exports = function (grunt) {
     'clean:dist',
     // 'wiredep',
     'useminPrepare',
-    'concurrent:dist',
+    // 'concurrent:dist',
     'autoprefixer',
     'concat',
     'ngAnnotate',
