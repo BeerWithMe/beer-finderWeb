@@ -1,12 +1,20 @@
 angular.module('beerMeApp')
   .factory('likeButton', function ($http){
+  	var username = localStorage.userName;
 
     var like = function(beername, rating){
       console.log(beername, rating)
-      var data = JSON.stringify({rating: rating})
+
+      var data = JSON.stringify(
+			{
+				username: username,
+				beername: beername,
+				rating: rating
+			}
+      	);
       $http({
-          method: 'GET',
-          url: '/like/' + beername,
+          method: 'POST',
+          url: '/like',
           data: data
         }).success(function(data,status){
         console.log('You like it! When you can log in, that will matter! ',data)

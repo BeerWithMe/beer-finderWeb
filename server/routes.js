@@ -83,17 +83,10 @@ module.exports = function(app) {
   // })
 
 
-
+// This endpoint is for getting beer information for a specific beer
   app.post('/beer', [bodyParser(), jwtauth], function(req, res){
-    // var beername = req.params.beername;
     var beername = req.body.beername;
-
-  // app.get('/beer/:beername', function(req, res){
-  //   var beername = req.params.beername;
-
-
-  // app.get('/beer/:beername', [bodyParser(), jwtauth], function(req, res){
-  //   var beername = req.params.beername;
+    
     console.log("This is the beername: ", beername);
     console.log("This is the beername from req.body:", req.body);
 
@@ -110,16 +103,15 @@ module.exports = function(app) {
   });
 
 
+// This endpoint is for creating like relationship between users and beers.
   app.post('/like', [bodyParser(), jwtauth], function(req, res){
-
-  // app.post('/like/:beername', jwt({secret: secret.secretToken}), function(req, res){
-
-  // app.post('/like/:beername', function(req, res){
-  // app.post('/like/:beername', [bodyParser(), jwtauth], function(req, res){
-  
     var user = {username: req.body.username};
     var beer = {beername: req.body.beername};
     var rating = parseInt(req.body.rating);
+
+    console.log("like username: ", req.body.username);
+    console.log("like beername: ", req.body.beername);
+    console.log("like rating: ", req.body.rating);
 
     db.generateLikes(user, beer, rating, function(err){
       if(err){
@@ -136,6 +128,8 @@ module.exports = function(app) {
     })
   });
 
+
+// This endpoint is for getting recommendations for a user.
   app.get('/:user/recommendations', [bodyParser(), jwtauth], function(req, res){
     var username = req.headers['x-username'];
     var Urluser = {username: req.params.user};
