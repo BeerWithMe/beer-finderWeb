@@ -66,29 +66,3 @@ angular
       }
     })
   });
-  // .config(function ($routeProvider) {
-  //   $routeProvider
-  //     .when('/', {
-  //       templateUrl: 'views/main.html',
-  //       controller: 'MainCtrl'
-  //     })
-  //     .when('/about', {
-  //       templateUrl: 'views/about.html',
-  //       controller: 'AboutCtrl'
-  //     })
-  //     .when('/recommendations', {
-  //       templateUrl: 'views/recommendations.html',
-  //       controller: 'RecommendCtrl'
-  //     })
-  //     .when('/beer/:beername', {
-  //       templateUrl: 'views/oneBeer.html',
-  //       controller: 'OneBeerController'
-  //     })
-  //     .when('/questionnaire', {
-  //       templateUrl: 'views/questionnaire.html',
-  //       controller: 'QuestionnaireCtrl'
-  //     })
-  //     .otherwise({
-  //       redirectTo: '/'
-  //     });
-  // });
