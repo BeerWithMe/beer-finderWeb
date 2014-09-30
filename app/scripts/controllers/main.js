@@ -1,46 +1,23 @@
 'use strict';
 
-/**
- * @ngdoc function
- * @name beerMeApp.controller:MainCtrl
- * @description
- * # MainCtrl
- * Controller of the beerMeApp
- */
 angular.module('beerMeApp')
-  .controller('MainCtrl', function ($scope,$http,$location) {
-    $scope.login = function(userName, passWord){
-      console.log('inside login func')
-    	var data = JSON.stringify({username: userName, password: passWord})
-    	$http({
-          method: 'POST',
-          url: '/login',
-          data: data
-        }).success(function(data,status){
-          if(data === 'Wrong password' || data === 'sorry no such user'){
-            alert('Wrong username or password');
-          }
+  .controller('MainCtrl', function ($scope, $http, $location, $state, userService) {
 
-        	$location.path(data)
-        }).error(function(error,status){
-        	console.log('error: ',error)
-        })
-    }
-    $scope.signup = function(userName, passWord){
+    $scope.login = function(userName, passWord){
+      // create JSON object that will become req.body
     	var data = JSON.stringify({username: userName, password: passWord})
-      $http({
-        method: 'POST',
-        url: '/signup',
-        data: data
-      }).success(function(data,status){
-        if(data === 'Username already taken'){
-          alert(data);
-        } else {
-        console.log('User created!');  
-        $location.path(data)
-        }
-      }).error(function(error,status){
-        console.log('signup Error: ',error)
-      })
+      // login function sends post request to server to authenticate user. Paths user to recommendations view
+      // if authenticated, othewrise alerts('wrong username or pass')
+    	userService.login(userName,data);
     }
+
+    $scope.signup = function(userName, passWord){
+      // create JSON object that will become req.body
+    	var data = JSON.stringify({username: userName, password: passWord})
+      // signup function sends post request to server to check if user exists, and then create new account
+      // if username is unique. Paths user to questionnaire view.
+      userService.signup(userName,data);
+    }
+    
+    $scope.logout = userService.logout;
   });

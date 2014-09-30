@@ -17,13 +17,12 @@ angular
     'ui.router',
     'ngSanitize',
     'ngTouch',
-    // 'ui.bootstrap', commented this out for now, because it's bugging
-    'beerMeApp.oneBeer',
-    'beerMeApp.services'
+    'ui.bootstrap'
+    // 'beerMeApp.oneBeer',
+    // 'beerMeApp.recommendations'
   ])
-  .config(function($stateProvider, $urlRouterProvider){
-    $urlRouterProvider.otherwise('/home');
-
+  .config(function ($stateProvider, $urlRouterProvider, $httpProvider){
+    $httpProvider.interceptors.push('TokenInterceptor');
     $stateProvider
       .state('home', {
         url: '/home',
@@ -31,53 +30,39 @@ angular
         controller: 'MainCtrl'
       })
       .state('recommendations', {
-        url: '/recommendations',
+        url: '/:user/recommendations',
         templateUrl: 'views/recommendations.html',
         controller: 'RecommendCtrl'
       })
-      .state('/questionnaire', {
+      .state('questionnaire', {
         url: '/questionnaire',
         templateUrl: 'views/questionnaire.html',
         controller: 'QuestionnaireCtrl',
         controllerAs: 'questCtrl'
       })
       .state('beer', {
-        url: '/beer/:beername',
+        url: '/beer',
         templateUrl: 'views/oneBeer.html',
         controller: 'OneBeerController'
       })
-      // .state("otherwise", {
-      //   url: "*path",
-      //   templateUrl: "views/error-not-found.html"
-      // });
+      .state('showSearchResults', {
+        url: '/searchResults/:searchTerm',
+        templateUrl: 'views/searchResults.html',
+        controller: 'searchResults'
+      })
+      .state('userPage', {
+        url:'/userPage/:user',
+        templateUrl: 'views/userPage.html',
+        controller: 'userPageCtrl'
+      });
 
-      // .otherwise({
-      //   redirectTo: '/'
-      // });
+    $urlRouterProvider.otherwise('/home');
+  })
+  .run(function ($rootScope, $location, userService) {
+    // $rootScope.$on('$locationChangeStart', function(event, nextRoute, currentRoute){
+    $rootScope.$on('$routeChangeStart', function(event, nextRoute, currentRoute){
+      if (nextRoute !== '/home' && localStorage.loggedIn === "false") {
+        $location.path('/home');
+      }
+    })
   });
-  // .config(function ($routeProvider) {
-  //   $routeProvider
-  //     .when('/', {
-  //       templateUrl: 'views/main.html',
-  //       controller: 'MainCtrl'
-  //     })
-  //     .when('/about', {
-  //       templateUrl: 'views/about.html',
-  //       controller: 'AboutCtrl'
-  //     })
-  //     .when('/recommendations', {
-  //       templateUrl: 'views/recommendations.html',
-  //       controller: 'RecommendCtrl'
-  //     })
-  //     .when('/beer/:beername', {
-  //       templateUrl: 'views/oneBeer.html',
-  //       controller: 'OneBeerController'
-  //     })
-  //     .when('/questionnaire', {
-  //       templateUrl: 'views/questionnaire.html',
-  //       controller: 'QuestionnaireCtrl'
-  //     })
-  //     .otherwise({
-  //       redirectTo: '/'
-  //     });
-  // });
