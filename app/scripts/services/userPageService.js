@@ -2,6 +2,7 @@ angular.module('beerMeApp')
   .factory('userPageService', function ($q, $window, $location, $http){
     
     var profilePage = {
+    	
       getLikesFromDatabase: function(userName,callback){
       	// var data = JSON.stringify({username: userName});
       	return $http({

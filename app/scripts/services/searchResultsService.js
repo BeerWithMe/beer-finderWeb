@@ -3,7 +3,7 @@ angular.module('beerMeApp')
   	var searchResultsService = {
   		getResults: function(beername,callback){
 			var data = JSON.stringify({beername: beername})
-  			console.log('what im sending to server',data)
+  			console.log('sending request to server for ...',data)
 			$http({
 		      method: 'POST',
 		      url: '/searchBeer',
