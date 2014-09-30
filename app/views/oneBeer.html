@@ -6,6 +6,7 @@
 		<div ng-if="abv !='undefined' && abv != undefined">abv: {{abv}}</div>
 		<div ng-if="ibu != 'undefined' && ibu != undefined">ibu: {{ibu}}</div>
 		<div ng-if="description != 'undefined' && description != undefined">description: {{description}}</div>
+		<your-rating beer-to-be-rated="beername"></your-rating>
 	</div>
 	<div ng-if="beername === ''">
 		This beer doesn't exist

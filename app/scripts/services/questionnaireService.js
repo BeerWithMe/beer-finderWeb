@@ -18,7 +18,7 @@ angular.module('beerMeApp')
         this.counter++;
         if (this.counter >= this.initialBeers.length) {
           return {
-            message: "Cool!  Go check out your recommendations!"
+            message: "Cool! Go check out your recommendations!"
           } 
         } else {
           var newBeer = this.initialBeers[this.counter];

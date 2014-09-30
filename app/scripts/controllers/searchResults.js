@@ -6,7 +6,6 @@ angular.module('beerMeApp')
 		// the server and gets back an array of beers, which the view then
 		// iterates over and  displays
 		searchResultsService.getResults($stateParams.searchTerm, function(results){
-			
 			$scope.beerResults = results;
 		});
 
