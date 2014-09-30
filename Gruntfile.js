@@ -173,30 +173,41 @@ module.exports = function (grunt) {
     },
 
     // Compiles Sass to CSS and generates necessary files if requested
-    compass: {
-      options: {
-        sassDir: '<%= yeoman.app %>/styles',
-        cssDir: '.tmp/styles',
-        generatedImagesDir: '.tmp/images/generated',
-        imagesDir: '<%= yeoman.app %>/images',
-        javascriptsDir: '<%= yeoman.app %>/scripts',
-        fontsDir: '<%= yeoman.app %>/styles/fonts',
-        importPath: './bower_components',
-        httpImagesPath: '/images',
-        httpGeneratedImagesPath: '/images/generated',
-        httpFontsPath: '/styles/fonts',
-        relativeAssets: false,
-        assetCacheBuster: false,
-        raw: 'Sass::Script::Number.precision = 10\n'
-      },
+    // commenting out because using grunt contrib sass instead of compass
+    // compass: {
+    //   options: {
+    //     sassDir: '<%= yeoman.app %>/styles',
+    //     cssDir: '.tmp/styles',
+    //     generatedImagesDir: '.tmp/images/generated',
+    //     imagesDir: '<%= yeoman.app %>/images',
+    //     javascriptsDir: '<%= yeoman.app %>/scripts',
+    //     fontsDir: '<%= yeoman.app %>/styles/fonts',
+    //     importPath: './bower_components',
+    //     httpImagesPath: '/images',
+    //     httpGeneratedImagesPath: '/images/generated',
+    //     httpFontsPath: '/styles/fonts',
+    //     relativeAssets: false,
+    //     assetCacheBuster: false,
+    //     raw: 'Sass::Script::Number.precision = 10\n'
+    //   },
+
+    //   dist: {
+    //     options: {
+    //       generatedImagesDir: '<%= yeoman.dist %>/images/generated'
+    //     }
+    //   },
+    //   server: {
+    //     options: {
+    //       debugInfo: true
+    //     }
+    //   }
+    // },
+
+    //compiles sass to css
+    sass: {
       dist: {
-        options: {
-          generatedImagesDir: '<%= yeoman.dist %>/images/generated'
-        }
-      },
-      server: {
-        options: {
-          debugInfo: true
+        files: {
+          '<%= yeoman.app %>/styles/main.css': '<%= yeoman.app %>/styles/main.scss'
         }
       }
     },
@@ -387,6 +398,7 @@ module.exports = function (grunt) {
     }
   });
 
+  grunt.loadNpmTasks('grunt-contrib-sass');
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
     if (target === 'dist') {
@@ -430,7 +442,8 @@ module.exports = function (grunt) {
     'uglify',
     'filerev',
     'usemin',
-    'htmlmin'
+    'htmlmin',
+    'sass'
   ]);
 
   grunt.registerTask('default', [
