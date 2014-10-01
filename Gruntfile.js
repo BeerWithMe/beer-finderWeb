@@ -442,7 +442,8 @@ module.exports = function (grunt) {
     'uglify',
     'filerev',
     'usemin',
-    'htmlmin'
+    'htmlmin',
+    'sass'
   ]);
 
   grunt.registerTask('default', [
