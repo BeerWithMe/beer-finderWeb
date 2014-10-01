@@ -16,6 +16,19 @@ body {
 /*  background-size: cover;
 }
 */
+.loadingText {
+  position: center; }
+
+.recommendationImage {
+  float: left;
+  cursor: pointer;
+  cursor: hand; }
+
+.recommendationText {
+  margin-left: 100px;
+  cursor: pointer;
+  cursor: hand; }
+
 .mainViewContainer {
   width: 40%;
   margin: auto;
