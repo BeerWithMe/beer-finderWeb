@@ -49,10 +49,17 @@ body {
 
 .recommendationImage{
   float: left;
+  cursor: pointer;
+  cursor: hand;
 }
+/*.recommendationImage:hover{
+  cursor: hand;
+}*/
 
 .recommendationText{
   margin-left: 100px;
+  cursor: pointer;
+  cursor: hand;
 }
 
 
