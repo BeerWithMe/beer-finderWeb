@@ -59,6 +59,9 @@ angular.module('beerMeApp')
         }).error(function(error,status){
           console.log('signup Error: ',error)
         })
+      },
+      goHome: function(username) {
+        $location.path('/userPage/'+ localStorage.userName);
       }
     }
     return userService

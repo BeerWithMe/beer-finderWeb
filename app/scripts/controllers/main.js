@@ -20,4 +20,5 @@ angular.module('beerMeApp')
     }
     
     $scope.logout = userService.logout;
+    $scope.goHome = userService.goHome; 
   });
