@@ -13,14 +13,14 @@ angular.module('beerMeApp')
 
     // loads the next beer in the predetermined survey list
     $scope.nextbeer = function(){
-      if($scope.rate === 0){
-        return;
-      }
+      if($scope.rate != 0){
       // Update the like relationship when user clicked nextbeer button.
-      likeButton.like($scope.beernameInDB, $scope.rate);
+        likeButton.like($scope.beernameInDB, $scope.rate);
+      }
 
       var response = Questionnaire.changeBeer();
 
+      $scope.rate = 0;
       $scope.beername = response.beername;
       $scope.imgUrl = response.imgUrl;
       $scope.beernameInDB = response.beernameInDB;
