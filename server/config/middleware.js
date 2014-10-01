@@ -11,8 +11,6 @@ var bodyParser = require('body-parser');
 var jwt = require('jwt-simple');
 
 module.exports = function(req, res, next){
-  console.log('HWERWERWERWERQWERQWERQWERQWERWQERWWERWERWEERWERWE')
-
   var token = req.headers['x-access-token'];
   var username = req.headers['x-username'];
   var expires = req.headers['x-expires'];
