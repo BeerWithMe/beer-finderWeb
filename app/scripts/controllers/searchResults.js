@@ -19,15 +19,16 @@ angular.module('beerMeApp')
       jQuery('#liquid') // I Said Fill 'Er Up!
         .delay(3400)
         .animate({
-          height: '170px'
+          height: '200px'
         }, 2500);
-      
+
       jQuery('.beer-foam') // Keep that Foam Rollin' Toward the Top! Yahooo!
         .delay(3400)
         .animate({
           bottom: '200px'
           }, 2500);
       });
+      
     };
 
     $scope.loading = true;
