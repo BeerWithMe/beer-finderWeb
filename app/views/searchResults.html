@@ -28,8 +28,8 @@
 	<h2 class="animated drunk sign">Fill'er Up Barkeeper!</h2>
 	</div>
 <!-- </div> -->
-<div ng-repeat= "beer in beerResults">
-	<div class="beerImage">
+<div class "searchResultsContainer" ng-repeat= "beer in beerResults">
+	<div class="beerImage" ng-click='clicked(beer.name)'> 
 		<img ng-src="{{beer.imgUrl}}"/>
 	</div>
 	<div class="beerText">

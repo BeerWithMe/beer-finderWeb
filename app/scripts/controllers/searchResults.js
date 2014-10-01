@@ -1,7 +1,7 @@
 'user strict';
 
 angular.module('beerMeApp')
-	.controller('searchResults',function($scope,searchResultsService,$stateParams){
+	.controller('searchResults',function ($scope, searchResultsService, $stateParams, recommendationsRequest){
 
     $scope.loading = true;
     searchResultsService.pour();
@@ -11,6 +11,9 @@ angular.module('beerMeApp')
 		// iterates over and  displays
 		searchResultsService.getResults($stateParams.searchTerm, function(results){
 			$scope.beerResults = results;
+      console.log($scope.beerResults);
       $scope.loading = false; 
 		});
+
+    $scope.clicked = recommendationsRequest.clicked; 
 	})
