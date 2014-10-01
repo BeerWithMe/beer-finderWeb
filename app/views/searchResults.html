@@ -29,8 +29,8 @@
 	</div>
 <!-- </div> -->
 <div class "searchResultsContainer" ng-repeat= "beer in beerResults">
-	<div class="beerImage" ng-click='clicked(beer.name)'> 
-		<img ng-src="{{beer.imgUrl}}"/>
+	<div class="beerImage" ng-click='clicked(beer.name)' style="background-image:url({{beer.imgUrl}})"> 
+		<!-- <img ng-src="{{beer.imgUrl}}"/> -->
 	</div>
 	<div class="beerText">
 		<ul>
