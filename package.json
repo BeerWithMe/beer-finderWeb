@@ -11,9 +11,7 @@
     "neo4j": "^1.1.0",
     "passport": "^0.2.1",
     "passport-local": "^1.0.0",
-    "underscore": "^1.7.0"
-  },
-  "devDependencies": {
+    "underscore": "^1.7.0",
     "grunt": "^0.4.1",
     "grunt-autoprefixer": "^0.7.3",
     "grunt-concurrent": "^0.5.0",
