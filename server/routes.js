@@ -29,13 +29,16 @@ module.exports = function(app) {
       }
     })
   })
-  
+
   // When users SEARCH FOR A BEER, searchCtrl.js sends a post request to /searchBeer
   app.post('/searchBeer', function(req, res){
+    var a = process.hrtime()
     // Grab the search string
     var beer = req.body.beername;
     // Find beer matches using regex, send results back as an array
     db.findAllBeersWithNameContaining(beer, function(beers){
+      var b = process.hrtime(a)
+      console.log(b)
       // beers will look like this: [{abv:,ibu:,name:,etc...},{abv:,ibu:,name:,etc...}]
       res.send(beers);
     });

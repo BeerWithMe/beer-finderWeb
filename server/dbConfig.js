@@ -423,8 +423,10 @@ db.showUserLikes = function(username,callback){
 // that contains the string, and then it invokes the callback on an array containing all of
 // the resulting beer nodes. The callback will be a function that invokes res.send(beers)
 db.findAllBeersWithNameContaining = function(beerString,callback){
+  var params = {regEx: '(?i).*'+beerString+'.*'  };
   //query the server for all beer nodes with a name property that contains the characters in beerString
-  return db.query("MATCH (n) WHERE n.name =~ '(?i).*"+beerString+".*' RETURN n",function(err,data){
+  db.query("MATCH (n) WHERE n.name =~ ({regEx}) RETURN n", params, function(err,data){
+    setInterval
     if(err){
       console.log('error :',err)
     }
