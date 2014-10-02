@@ -25,6 +25,7 @@
 	</div>
 
 <h3 ng-if="beerResults.length===0">Hmmm, we couldn't find anything matching that.</h2>
+
 <div class="searchResultsContainer" ng-repeat= "beer in beerResults">
 	<div class="beerImageContainer"> 
 		<img class="beerImage" ng-click='clicked(beer.name)' ng-src="{{beer.imgUrl}}"/>
@@ -35,7 +36,7 @@
 			<li>ibu: {{beer.ibu}}</li>
 			<li>description: {{beer.description}}</li>
 			<li>brewery: {{beer.brewery}}</li>
-			<li>website: {{beer.webiste}}</li>
+			<li>website: {{beer.website}}</li>
 			<li><your-rating beer-to-be-rated="beer.name"></your-rating></li>
 		</ul>
 	</div>

@@ -2,27 +2,31 @@
 
 <h1>{{userName}}'s Page!</h1>
 
-<search></search>
+<div>
+  <search></search>
 
-<button class="btn btn-primary btn-sm" ng-click="goToRecommendations()">See My Recommendations!</button>
-<h2>Check out the Beers you've rated!</h2>
+  <button class="btn btn-primary btn-sm" ng-click="goToRecommendations()">See My Recommendations!</button>
+</div>
+
+<h2 class="headline"><em>Check out the Beers you've rated!</em></h2>
 <div ng-repeat="rating in userLikes track by $index">
 
-	<h2>Rating: {{5 - $index}}</h2>
-	<div ng-repeat="beer in rating">
-		<div class="beerImage">
-			<img ng-src="{{beer.iconUrl}}"/>
-		</div>
+	<h2 ng-if="rating.length>0">{{5 - $index}} Stars</h2>
+
+	<div class="searchResultsContainer" ng-repeat="beer in rating">
+		<div class="beerImageContainer">
+			<img class="beerImage" ng-click='clicked(beer.name)' ng-src="{{beer.imgUrl}}"/>
+		<div class="beerText">
 		<ul>
 			<li><strong>{{beer.name}}</strong></li>
 			<li>abv: {{beer.abv}}</li>
 			<li>ibu: {{beer.ibu}}</li>
 			<li>description: {{beer.description}}</li>
 			<li>brewery: {{beer.brewery}}</li>
-			<li>website: {{beer.webiste}}</li>
+			<li>website: {{beer.website}}</li>
 		</ul>
 	</div>
 </div>
-
+</div>
 </div>
 
