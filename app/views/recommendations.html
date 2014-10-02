@@ -20,6 +20,7 @@ Hey, {{userName}}. Here are some recommendations for you.
 			<li><strong>{{beer.Beer.name}}</strong></li>
 			<li ng-if="beer.Beer.abv !='undefined'">abv: {{beer.Beer.abv}}</li>
 			<li ng-if="beer.Beer.ibu !='undefined'">ibu: {{beer.Beer.ibu}}</li>
+			<li ng-if="beer.Beer.website !='undefined'"><a href="{{beer.Beer.website}}"> {{beer.Beer.website}}</a></li>
 			<!-- <li ng-if="beer.Beer.description !='undefined'">description: {{beer.Beer.description}}</li> -->
 			<!-- <li ng-if="beer.Beer.brewery !='undefined'">brewery: {{beer.Beer.brewery}}</li> -->
 			<li>Recommendation: <rating ng-model="beer.Recommendation" max="5" readonly="true"></rating>
