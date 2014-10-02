@@ -622,15 +622,28 @@ body {
 /* -------------- Styling for Search Results -------------- */
 
 .SearchResultsContainer{
-  text-align: center;
+  /*text-align: center;*/
   width:100%;
+  height:450px;
   margin:auto;
+}
+
+.beerImageContainer {
+  width: 1000px;
+  height: 350px;
+  
 }
 
 .beerImage {
   width: 300px;
   height: 300px;
-  background-size: 100%
+  float: left;
+  margin: 10px;
+}
+
+.beerText {
+  margin-left: 300px;
+  padding-top: 50px;
 }
 
 

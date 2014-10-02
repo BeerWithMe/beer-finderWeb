@@ -28,10 +28,9 @@
 	<h2 class="animated drunk sign">Fill'er Up Barkeeper!</h2>
 	</div>
 <!-- </div> -->
-<div class "searchResultsContainer" ng-repeat= "beer in beerResults">
-	<div class="beerImage" ng-click='clicked(beer.name)' style="background-image:url({{beer.imgUrl}})"> 
-		<!-- <img ng-src="{{beer.imgUrl}}"/> -->
-	</div>
+<div class="searchResultsContainer" ng-repeat= "beer in beerResults">
+	<div class="beerImageContainer" ng-click='clicked(beer.name)'> 
+		<img class="beerImage" ng-src="{{beer.imgUrl}}"/>
 	<div class="beerText">
 		<ul>
 			<li><strong>{{beer.name}}</strong></li>
@@ -40,7 +39,9 @@
 			<li>description: {{beer.description}}</li>
 			<li>brewery: {{beer.brewery}}</li>
 			<li>website: {{beer.webiste}}</li>
+			<li><your-rating beer-to-be-rated="beer.name"></your-rating></li>
 		</ul>
 	</div>
-	<your-rating beer-to-be-rated="beer.name"></your-rating>
+	
+</div>
 </div>
