@@ -8,7 +8,7 @@
 <h2>Check out the Beers you've rated!</h2>
 <div ng-repeat="rating in userLikes track by $index">
 
-	<h2>Rating: {{$index + 1}}</h2>
+	<h2>Rating: {{5 - $index}}</h2>
 	<div ng-repeat="beer in rating">
 		<div class="beerImage">
 			<img ng-src="{{beer.iconUrl}}"/>
