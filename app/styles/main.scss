@@ -11,28 +11,13 @@ body {
   /*overflow-y: hidden;*/
   height:100%;
 }
-/*BEERME---------------This is the container for the main view------------------BEERME*/
-/*.mainElement{
+/*BEERME---------------This is the syling for the index & main view------------------BEERME*/
+
+.mainElement{
   /*height:calc(100% - 51px);*/
-  /*height: 100%;*/
-/*  background-size: cover;
-}
-*/
-.loadingText{
-  position: center;
+  height: 750px
 }
 
-.recommendationImage{
-  float: left;
-  cursor: pointer;
-  cursor: hand;
-}
-
-.recommendationText{
-  margin-left: 100px;
-  cursor: pointer;
-  cursor: hand;
-}
 
 .mainViewContainer {
   width:40%;
@@ -41,6 +26,7 @@ body {
   padding:15px;
   border:3px solid #535553;
   background-color: white;
+  border-radius: 5px;
 }
 
 .mainViewContainer .centerbox {
@@ -53,21 +39,38 @@ body {
   height:100%;
   background: url('../../images/bottles-203838_1280.jpg');
   background-size: cover;
+}
 
+.index {
+  margin-left: 10px;
+}
+
+h3 {
+  margin-top: 10px;
+}
+
+h2 {
+  margin-top: 10px;
 }
 
 
 /*BEERME---------------Recommendation page styling-----------------BEERME*/
+
+
 .loadingText{
   position: center;
 }
 
 .recommendationImage{
   float: left;
+  cursor: pointer;
+  cursor: hand;
 }
 
 .recommendationText{
   margin-left: 100px;
+  cursor: pointer;
+  cursor: hand;
 }
 
 
