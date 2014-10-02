@@ -1,11 +1,6 @@
 
-<!-- <div ng-controller="searchCtrl"> -->
-<div>
-	
-	<input type="text" class="searchBar" ng-model="searchTerms" placeholder="Search for a beer">
-	<input type="submit" ng-click="submitSearch(searchTerms)">
-</div>
-<!-- <div ng-if="2===2"> -->
+<search></search>
+
 	<div ng-class="{onBottom: !loading}" id="container">
 	  <div class="pour"></div>
 	  <div id="beaker">
@@ -28,7 +23,7 @@
   	</div>
 	<h2 class="animated drunk sign">Fill'er Up Barkeeper!</h2>
 	</div>
-<!-- </div> -->
+
 <div class="searchResultsContainer" ng-repeat= "beer in beerResults">
 	<div class="beerImageContainer" ng-click='clicked(beer.name)'> 
 		<img class="beerImage" ng-src="{{beer.imgUrl}}"/>
