@@ -24,6 +24,7 @@
 	<h2 class="animated drunk sign">Fill'er Up Barkeeper!</h2>
 	</div>
 
+<h3 ng-if="beerResults.length===0">Hmmm, we couldn't find anything matching that.</h2>
 <div class="searchResultsContainer" ng-repeat= "beer in beerResults">
 	<div class="beerImageContainer"> 
 		<img class="beerImage" ng-click='clicked(beer.name)' ng-src="{{beer.imgUrl}}"/>
