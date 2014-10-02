@@ -89,6 +89,10 @@ h2 {
   font-size: 55px;
   outline: none; }
 
+/*BEERME---------------User page styling-----------------BEERME*/
+.userContainer {
+  margin-left: 20px; }
+
 /*------------------------BEERME LOADING ANIMATION-----------------*/
 /*body { background-color: #0e83cd }*/
 .onBottom {

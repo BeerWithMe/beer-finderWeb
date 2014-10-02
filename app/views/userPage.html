@@ -1,10 +1,12 @@
+<div class="userContainer">
+
 <h1>{{userName}}'s Page!</h1>
 
 <div ng-controller="searchCtrl">
 	<input type="text" class="searchBar" ng-model="searchTerms" placeholder="Search for a beer">
 	<input type="submit" ng-click="submitSearch(searchTerms)">
 </div>
-<button ng-click="goToRecommendations()">See My Recommendations!</button>
+<button class="btn btn-primary btn-sm" ng-click="goToRecommendations()">See My Recommendations!</button>
 <h2>Check out the Beers you've rated!</h2>
 <div ng-repeat="rating in userLikes track by $index">
 
@@ -22,6 +24,7 @@
 			<li>website: {{beer.webiste}}</li>
 		</ul>
 	</div>
+</div>
 
 </div>
 
