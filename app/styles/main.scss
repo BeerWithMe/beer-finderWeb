@@ -47,6 +47,13 @@ body {
   margin-left: 20px;
 }
 
+.clearfix{
+  height:2px;
+  width:60%;
+  margin:auto;
+  background-color: rgba(136, 203, 175, .2);  
+}
+
 h3 {
   margin-top: 10px;
 }
@@ -77,6 +84,14 @@ h2 {
 
 .recommendationContainer {
   margin-left: 20px;
+}
+
+.recsDivider {
+  height:2px;
+  width:60%;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  background-color: rgba(9, 36, 119, .3);  
 }
 
 
@@ -597,12 +612,7 @@ h2 {
 
 
 /* Welcome container divider and paragraph */
-.clearfix{
-  height:2px;
-  width:60%;
-  margin:auto;
-  background-color: rgba(136, 203, 175, .2);  
-}
+
 .centerbox > p {
   width:85%;
   margin:15px auto;
