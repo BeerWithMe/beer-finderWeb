@@ -18,7 +18,7 @@ angular.module('beerMeApp')
 	}
 })
 
-.controller('OneBeerController', function($scope, $rootScope, beerRequest){
+.controller('OneBeerController', function ($scope, $rootScope, beerRequest, userPageService){
 
 	console.log("$rootScope.beer in OneBeerController: ", $rootScope.beer)
 	beerRequest.getSingleBeer($rootScope.beer)
@@ -28,9 +28,13 @@ angular.module('beerMeApp')
 			$scope.abv = data.abv;
 			$scope.description = data.description;
 			$scope.imgUrl = data.imgUrl;
+			userPageService.getLikesFromDatabase(localStorage.userName, function(results) {
+			  console.log('the results are :',results)
+			  $scope.userLikes = results;
+	  })
 		})
 		.error(function(data, status, headers, config) {
 			console.log('hi')
 			$scope.beername = '';
-  		});
+  	});
 })

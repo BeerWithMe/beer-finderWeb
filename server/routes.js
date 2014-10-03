@@ -106,7 +106,6 @@ module.exports = function(app) {
   })
 
 
-
 // This endpoint is for getting recommendations for a user.
 
   app.get('/:user/recommendations', [bodyParser(), jwtauth], function(req, res){

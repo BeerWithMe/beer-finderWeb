@@ -121,6 +121,17 @@ h2 {
 .filterBlock {
   margin-left: 10px; }
 
+/*BEERME---------------Single Beer View styling-----------------BEERME*/
+.singleBeerImg {
+  float: left; }
+
+.singleBeerText {
+  display: inline-block;
+  height: 512px;
+  width: 512px;
+  margin-left: 20px;
+  margin-top: 100px; }
+
 /*------------------------BEERME LOADING ANIMATION-----------------*/
 /*body { background-color: #0e83cd }*/
 .onBottom {
