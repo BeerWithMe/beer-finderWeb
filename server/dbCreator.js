@@ -256,9 +256,9 @@ db.dumpBeersIntoDB = function(path) {
   // Counter is only here so we can keep track of our queries via console logs
   // It is not part of the program's functionality
  
-  var counter = 1;
+  var counter = 308;
 
-  var totalPages = 100;
+  var totalPages = 400;
   for (var i=counter; i<=totalPages; i++) {
 
     // Using IIFE in order to have console.log transparency while get
@@ -350,7 +350,38 @@ db.dumpBeersIntoDB = function(path) {
 // our database or implement updates later.
 db.dumpBeersIntoDB('/beers');
 
+var similarIbuAbvQuery = "MATCH (allBeers:Beer) WHERE allBeers.ibu <> 'undefined' AND allBeers.abv <> 'undefined' WITH allBeers as beers WHERE beers.ibu >({IBUmin}) AND beers.ibu<({IBUmax}) AND beers.abv >({ABVmin}) AND beers.abv<({ABVmax})  RETURN beers"
+// var similarIbuAbvQuery = "MATCH (allBeers:Beer) WHERE allBeers.ibu <> 'undefined' AND allBeers.abv <> 'undefined' WITH allBeers as beers WHERE beers.ibu=85 RETURN beers"
+db.findSimilarBeers = function(IBU,ABV,callback){
+  var params = {
+    IBUmin: 70,
+    IBUmax: 100,
+    ABVmin: 5,
+    ABVmax: 6
+  }
+  db.query(similarIbuAbvQuery, params, function(err, data){
+    if(err){
+      console.log('Error :',err)
+    } else {
+      // console.log(data[1].allBeers.data);
+      var beers = [];
+      for(var i=0;i<data.length;i++){
+        var beerNode = data[i].beers.data;
+        beers.push(beerNode);
+      }
+      console.log(beers);
+    }
+  })
+}
 
+// db.findSimilarBeers(70,2,function(x){
+//   console.log(x)
+// })
+
+// MATCH (thisBeer:Beer) WHERE thisBeer.ibu <> "undefined" RETURN thisBeer // returns all beers that have an ibu that's not undefined
+
+// MATCH (thisBeer:Beer {name: "Flossmoor Station Brewing Company-15 Anniversary"}),
+// (otherBeer:Beer {abv: thisBeer.abv}) RETURN otherBeer //returns all the beers that have the same abv as Flossmoor Station beer
 
 // Example of what beer data looks like when it comes from brewDB API.
 // These objects are contained within an array that belongs to a 'data'
