@@ -9,13 +9,43 @@ body {
   /*overflow-y: hidden;*/
   height: 100%; }
 
-/*BEERME---------------This is the container for the main view------------------BEERME*/
-/*.mainElement{
+/*BEERME---------------This is the syling for the index & main view------------------BEERME*/
+.mainElement {
   /*height:calc(100% - 51px);*/
-/*height: 100%;*/
-/*  background-size: cover;
-}
-*/
+  height: 750px; }
+
+.mainViewContainer {
+  width: 40%;
+  margin: auto;
+  margin-top: 10%;
+  padding: 15px;
+  border: 3px solid #535553;
+  background-color: white;
+  border-radius: 5px;
+  z-index: 1; }
+
+.mainViewContainer .centerbox {
+  text-align: center; }
+
+.imgDiv {
+  padding: 10px;
+  width: 100%;
+  height: 100%;
+  background: url("../../images/bottles-203838_1280.jpg");
+  background-size: cover;
+  opacity: .75;
+  z-index: 0; }
+
+.index {
+  margin-left: 20px; }
+
+h3 {
+  margin-top: 10px; }
+
+h2 {
+  margin-top: 10px; }
+
+/*BEERME---------------Recommendation page styling-----------------BEERME*/
 .loadingText {
   position: center; }
 
@@ -29,33 +59,8 @@ body {
   cursor: pointer;
   cursor: hand; }
 
-.mainViewContainer {
-  width: 40%;
-  margin: auto;
-  margin-top: 10%;
-  padding: 15px;
-  border: 3px solid #535553;
-  background-color: white; }
-
-.mainViewContainer .centerbox {
-  text-align: center; }
-
-.imgDiv {
-  padding: 10px;
-  width: 100%;
-  height: 100%;
-  background: url("../../images/bottles-203838_1280.jpg");
-  background-size: cover; }
-
-/*BEERME---------------Recommendation page styling-----------------BEERME*/
-.loadingText {
-  position: center; }
-
-.recommendationImage {
-  float: left; }
-
-.recommendationText {
-  margin-left: 100px; }
+.recommendationContainer {
+  margin-left: 20px; }
 
 /*BEERME---------------Questionnaire page styling-----------------BEERME*/
 .surveyHead {
@@ -86,6 +91,18 @@ body {
 .stars {
   font-size: 55px;
   outline: none; }
+
+/*BEERME---------------User page styling-----------------BEERME*/
+.userContainer {
+  margin-left: 20px; }
+
+.headline {
+  margin-bottom: 20px; }
+
+/*BEERME---------------Search Directive styling-----------------BEERME*/
+.searchBlock {
+  display: inline-block;
+  margin-right: 20px; }
 
 /*------------------------BEERME LOADING ANIMATION-----------------*/
 /*body { background-color: #0e83cd }*/
@@ -518,9 +535,24 @@ body {
 
 /* -------------- Styling for Search Results -------------- */
 .SearchResultsContainer {
-  text-align: center;
+  /*text-align: center;*/
   width: 100%;
+  height: 450px;
   margin: auto; }
+
+.beerImageContainer {
+  width: 1000px;
+  height: 350px; }
+
+.beerImage {
+  width: 300px;
+  height: 300px;
+  float: left;
+  margin: 10px; }
+
+.beerText {
+  margin-left: 300px;
+  padding-top: 50px; }
 
 .SearchResultsForm {
   display: inline-block; }

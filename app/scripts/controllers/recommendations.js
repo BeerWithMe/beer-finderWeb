@@ -23,21 +23,6 @@
 // ];
 
 angular.module('beerMeApp')
-
-.factory('recommendationsRequest', function($http){
-	var getRecommendation = function(username){
-		
-		return $http({
-			method: 'GET',
-			url: '/' + username + '/recommendations'
-		});
-	}
-
-	return {
-		getRecommendation: getRecommendation
-	}
-})
-
 .controller('RecommendCtrl', function ($scope, $stateParams, $rootScope, $state, recommendationsRequest,$window) {
     
     $scope.recommendationsList = [];
@@ -51,9 +36,10 @@ angular.module('beerMeApp')
     	})
     console.log("This is recommendationList: ", $scope.recommendationsList);
 
-    $scope.clicked = function(beername){
-    	$rootScope.beer = beername;
-    	console.log("This is $rootScope.beer", $rootScope.beer)
-    	$state.go('beer');
-    }
+    $scope.clicked = recommendationsRequest.clicked; 
+    // $scope.clicked = function(beername){
+    // 	$rootScope.beer = beername;
+    // 	console.log("This is $rootScope.beer", $rootScope.beer)
+    // 	$state.go('beer');
+    // }
 });
