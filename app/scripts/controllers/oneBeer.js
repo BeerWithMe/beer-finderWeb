@@ -34,4 +34,5 @@ angular.module('beerMeApp')
 			console.log('hi')
 			$scope.beername = '';
   	});
+  	console.log($scope.userRating)
 })
