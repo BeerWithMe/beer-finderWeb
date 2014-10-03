@@ -1,6 +1,6 @@
 var _ = require('underscore');
 var neo4j = require('neo4j');
-var db = new neo4j.GraphDatabase('http://beermeappinteger.cloudapp.net:7474/');
+var db = new neo4j.GraphDatabase('http://beeradvisor.cloudapp.net:7474/');
 var http = require('http');
 var fs = require('fs');
 var utils = require('./utils');
@@ -37,7 +37,7 @@ var getAllBeerQuery = "MATCH (n:Beer) RETURN n;";
 var createNewBeerQuery = ["CREATE (n:Beer {name: ({name}), ibu: ({ibu}), abv: ({abv}), description: ({description}), imgUrl: ({imgUrl}), iconUrl: ({iconUrl}), medUrl: ({medUrl}), brewery: ({brewery}), website: ({website}) })",
 						  "RETURN n;"].join('\n');
 var createNewBeerQueryWithBrewery = "CREATE (n:Beer {name: ({name}), ibu: ({ibu}), abv: ({abv}), description: ({description}), imgUrl: ({imgUrl}), iconUrl: ({iconUrl}), medUrl: ({medUrl}), brewery: ({brewery}), website: ({website}) })"
-var getOneBeerByNameQuery = "MATCH (n:Beer {name: {name}}) RETURN n;"
+var getOneBeerByNameQuery = "MATCH (n:Beer {name: {name}}) OPTIONAL MATCH (n)-[r:Likes]-(u:User {username: {username}}) RETURN n,r,u;"
 
 var generateSimilarityQuery = ["MATCH (u1:User {username: ({username})})-[x:Likes]->(b:Beer)<-[y:Likes]-(u2:User)",
                                "WITH SUM(x.rating * y.rating) AS xyDotProduct,",
@@ -58,6 +58,7 @@ var generateRecommendationQuery = ['MATCH (u1:User)-[r:Likes]->(b:Beer),',
                                   'WITH beer, REDUCE(s = 0, i IN ratings | s + i)*1.0 / LENGTH(ratings) AS reco ORDER BY reco DESC',
                                   'RETURN beer AS Beer, reco AS Recommendation'].join('\n');
 
+
 db.getAllBeer = function(callback){
 	db.query(getAllBeerQuery, {}, function(err, allBeers){
 		if(err){
@@ -69,17 +70,29 @@ db.getAllBeer = function(callback){
 	});
 };
 
-db.getOneBeer = function(beername, callback){
+db.getOneBeer = function(beername, username, callback){
   var params = {
-    name: beername
+    name: beername,
+    username: username
   };
 
   db.query(getOneBeerByNameQuery, params, function(err, beer){
     if(err){
       console.log(err);
     }else{
-      // console.log(utils.makeData(beer, 'n')[0]);
+      //get the user's rating
+      if (beer[0]['r'] !== null) {
+        var ratingObj = beer[0]['r']['data']; //{rating: 3}
+        var rating = ratingObj.rating; 
+      } else {
+        rating = null; 
+      }
+      //extract beer data
       var beerArray = utils.makeData(beer, 'n');
+      console.log('data is ', beerArray)
+      //add user's rating to object being sent back
+      beerArray[0].userRating = rating; 
+      console.log('beerArray[0].userRating', beerArray[0].userRating)
       if(beerArray.length === 0){
         callback(undefined);
       }else{
@@ -165,14 +178,14 @@ db.generateRecommendation = function(user, callback){
   });
 };
 
-// db.getUserRating = function(username, beers){
+// db.getUserRating = function(username, beer){
 //   var params = {username: username, beername: beername};
-//   db.query("MATCH (n:User {username: ({username})})-[r:Likes]-(b:Beer {name: ({beername})}) RETURN b,r", params, function(err, data){
+//   db.query("MATCH (n:User {username})})-[r:Likes]-(b:Beer {name: {beername})}) RETURN r", params, function(err, data){
 //     if (err){
 //       console.log('Error:', err);
 //     }
-//     var beerRatings = {};
-//     for 
+//     var ratingObj = data['r']['data']; //{rating: 3}
+//     var rating = ratingObj.rating;
 //     }
 //   })
 // }
@@ -201,12 +214,9 @@ db.showUserLikes = function(username,callback){
     console.log('rated Beers',ratedBeers)
     for(var i=0; i<data.length; i++) {
       var beerObj = data[i]['b']['data']; // [{abv:,ibu:,name:,etc...},{abv:,ibu:,name:,etc...}]
-      console.log('BEEROBJ ', beerObj);
       var ratingObj = data[i]['r']['data']; //{rating: 3}
       var rating = ratingObj.rating;
-      console.log('RATING OBJ ', ratingObj)
       var ratingCoded = ratingReverse[rating]
-      console.log('rating: ',rating);
       ratedBeers[ratingCoded].push(beerObj);
     }
     console.log('hello?')

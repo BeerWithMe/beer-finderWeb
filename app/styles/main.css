@@ -39,6 +39,12 @@ body {
 .index {
   margin-left: 20px; }
 
+.clearfix {
+  height: 2px;
+  width: 60%;
+  margin: auto;
+  background-color: rgba(136, 203, 175, 0.2); }
+
 h3 {
   margin-top: 10px; }
 
@@ -61,6 +67,13 @@ h2 {
 
 .recommendationContainer {
   margin-left: 20px; }
+
+.recsDivider {
+  height: 2px;
+  width: 60%;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  background-color: rgba(9, 36, 119, 0.3); }
 
 /*BEERME---------------Questionnaire page styling-----------------BEERME*/
 .surveyHead {
@@ -107,6 +120,17 @@ h2 {
 /*BEERME---------------Search Results styling-----------------BEERME*/
 .filterBlock {
   margin-left: 10px; }
+
+/*BEERME---------------Single Beer View styling-----------------BEERME*/
+.singleBeerImg {
+  float: left; }
+
+.singleBeerText {
+  display: inline-block;
+  height: 512px;
+  width: 512px;
+  margin-left: 20px;
+  margin-top: 100px; }
 
 /*------------------------BEERME LOADING ANIMATION-----------------*/
 /*body { background-color: #0e83cd }*/
@@ -481,12 +505,6 @@ h2 {
 /* main page background image */
 /* -- Main page welcome container -- */
 /* Welcome container divider and paragraph */
-.clearfix {
-  height: 2px;
-  width: 60%;
-  margin: auto;
-  background-color: rgba(136, 203, 175, 0.2); }
-
 .centerbox > p {
   width: 85%;
   margin: 15px auto; }

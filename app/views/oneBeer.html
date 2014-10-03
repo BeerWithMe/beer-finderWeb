@@ -2,15 +2,24 @@
 <search></search>
 
 	<div ng-if="beername">
-		<img ng-if="imgUrl != 'undefined' && imgUrl != undefined" ng-src="{{imgUrl}}"/>
-		<div>{{beername}}</div>
-		<div ng-if="abv !='undefined' && abv != undefined">abv: {{abv}}</div>
-		<div ng-if="ibu != 'undefined' && ibu != undefined">ibu: {{ibu}}</div>
-		<div ng-if="description != 'undefined' && description != undefined">description: {{description}}</div>
-		<your-rating beer-to-be-rated="beername"></your-rating>
-	</div>
+		<img class="singleBeerImg" ng-if="imgUrl != 'undefined' && imgUrl != undefined" ng-src="{{imgUrl}}"/>
+		<div class="singleBeerText">
+			<div><strong>{{beername}}</strong></div>
+			<div ng-if="abv !='undefined' && abv != undefined">abv: {{abv}}</div>
+			<div ng-if="ibu != 'undefined' && ibu != undefined">ibu: {{ibu}}</div>
+			<div ng-if="description != 'undefined' && description != undefined">description: {{description}}</div>
+
+			<div ng-if="userRating == undefined"><em><strong>Have you tried this one yet?  Rate it!</em></strong></div>
+			<div ng-else-if="userRating === 1"><em><strong>You gave this beer {{userRating}} star. Changed your mind? Rate it again.</em></strong></div>
+			<div ng-else><em><strong>You gave this beer {{userRating}} stars. Changed your mind? Rate it again.</em></strong></div>
+			
+			
+			<your-rating beer-to-be-rated="beername"></your-rating>
+		</div>
 	<div ng-if="beername === ''">
 		This beer doesn't exist
 	</div>
 
 </div>
+
+
