@@ -162,13 +162,14 @@ h2 {
   position: relative;
   top: -20px;
   width: 500px;
+  border-radius: 10px;
 }
 
 #container div { position: absolute; }
 
 .pour {
   position: absolute;
-  left: 20%;
+  left: 48%;
   width: 20px;
   height: 0px;
   background-color: #edaf32;
@@ -180,7 +181,7 @@ h2 {
   border-top: 0;
   border-radius: 0 0 30px 30px;
   height: 200px;
-  left: 14px;
+  left: 145px;
   bottom: 0;
   width: 200px;
 }
