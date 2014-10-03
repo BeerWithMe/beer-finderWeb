@@ -1,7 +1,9 @@
 
 <div>
 	<search></search>
-	<input type="filter" ng-model="filter" placeholder="Filter results by...">
+	<form role="form" class="form-inline">
+	  <input class="form-control filterBlock" type="filter" ng-model="filter" placeholder="Filter results by...">
+	</form>
 </div>  
 
 	<div ng-class="{onBottom: !loading}" id="container">
@@ -35,11 +37,11 @@
 	<div class="beerText">
 		<ul>
 			<li><strong>{{beer.name}}</strong></li>
-			<li>abv: {{beer.abv}}</li>
-			<li>ibu: {{beer.ibu}}</li>
-			<li>description: {{beer.description}}</li>
-			<li>brewery: {{beer.brewery}}</li>
-			<li>website: <a href="{{beer.website}}"> {{beer.website}}</a></li>
+			<li ng-if="beer.abv !='undefined'">abv: {{beer.abv}}</li>
+			<li ng-if="beer.ibu !='undefined'">ibu: {{beer.ibu}}</li>
+			<li ng-if="beer.description !='undefined'">description: {{beer.description}}</li>
+			<li ng-if="beer.brewery !=''">brewery: {{beer.brewery}}</li>
+			<li ng-if="beer.website !='undefined'">website: <a href="{{beer.website}}"> {{beer.website}}</a></li>
 			<li><your-rating beer-to-be-rated="beer.name"></your-rating></li>
 		</ul>
 	</div>
