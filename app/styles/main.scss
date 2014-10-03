@@ -47,6 +47,13 @@ body {
   margin-left: 20px;
 }
 
+.clearfix{
+  height:2px;
+  width:60%;
+  margin:auto;
+  background-color: rgba(136, 203, 175, .2);  
+}
+
 h3 {
   margin-top: 10px;
 }
@@ -77,6 +84,14 @@ h2 {
 
 .recommendationContainer {
   margin-left: 20px;
+}
+
+.recsDivider {
+  height:2px;
+  width:60%;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  background-color: rgba(9, 36, 119, .3);  
 }
 
 
@@ -134,6 +149,12 @@ h2 {
   margin-right: 20px;
 }
 
+/*BEERME---------------Search Results styling-----------------BEERME*/
+
+.filterBlock {
+  margin-left: 10px;
+}
+
 
 /*------------------------BEERME LOADING ANIMATION-----------------*/
 
@@ -162,13 +183,14 @@ h2 {
   position: relative;
   top: -20px;
   width: 500px;
+  border-radius: 10px;
 }
 
 #container div { position: absolute; }
 
 .pour {
   position: absolute;
-  left: 20%;
+  left: 48%;
   width: 20px;
   height: 0px;
   background-color: #edaf32;
@@ -180,7 +202,7 @@ h2 {
   border-top: 0;
   border-radius: 0 0 30px 30px;
   height: 200px;
-  left: 14px;
+  left: 145px;
   bottom: 0;
   width: 200px;
 }
@@ -590,12 +612,7 @@ h2 {
 
 
 /* Welcome container divider and paragraph */
-.clearfix{
-  height:2px;
-  width:60%;
-  margin:auto;
-  background-color: rgba(136, 203, 175, .2);  
-}
+
 .centerbox > p {
   width:85%;
   margin:15px auto;

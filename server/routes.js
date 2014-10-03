@@ -123,6 +123,7 @@ module.exports = function(app) {
         if(err){
           res.status(400).send("Error");
         }else{
+          console.log('recommendations fetched')
           var data = {beers: result};
           res.send(data);
         }
