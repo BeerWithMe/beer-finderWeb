@@ -37,7 +37,7 @@ var getAllBeerQuery = "MATCH (n:Beer) RETURN n;";
 var createNewBeerQuery = ["CREATE (n:Beer {name: ({name}), ibu: ({ibu}), abv: ({abv}), description: ({description}), imgUrl: ({imgUrl}), iconUrl: ({iconUrl}), medUrl: ({medUrl}), brewery: ({brewery}), website: ({website}) })",
 						  "RETURN n;"].join('\n');
 var createNewBeerQueryWithBrewery = "CREATE (n:Beer {name: ({name}), ibu: ({ibu}), abv: ({abv}), description: ({description}), imgUrl: ({imgUrl}), iconUrl: ({iconUrl}), medUrl: ({medUrl}), brewery: ({brewery}), website: ({website}) })"
-var getOneBeerByNameQuery = "MATCH (n:Beer {name: {name}}) RETURN n;"
+var getOneBeerByNameQuery = "MATCH (n:Beer {name: {name}}) OPTIONAL MATCH (n)-[r:Likes]-(u:User {username: {username}}) RETURN n,r,u;"
 
 var generateSimilarityQuery = ["MATCH (u1:User {username: ({username})})-[x:Likes]->(b:Beer)<-[y:Likes]-(u2:User)",
                                "WITH SUM(x.rating * y.rating) AS xyDotProduct,",
@@ -338,17 +338,29 @@ db.getAllBeer = function(callback){
 	});
 };
 
-db.getOneBeer = function(beername, callback){
+db.getOneBeer = function(beername, username, callback){
   var params = {
-    name: beername
+    name: beername,
+    username: username
   };
 
   db.query(getOneBeerByNameQuery, params, function(err, beer){
     if(err){
       console.log(err);
     }else{
-      // console.log(utils.makeData(beer, 'n')[0]);
+      //get the user's rating
+      if (beer[0]['r'] !== null) {
+        var ratingObj = beer[0]['r']['data']; //{rating: 3}
+        var rating = ratingObj.rating; 
+      } else {
+        rating = null; 
+      }
+      //extract beer data
       var beerArray = utils.makeData(beer, 'n');
+      console.log('data is ', beerArray)
+      //add user's rating to object being sent back
+      beerArray[0].userRating = rating; 
+      console.log('beerArray[0].userRating', beerArray[0].userRating)
       if(beerArray.length === 0){
         callback(undefined);
       }else{

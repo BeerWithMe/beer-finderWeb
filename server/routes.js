@@ -47,16 +47,16 @@ module.exports = function(app) {
 // This endpoint is for getting beer information for a specific beer
   app.post('/beer', [bodyParser(), jwtauth], function(req, res){
     var beername = req.body.beername;
+    var username = req.body.username; 
     console.log("This is the beername: ", beername);
     console.log("This is the beername from req.body:", req.body);
 
-    db.getOneBeer(beername, function(beerObj){
+    db.getOneBeer(beername, username, function(beerObj){
       if(!beerObj){
         console.log('This beer has not been found');
         res.status(404).send("Beer not Found");
       }else{
-        console.log('This beer has been found');
-        console.log(beerObj)
+        console.log('rating retrieved = ', beerObj.userRating)
         res.send(JSON.stringify(beerObj));
       }
     });
