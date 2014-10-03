@@ -61,7 +61,7 @@ var generateRecommendationQuery = ['MATCH (u1:User)-[r:Likes]->(b:Beer),',
 
 
 
-db.createBeerNode = function(beerObj){
+db.createBeerNode = function(beerObj, callback){
 	// If the beer object comes with a labels property, use the pictures it comes with, otherwise we will use a
   // default image later. 
 
@@ -89,10 +89,9 @@ db.createBeerNode = function(beerObj){
     website: 'website unavailable'
 	}	
 
+  var locations = [];
   //If the beer has a brewery
   if (beerObj.breweries){
-    var locations = [];
-
     var brewLocations = beerObj.breweries[0].locations || [];
 
     //add each brewery location to the location array, we will make nodes later
@@ -127,6 +126,7 @@ db.createBeerNode = function(beerObj){
     //if has brwery, add beer node, then create location nodes and add relationships
     ///////////////////////////////////////////////////////////////////////////////
     //before we insert beer into database, check if the beername exists
+      console.log("Inside create beer node.");
 
     db.query('MATCH (n:Beer {name:({name})}) return n', params, function(err,data){
       if (data.length) {
@@ -183,6 +183,7 @@ db.createBeerNode = function(beerObj){
                   }  //matches for(var key in locations[k]){
                 })(i)  //matches function(k)
               } //matches for loop
+          callback();
           }
         })  // matches db.query(createNewBeerQueryWithBrewery,params,function(err,data){
       }  // matches if(!data.length){
@@ -197,6 +198,7 @@ db.createBeerNode = function(beerObj){
     db.query('OPTIONAL MATCH (n:Beer {name: ({name})}) RETURN n', params, function(err, data) {
       if (err) console.log('OptionalMatch beer name error: ', err, params);
       var dbData = data[0];
+
       if (dbData.n === null){
         // create and save beer node into database
         db.query(createNewBeerQueryWithBrewery, params, function(err, newBeerNode){
@@ -204,6 +206,7 @@ db.createBeerNode = function(beerObj){
             console.log(err);
           } else {
             console.log('created a beer with no brewery');
+            callback();
           }
         });
       }
@@ -269,39 +272,39 @@ db.dumpBeersIntoDB = function(path) {
            for(var k=0; k<beers.length; k++){
               var __b = beers[k];
 
-              if (__b.name.indexOf('Racer') >= 0 || __b.name.indexOf('racer') >= 0) {
-                // console.log('Saw: ', __b.name, 'page: ', x, 'id: ', __b.id, __b.breweries[0].name)
-              }
+              // if (__b.name.indexOf('Racer') >= 0 || __b.name.indexOf('racer') >= 0) {
+              //   // console.log('Saw: ', __b.name, 'page: ', x, 'id: ', __b.id, __b.breweries[0].name)
+              // }
 
-              beerCache[__b.id] = __b
+              // beerCache[__b.id] = __b
 
-              if (__b.breweries && __b.breweries.length) {
-                // if (__b.name == "(512) Whiskey Barrel Aged Double Pecan Porter") {
-                //   console.log("BEER", __b)
-                // }
-                beerCacheByName[__b.breweries[0].name + '-' + __b.name] = __b
-              } else {
-                // if (__b.name == "(512) Whiskey Barrel Aged Double Pecan Porter") {
-                //   console.log("BEER NO BREWERY", __b)
-                // }                
-                beerCacheByName[__b.name] = __b
-              }
+              // if (__b.breweries && __b.breweries.length) {
+              //   // if (__b.name == "(512) Whiskey Barrel Aged Double Pecan Porter") {
+              //   //   console.log("BEER", __b)
+              //   // }
+              //   beerCacheByName[__b.breweries[0].name + '-' + __b.name] = __b
+              // } else {
+              //   // if (__b.name == "(512) Whiskey Barrel Aged Double Pecan Porter") {
+              //   //   console.log("BEER NO BREWERY", __b)
+              //   // }                
+              //   beerCacheByName[__b.name] = __b
+              // }
               db.createBeerNode(beers[k]);
            }
            // When counter reaches 650, we know we've finished
             if(counter===totalPages){
               console.log('final page');
-              console.log("Found this many beers:", Object.keys(beerCache).length)
-              console.log("Found this many beers:", Object.keys(beerCacheByName).length)
+              // console.log("Found this many beers:", Object.keys(beerCache).length)
+              // console.log("Found this many beers:", Object.keys(beerCacheByName).length)
 
-              var knownIds = _.keys(beerCache);
-              var missingIds = _.uniq(_.map(_.values(beerCacheByName), function(b) {return b.id}))
-              var diff = _.difference(knownIds, missingIds)
-              console.log('difference', diff)
+              // var knownIds = _.keys(beerCache);
+              // var missingIds = _.uniq(_.map(_.values(beerCacheByName), function(b) {return b.id}))
+              // var diff = _.difference(knownIds, missingIds)
+              // console.log('difference', diff)
 
-              _.each(diff, function(beerId) {
-                console.log('missing', beerCache[beerId].name, '-', beerCache[beerId].breweries.length ? beerCache[beerId].breweries[0].name : 'NO BREWERY');
-              })
+              // _.each(diff, function(beerId) {
+              //   console.log('missing', beerCache[beerId].name, '-', beerCache[beerId].breweries.length ? beerCache[beerId].breweries[0].name : 'NO BREWERY');
+              // })
               
             }
         });
@@ -445,13 +448,21 @@ db.showUserLikes = function(username,callback){
       4: [],
       5: []
     }
+    var ratingReverse = {
+      5: 1,
+      4: 2,
+      3: 3,
+      2: 4,
+      1: 5
+    }
     console.log('rated Beers',ratedBeers)
     for(var i=0; i<data.length; i++) {
       var beerObj = data[i]['b']['data']; // [{abv:,ibu:,name:,etc...},{abv:,ibu:,name:,etc...}]
       var ratingObj = data[i]['r']['data']; //{rating: 3}
       var rating = ratingObj.rating;
-      console.log('rating: ',rating)
-      ratedBeers[rating].push(beerObj);
+      var ratingCoded = ratingReverse[rating]
+      console.log('rating: ',rating);
+      ratedBeers[ratingCoded].push(beerObj);
     }
     console.log('hello?')
     // console.log('beer results :',data[0]['b']['data']);
@@ -461,6 +472,7 @@ db.showUserLikes = function(username,callback){
     callback(ratedBeers)
   })
 }
+
 // This function gets called by routes.js in response to POST requests to '/searchBeer' 
 // It takes a string and a callback, it queries the database for all beers that have a name
 // that contains the string, and then it invokes the callback on an array containing all of
@@ -484,6 +496,7 @@ db.findAllBeersWithNameContaining = function(beerString,callback){
   })
 };
 
+// call callback if user is authorized
 db.authenticateUser = function( userInfo, callback){
   console.log('inside authenticateUser')
   var params = {

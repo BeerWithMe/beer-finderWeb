@@ -1,10 +1,6 @@
 
-<div ng-controller="searchCtrl">
-	
-	<input type="text" class="searchBar" ng-model="searchTerms" placeholder="Search for a beer">
-	<input type="submit" ng-click="submitSearch(searchTerms)">
-</div>
-<!-- <div ng-if="2===2"> -->
+<search></search>
+
 	<div ng-class="{onBottom: !loading}" id="container">
 	  <div class="pour"></div>
 	  <div id="beaker">
@@ -25,13 +21,14 @@
 	      <div class="bubble bubble5"></div>
 	    </div>
   	</div>
-	<h2 class="animated drunk">Fill'er Up Barkeeper!</h2>
+	<h2 class="animated drunk sign">Fill'er Up Barkeeper!</h2>
 	</div>
-<!-- </div> -->
-<div ng-repeat= "beer in beerResults">
-	<div class="beerImage">
-		<img ng-src="{{beer.imgUrl}}"/>
-	</div>
+
+<h3 ng-if="beerResults.length===0">Hmmm, we couldn't find anything matching that.</h2>
+
+<div class="searchResultsContainer" ng-repeat= "beer in beerResults">
+	<div class="beerImageContainer"> 
+		<img class="beerImage" ng-click='clicked(beer.name)' ng-src="{{beer.imgUrl}}"/>
 	<div class="beerText">
 		<ul>
 			<li><strong>{{beer.name}}</strong></li>
@@ -39,7 +36,10 @@
 			<li>ibu: {{beer.ibu}}</li>
 			<li>description: {{beer.description}}</li>
 			<li>brewery: {{beer.brewery}}</li>
-			<li>website: {{beer.webiste}}</li>
+			<li>website: {{beer.website}}</li>
+			<li><your-rating beer-to-be-rated="beer.name"></your-rating></li>
 		</ul>
 	</div>
+	
+</div>
 </div>
