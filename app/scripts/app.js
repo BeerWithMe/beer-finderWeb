@@ -17,7 +17,8 @@ angular
     'ui.router',
     'ngSanitize',
     'ngTouch',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'elif'
     // 'beerMeApp.oneBeer',
     // 'beerMeApp.recommendations'
   ])
