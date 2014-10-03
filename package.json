@@ -4,14 +4,9 @@
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.8.3",
+    "chai": "^1.9.2",
     "express": "^4.9.4",
     "express-session": "^1.8.2",
-    "jwt-simple": "^0.2.0",
-    "moment": "^2.8.3",
-    "neo4j": "^1.1.0",
-    "passport": "^0.2.1",
-    "passport-local": "^1.0.0",
-    "underscore": "^1.7.0",
     "grunt": "^0.4.1",
     "grunt-autoprefixer": "^0.7.3",
     "grunt-concurrent": "^0.5.0",
@@ -35,8 +30,14 @@
     "grunt-usemin": "^2.1.1",
     "grunt-wiredep": "^1.7.0",
     "jshint-stylish": "^0.2.0",
+    "jwt-simple": "^0.2.0",
     "load-grunt-tasks": "^0.4.0",
-    "time-grunt": "^0.3.1"
+    "moment": "^2.8.3",
+    "neo4j": "^1.1.0",
+    "passport": "^0.2.1",
+    "passport-local": "^1.0.0",
+    "time-grunt": "^0.3.1",
+    "underscore": "^1.7.0"
   },
   "engines": {
     "node": ">=0.10.0"

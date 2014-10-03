@@ -61,7 +61,7 @@ var generateRecommendationQuery = ['MATCH (u1:User)-[r:Likes]->(b:Beer),',
 
 
 
-db.createBeerNode = function(beerObj){
+db.createBeerNode = function(beerObj, callback){
 	// If the beer object comes with a labels property, use the pictures it comes with, otherwise we will use a
   // default image later. 
 
@@ -89,10 +89,9 @@ db.createBeerNode = function(beerObj){
     website: 'website unavailable'
 	}	
 
+  var locations = [];
   //If the beer has a brewery
   if (beerObj.breweries){
-    var locations = [];
-
     var brewLocations = beerObj.breweries[0].locations || [];
 
     //add each brewery location to the location array, we will make nodes later
@@ -127,6 +126,7 @@ db.createBeerNode = function(beerObj){
     //if has brwery, add beer node, then create location nodes and add relationships
     ///////////////////////////////////////////////////////////////////////////////
     //before we insert beer into database, check if the beername exists
+      console.log("Inside create beer node.");
 
     db.query('MATCH (n:Beer {name:({name})}) return n', params, function(err,data){
       if (data.length) {
@@ -183,6 +183,7 @@ db.createBeerNode = function(beerObj){
                   }  //matches for(var key in locations[k]){
                 })(i)  //matches function(k)
               } //matches for loop
+          callback();
           }
         })  // matches db.query(createNewBeerQueryWithBrewery,params,function(err,data){
       }  // matches if(!data.length){
@@ -197,6 +198,7 @@ db.createBeerNode = function(beerObj){
     db.query('OPTIONAL MATCH (n:Beer {name: ({name})}) RETURN n', params, function(err, data) {
       if (err) console.log('OptionalMatch beer name error: ', err, params);
       var dbData = data[0];
+
       if (dbData.n === null){
         // create and save beer node into database
         db.query(createNewBeerQueryWithBrewery, params, function(err, newBeerNode){
@@ -204,6 +206,7 @@ db.createBeerNode = function(beerObj){
             console.log(err);
           } else {
             console.log('created a beer with no brewery');
+            callback();
           }
         });
       }
