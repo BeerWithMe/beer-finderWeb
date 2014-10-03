@@ -11,7 +11,8 @@
 <h2 class="headline"><em>Check out the Beers you've rated!</em></h2>
 <div ng-repeat="rating in userLikes track by $index">
 
-	<h2 ng-if="rating.length>0">{{5 - $index}} Stars</h2>
+	<h2 ng-if="rating.length>0 && $index !== 4">{{5 - $index}} Stars</h2>
+	<h2 ng-else-if="rating.length>0 && $index === 4">{{5 - $index}} Star</h2>
 
 	<div class="searchResultsContainer" ng-repeat="beer in rating">
 		<div class="beerImageContainer">
