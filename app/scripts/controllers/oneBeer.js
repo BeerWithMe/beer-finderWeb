@@ -12,15 +12,29 @@ angular.module('beerMeApp')
 			data: JSON.stringify({beername: beername})
 		});
 	}
+	// var getSimilarBeers = function(IBU,ABV,DESCRIPTION){
+	// 	var params = {
+	// 		ibu: IBU,
+	// 		abv: ABV,
+	// 		description: DESCRIPTION
+	// 	}
+	// 	$http({
+	// 		method: 'POST',
+	// 		url: '/getSimilarBeers',
+	// 		data: JSON.stringify(params)
+	// 	}).success()
+	// }
 
 	return {
-		getSingleBeer: getSingleBeer
+		getSingleBeer: getSingleBeer,
+		getSimilarBeers: getSimilarBeers
 	}
 })
 
 .controller('OneBeerController', function($scope, $rootScope, beerRequest){
 
 	console.log("$rootScope.beer in OneBeerController: ", $rootScope.beer)
+
 	beerRequest.getSingleBeer($rootScope.beer)
 		.success(function(data, status, headers, config) {
 			$scope.beername = data.name;
@@ -33,4 +47,6 @@ angular.module('beerMeApp')
 			console.log('hi')
 			$scope.beername = '';
   		});
+
+  	$scope.getSimilarBeers = beerRequest.getSimilarBeers;
 })

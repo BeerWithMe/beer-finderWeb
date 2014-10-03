@@ -319,3 +319,77 @@ db.addUserToDatabaseIfUserDoesNotExist = function(userInfo, callback){
   })
 }
 
+var similarIbuAbvQuery = "MATCH (allBeers:Beer) WHERE allBeers.ibu <> 'undefined' AND allBeers.abv <> 'undefined' WITH allBeers as beers WHERE beers.ibu >({IBUmin}) AND beers.ibu<({IBUmax}) AND beers.abv >({ABVmin}) AND beers.abv<({ABVmax})  RETURN beers"
+// var similarIbuAbvQuery = "MATCH (allBeers:Beer) WHERE allBeers.ibu <> 'undefined' AND allBeers.abv <> 'undefined' WITH allBeers as beers WHERE beers.ibu=85 RETURN beers"
+db.findSimilarBeers = function(IBU,ABV,keyword, optionalKeyword, callback){
+  var params = {
+    IBUmin: IBU-10,
+    IBUmax: IBU+10,
+    ABVmin: ABV-1,
+    ABVmax: ABV+1
+  }
+  db.query(similarIbuAbvQuery, params, function(err, data){
+    if(err){
+      console.log('Error :',err)
+    } else {
+      // console.log(data[1].allBeers.data);
+      var beers = [];
+      for(var i=0;i<data.length;i++){
+        var beerNode = data[i].beers.data;
+        beers.push(beerNode);
+      }
+      var checkForKeyword = function(keyword, optionalKeyword, string){
+        var words = string.split(' ');
+        if(!keyword){
+          return false;
+        }
+        if(optionalKeyword){
+          for(var i=0; i<words.length; i++){
+            if(words[i].toUpperCase()===keyword.toUpperCase() || words[i].toUpperCase()===optionalKeyword.toUpperCase()){
+              return true;
+            }
+          }
+        } else {
+          for(var i=0; i<words.length; i++){
+            if(words[i].toUpperCase()===keyword.toUpperCase()){
+              return true;
+            }
+          }
+        }
+        return false;
+      }
+      //sorts similar types and other types
+      var similarTypeBeers = [];
+      var otherBeers = [];
+      for(var k=0; k<beers.length;k++){
+        if(checkForKeyword(keyword, optionalKeyword, beers[k].description)){
+          similarTypeBeers.push(beers[k]);
+        } else {
+          otherBeers.push(beers[k]);
+        }
+      }
+      callback(similarTypeBeers,otherBeers);
+    }
+  })
+}
+
+//Beer types:
+  //coffee
+  //Ale
+  //IPA, Ale
+  //Belgian
+  //Bock
+  //Cider
+  //Pilsner, lager
+  //Blonde, Kolsch
+  //Hefeweizen
+  //Porter, stout
+  //witbier, wheat
+  //saison
+  //lambic
+  //barleywine
+
+// db.findSimilarBeers(58,8,'ale',null,function(similar,other){
+//   console.log('similar type beers: ',similar.length);
+//   console.log('other beers: ',other.length)
+// })
