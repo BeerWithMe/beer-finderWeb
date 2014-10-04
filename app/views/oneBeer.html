@@ -7,14 +7,14 @@
 			<div><strong>{{beername}}</strong></div>
 			<div ng-if="abv !='undefined' && abv != undefined">abv: {{abv}}</div>
 			<div ng-if="ibu != 'undefined' && ibu != undefined">ibu: {{ibu}}</div>
-			<div ng-if="description != 'undefined' && description != undefined">description: {{description}}</div>
+			<div class="description" ng-if="description != 'undefined' && description != undefined">description: {{description}}</div>
 
 			<div ng-if="userRating == undefined"><em><strong>Have you tried this one yet?  Rate it!</em></strong></div>
 			<div ng-else-if="userRating === 1"><em><strong>You gave this beer {{userRating}} star. Changed your mind? Rate it again.</em></strong></div>
 			<div ng-else><em><strong>You gave this beer {{userRating}} stars. Changed your mind? Rate it again.</em></strong></div>
 			
 			
-			<your-rating beer-to-be-rated="beername"></your-rating>
+			<your-rating class="yourRatingStars" beer-to-be-rated="beername"></your-rating>
 			<button ng-click="getSimilarBeers(ibu, abv, description)">Show Me Similar Beers</button>
 		</div>
 	<div ng-if="beername === ''">

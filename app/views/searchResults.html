@@ -42,7 +42,7 @@
 			<li ng-if="beer.description !='undefined'">description: {{beer.description}}</li>
 			<li ng-if="beer.brewery !=''">brewery: {{beer.brewery}}</li>
 			<li ng-if="beer.website !='undefined'">website: <a href="{{beer.website}}"> {{beer.website}}</a></li>
-			<li><your-rating beer-to-be-rated="beer.name"></your-rating></li>
+			<li><your-rating class="yourRatingStars" beer-to-be-rated="beer.name"></your-rating></li>
 		</ul>
 	</div>
 	
