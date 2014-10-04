@@ -51,6 +51,11 @@ angular
         templateUrl: 'views/searchResults.html',
         controller: 'searchResults'
       })
+      .state('similarBeers', {
+        url: '/similarBeers',
+        templateUrl: 'views/similarBeerResults.html',
+        controller: 'similarBeers'
+      })
       .state('userPage', {
         url:'/userPage/:user',
         templateUrl: 'views/userPage.html',
