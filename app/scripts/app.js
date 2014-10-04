@@ -18,8 +18,8 @@ angular
     'ngSanitize',
     'ngTouch',
     'ui.bootstrap',
-    'elif',
-    'ngFx'
+    'elif'
+    // 'ngFx'
     // 'beerMeApp.oneBeer',
     // 'beerMeApp.recommendations'
   ])

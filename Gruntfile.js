@@ -44,10 +44,7 @@ module.exports = function (grunt) {
         files: ['test/spec/{,*/}*.js'],
         tasks: ['newer:jshint:test', 'karma']
       },
-      compass: {
-        files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-        tasks: ['compass:server', 'autoprefixer']
-      },
+    
       gruntfile: {
         files: ['Gruntfile.js']
       },
@@ -171,37 +168,6 @@ module.exports = function (grunt) {
         ignorePath: /(\.\.\/){1,2}bower_components\//
       }
     },
-
-    // Compiles Sass to CSS and generates necessary files if requested
-    // commenting out because using grunt contrib sass instead of compass
-    // compass: {
-    //   options: {
-    //     sassDir: '<%= yeoman.app %>/styles',
-    //     cssDir: '.tmp/styles',
-    //     generatedImagesDir: '.tmp/images/generated',
-    //     imagesDir: '<%= yeoman.app %>/images',
-    //     javascriptsDir: '<%= yeoman.app %>/scripts',
-    //     fontsDir: '<%= yeoman.app %>/styles/fonts',
-    //     importPath: './bower_components',
-    //     httpImagesPath: '/images',
-    //     httpGeneratedImagesPath: '/images/generated',
-    //     httpFontsPath: '/styles/fonts',
-    //     relativeAssets: false,
-    //     assetCacheBuster: false,
-    //     raw: 'Sass::Script::Number.precision = 10\n'
-    //   },
-
-    //   dist: {
-    //     options: {
-    //       generatedImagesDir: '<%= yeoman.dist %>/images/generated'
-    //     }
-    //   },
-    //   server: {
-    //     options: {
-    //       debugInfo: true
-    //     }
-    //   }
-    // },
 
     //compiles sass to css
     sass: {
@@ -338,6 +304,13 @@ module.exports = function (grunt) {
       }
     },
 
+    karma: {
+      unit: {
+        configFile: 'test/karma.conf.js',
+        singleRun: true
+      }
+    },
+
     // Copies remaining files to places other tasks can use
     copy: {
       dist: {
@@ -372,7 +345,7 @@ module.exports = function (grunt) {
         dest: '.tmp/styles/',
         src: '{,*/}*.css'
       }
-    },
+    }
 
     // Run some tasks in parallel to speed up the build process
     // concurrent: {
@@ -390,12 +363,7 @@ module.exports = function (grunt) {
     // },
 
     // Test settings
-    karma: {
-      unit: {
-        configFile: 'test/karma.conf.js',
-        singleRun: true
-      }
-    }
+    
   });
 
   grunt.loadNpmTasks('grunt-contrib-sass');
@@ -422,7 +390,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('test', [
     'clean:server',
-    'concurrent:test',
+    // 'concurrent:test',
     'autoprefixer',
     'connect:test',
     'karma'

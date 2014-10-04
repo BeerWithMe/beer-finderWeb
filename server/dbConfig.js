@@ -45,7 +45,7 @@ var generateSimilarityQuery = ["MATCH (u1:User {username: ({username})})-[x:Like
                                     "SQRT(REDUCE(yDot = 0.0, b IN COLLECT(y.rating) | yDot + b^2)) AS yLength,",
                                     "u1, u2", 
                                "MERGE (u1)-[s:Similarity]->(u2) SET s.similarity = xyDotProduct / (xLength * yLength)"].join('\n');
-var generateLikseQuery = 'MATCH (u:User),(b:Beer)\nWHERE u.username=({username}) AND b.name=({beername})\nMERGE (u)-[l:Likes {rating: ({rating})}]->(b)'
+var generateLikesQuery = 'MATCH (u:User),(b:Beer)\nWHERE u.username=({username}) AND b.name=({beername})\nMERGE (u)-[l:Likes {rating: ({rating})}]->(b)'
 var checkLikesQuery = "MATCH (u:User)-[l:Likes]->(b:Beer) WHERE u.username =({username}) AND b.name =({beername}) return l";
 var updateLikesQuery = "MATCH (u:User)-[l:Likes]->(b:Beer) WHERE u.username =({username}) AND b.name =({beername}) SET l.rating = ({rating})"
 var generateRecommendationQuery = ['MATCH (u1:User)-[r:Likes]->(b:Beer),',
@@ -132,7 +132,7 @@ db.generateLikes = function(user, beer, rating, callback){
     }else{
       console.log(likes);
       if(likes.length === 0){
-          db.query(generateLikseQuery, params, function(err){
+          db.query(generateLikesQuery, params, function(err){
             if(err){
               console.log(err);
               callback(err);
