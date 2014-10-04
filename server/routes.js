@@ -25,6 +25,7 @@ var moment = require('moment');
 module.exports = function(app) {
 
   app.post('/getSimilarBeers', function(req, res){
+    console.log('received request :',req.body)
     var IBU = req.body.ibu;
     var ABV = req.body.abv;
     var description = req.body.description;
@@ -73,13 +74,20 @@ module.exports = function(app) {
         if(words[i].toUpperCase() === 'BROWN'){
           return ['brown', null];
         }
+        return [null,null]
       }
     }
     var keyword = getKeywords(description)[0];
     var optionalKeyword = getKeywords(description)[1];
-    db.findSimilarBeers(IBU, ABV, keyword, optionalKeyword, function(similarBeers,sortofSimilarBeers){
-      console.log(similarBeers.length);
-      console.log(sortofSimilarBeers.length);
+    console.log('about to query DB: ',IBU,ABV,keyword,optionalKeyword)
+    db.getMeTheBeers(IBU, ABV, keyword, optionalKeyword, function(similarBeers,sortofSimilarBeers){
+      // similarBeers = data.similarBeers;
+      // sortofSimilarBeers = data.sortofSimilarBeers;
+      var data = {
+        similarBeers: similarBeers,
+        sortofSimilarBeers: sortofSimilarBeers
+      }
+      res.send(data)
     })
   })
 

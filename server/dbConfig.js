@@ -1,6 +1,6 @@
 var _ = require('underscore');
 var neo4j = require('neo4j');
-var db = new neo4j.GraphDatabase('http://beeradvisor.cloudapp.net:7474/');
+var db = new neo4j.GraphDatabase('http://beermeappinteger.cloudapp.net:7474/');
 var http = require('http');
 var fs = require('fs');
 var utils = require('./utils');
@@ -328,21 +328,46 @@ db.addUserToDatabaseIfUserDoesNotExist = function(userInfo, callback){
     }
   })
 }
+// var similarIbuAbvQuery = "MATCH (allBeers:Beer) WHERE allBeers.ibu <> 'undefined' AND allBeers.abv <> 'undefined' WITH allBeers as beers WHERE beers.ibu >50 AND beers.ibu<60 AND beers.abv >8 AND beers.abv<11  RETURN beers"
 
-var similarIbuAbvQuery = "MATCH (allBeers:Beer) WHERE allBeers.ibu <> 'undefined' AND allBeers.abv <> 'undefined' WITH allBeers as beers WHERE beers.ibu >({IBUmin}) AND beers.ibu<({IBUmax}) AND beers.abv >({ABVmin}) AND beers.abv<({ABVmax})  RETURN beers"
-// var similarIbuAbvQuery = "MATCH (allBeers:Beer) WHERE allBeers.ibu <> 'undefined' AND allBeers.abv <> 'undefined' WITH allBeers as beers WHERE beers.ibu=85 RETURN beers"
-db.findSimilarBeers = function(IBU,ABV,keyword, optionalKeyword, callback){
+db.getMeTheBeers = function(IBU,ABV,keyword,optionalKeyword,callback){
+  console.log(IBU,ABV,keyword,optionalKeyword)
+  if(!IBU && !ABV){
+    console.log('no ibu and abv')
+    var similarIbuAbvQuery = "MATCH (allBeers:Beer) WHERE allBeers.ibu = 'undefined' AND allBeers.abv = 'undefined' WITH allBeers as beers RETURN beers limit 1000"
+    return db.findSimilarBeers(similarIbuAbvQuery,IBU,ABV,keyword,optionalKeyword,callback);
+  }
+  if(IBU==='undefined'){
+    console.log('no ibu')
+    var similarIbuAbvQuery = "MATCH (allBeers:Beer) WHERE allBeers.ibu = 'undefined' AND allBeers.abv <> 'undefined' WITH allBeers as beers WHERE beers.abv >({ABVmin}) AND beers.abv<({ABVmax})  RETURN beers"
+    return db.findSimilarBeers(similarIbuAbvQuery,IBU,ABV,keyword,optionalKeyword,callback);
+  }
+  if(!ABV){
+    console.log('no abv')
+    var similarIbuAbvQuery = "MATCH (allBeers:Beer) WHERE allBeers.ibu <> 'undefined' AND allBeers.abv = 'undefined' WITH allBeers as beers WHERE beers.ibu >({IBUmin}) AND beers.ibu<({IBUmax})  RETURN beers"
+    return db.findSimilarBeers(similarIbuAbvQuery,IBU,ABV,keyword,optionalKeyword,callback);
+  }
+  console.log('nadda')
+  var similarIbuAbvQuery = "MATCH (allBeers:Beer) WHERE allBeers.ibu <> 'undefined' AND allBeers.abv <> 'undefined' WITH allBeers as beers WHERE beers.ibu >({IBUmin}) AND beers.ibu<({IBUmax}) AND beers.abv >({ABVmin}) AND beers.abv<({ABVmax})  RETURN beers"
+  return db.findSimilarBeers(similarIbuAbvQuery,IBU,ABV,keyword,optionalKeyword,callback);
+}
+
+// var similarIbuAbvQuery = "MATCH (allBeers:Beer) WHERE allBeers.ibu <> 'undefined' AND allBeers.abv <> 'undefined' WITH allBeers as beers WHERE beers.ibu >({IBUmin}) AND beers.ibu<({IBUmax}) AND beers.abv >({ABVmin}) AND beers.abv<({ABVmax})  RETURN beers"
+db.findSimilarBeers = function(queryString,IBU,ABV,keyword, optionalKeyword, callback){
   var params = {
     IBUmin: IBU-10,
-    IBUmax: IBU+10,
+    IBUmax: parseFloat(IBU+10),
     ABVmin: ABV-1,
-    ABVmax: ABV+1
+    ABVmax: parseFloat(ABV+1)
   }
-  db.query(similarIbuAbvQuery, params, function(err, data){
+  console.log(params)
+  db.query(queryString, params, function(err, data){
+    console.log('hi');
     if(err){
-      console.log('Error :',err)
+      console.log('For some reason Error :',err)
     } else {
       // console.log(data[1].allBeers.data);
+      console.log('the data: ',data)
       var beers = [];
       for(var i=0;i<data.length;i++){
         var beerNode = data[i].beers.data;
@@ -378,6 +403,7 @@ db.findSimilarBeers = function(IBU,ABV,keyword, optionalKeyword, callback){
           otherBeers.push(beers[k]);
         }
       }
+      var otherBeers = otherBeers.slice(0,50);
       callback(similarTypeBeers,otherBeers);
     }
   })
@@ -399,7 +425,7 @@ db.findSimilarBeers = function(IBU,ABV,keyword, optionalKeyword, callback){
   //lambic
   //barleywine
 
-// db.findSimilarBeers(58,8,'ale',null,function(similar,other){
+// db.findSimilarBeers(58,8,null,null,function(similar,other){
 //   console.log('similar type beers: ',similar.length);
 //   console.log('other beers: ',other.length)
 // })

@@ -256,9 +256,9 @@ db.dumpBeersIntoDB = function(path) {
   // Counter is only here so we can keep track of our queries via console logs
   // It is not part of the program's functionality
  
-  var counter = 451;
+  var counter = 651;
 
-  var totalPages = 500;
+  var totalPages = 662;
   for (var i=counter; i<=totalPages; i++) {
 
     // Using IIFE in order to have console.log transparency while get
@@ -348,7 +348,7 @@ db.dumpBeersIntoDB = function(path) {
 // We have already called it once and filled our database with all of brewDB's
 // beer information, so we do not have to call beerget ever again, unless we need to re-do
 // our database or implement updates later.
-db.dumpBeersIntoDB('/beers');
+// db.dumpBeersIntoDB('/beers');
 
 
 

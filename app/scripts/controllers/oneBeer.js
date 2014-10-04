@@ -2,7 +2,7 @@
 
 angular.module('beerMeApp')
 
-.factory('beerRequest', function($http){
+.factory('beerRequest', function($http, similarBeerService, $location){
 
 	var getSingleBeer = function(beername, username){
 		// console.log("Inside getSingleBeer: " beername);
@@ -12,26 +12,14 @@ angular.module('beerMeApp')
 			data: JSON.stringify({beername: beername, username: username})
 		});
 	}
-	// var getSimilarBeers = function(IBU,ABV,DESCRIPTION){
-	// 	var params = {
-	// 		ibu: IBU,
-	// 		abv: ABV,
-	// 		description: DESCRIPTION
-	// 	}
-	// 	$http({
-	// 		method: 'POST',
-	// 		url: '/getSimilarBeers',
-	// 		data: JSON.stringify(params)
-	// 	}).success()
-	// }
+	
 
 	return {
 		getSingleBeer: getSingleBeer,
-		getSimilarBeers: getSimilarBeers
 	}
 })
 
-.controller('OneBeerController', function ($scope, $rootScope, beerRequest, userPageService){
+.controller('OneBeerController', function ($scope, $rootScope, beerRequest, userPageService, similarBeerService){
 
 	console.log("$rootScope.beer in OneBeerController: ", $rootScope.beer)
 
@@ -48,9 +36,8 @@ angular.module('beerMeApp')
 			console.log('hi')
 			$scope.beername = '';
   		});
+  	$scope.getSimilarBeers = similarBeerService.getAllTheBeers;
 
-  	$scope.getSimilarBeers = beerRequest.getSimilarBeers;
 
-  	});
   	
 })
