@@ -7,7 +7,7 @@ angular.module('beerMeApp')
       {'name': 'Anchor Steam' , 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/Uiol9p/upload_drOw0u-large.png', 'beernameInDB':'Anchor Brewing Company-Anchor Steam'},
       {'name': 'Guinness Draught', 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/StkEiv/upload_etArOb-large.png', 'beernameInDB':'Guinness-Guinness Draught'},
       {'name': 'Blue Moon Belgian White' , 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/dDXOEp/upload_SZEtGz-large.png', 'beernameInDB':'Blue Moon Brewing Company-Blue Moon Belgian White'},
-      {'name': 'Lagunitas - IPA', 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/iLlMCb/upload_xp2OJo-large.png', 'beernameInDB':'Lagunitas Brewing Company-IPA'},
+      {'name': 'Lagunitas - IPA', 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/iLlMCb/upload_xp2OJo-large.png', 'beernameInDB':'Lagunitas Brewing Company-Lagunitas IPA'},
       {'name': 'Pliny the Elder', 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/XAXGgF/upload_or9CTI-large.png', 'beernameInDB':'Russian River Brewing Company-Pliny the Elder'}],
       
       counter: 0, //incremented to one immediately on first invocation of changeBeer
