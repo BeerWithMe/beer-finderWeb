@@ -1,4 +1,6 @@
 
+<div class="recommendationContainer">
+
 <div>
 	<search></search>
 	<form role="form" class="form-inline">
@@ -32,9 +34,10 @@
 <h3 ng-if="beerResults.length===0">Hmmm, we couldn't find anything matching that.</h2>
 
 <div class="searchResultsContainer" ng-repeat= "beer in filteredbeerResults | filter: filter">
-	<div class="beerImageContainer"> 
-		<img class="beerImage" ng-click='clicked(beer.name)' ng-src="{{beer.imgUrl}}"/>
-	<div class="beerText">
+	<div class="recommendationImage" ng-click='clicked(beer.name)'> 
+		<img ng-src="{{beer.iconUrl}}"/>
+	</div>
+	<div class="recommendationText">
 		<ul>
 			<li><strong>{{beer.name}}</strong></li>
 			<li ng-if="beer.abv !='undefined'">abv: {{beer.abv}}</li>
@@ -46,9 +49,10 @@
 		</ul>
 	</div>
 	
-</div>
+	<div class="recsDivider"></div>
+
 </div>
 
 <pagination ng-class="{onBottom: loading}" total-items="totalItems" ng-model="currentPage" items-per-page="7" max-size="10" ng-change="pageChanged()"></pagination>
 
-
+</div>
