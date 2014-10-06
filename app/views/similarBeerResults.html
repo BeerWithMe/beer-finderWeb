@@ -7,7 +7,7 @@
 	</form>
 </div>  
 
-<div ng-repeat= "beer in beerResults">
+<div ng-repeat= "beer in filteredbeerResults">
 	<div class="recommendationImage"> 
 		<img ng-click='clicked(beer.name)' ng-src="{{beer.iconUrl}}"/>
 	</div>
@@ -24,4 +24,7 @@
 	</div>
 	<div class="recsDivider"></div>
 </div>
+
+<pagination total-items="totalItems" ng-model="currentPage" items-per-page="7" ng-change="pageChanged()"></pagination>
+
 </div>

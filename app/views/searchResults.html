@@ -31,7 +31,7 @@
 
 <h3 ng-if="beerResults.length===0">Hmmm, we couldn't find anything matching that.</h2>
 
-<div class="searchResultsContainer" ng-repeat= "beer in beerResults | filter: filter">
+<div class="searchResultsContainer" ng-repeat= "beer in filteredbeerResults | filter: filter">
 	<div class="beerImageContainer"> 
 		<img class="beerImage" ng-click='clicked(beer.name)' ng-src="{{beer.imgUrl}}"/>
 	<div class="beerText">
@@ -48,3 +48,7 @@
 	
 </div>
 </div>
+
+<pagination total-items="totalItems" ng-model="currentPage" items-per-page="7" ng-change="pageChanged()"></pagination>
+
+
