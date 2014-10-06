@@ -1,27 +1,34 @@
+<div class="userContainer">
+
 <h1>{{userName}}'s Page!</h1>
 
-<div ng-controller="searchCtrl">
-	<input type="text" class="searchBar" ng-model="searchTerms" placeholder="Search for a beer">
-	<input type="submit" ng-click="submitSearch(searchTerms)">
+<div>
+  <search></search>
+
+  <button class="btn btn-primary btn-sm" ng-click="goToRecommendations()">See My Recommendations!</button>
 </div>
-<button ng-click="goToRecommendations()">See My Recommendations!</button>
-<h2>Check out the Beers you've rated!</h2>
+
+<h2 class="headline"><em>Check out the Beers you've rated!</em></h2>
+
 <div ng-repeat="rating in userLikes track by $index">
 
-	<h2>Rating: {{$index + 1}}</h2>
-	<div ng-repeat="beer in rating">
-		<div class="beerImage">
-			<img ng-src="{{beer.iconUrl}}"/>
-		</div>
+	<h2 ng-if="rating.length>0 && $index !== 4">{{5 - $index}} Stars</h2>
+	<h2 ng-else-if="rating.length>0 && $index === 4">{{5 - $index}} Star</h2>
+
+	<div class="searchResultsContainer" ng-repeat="beer in rating">
+		<div class="beerImageContainer">
+			<img class="beerImage" ng-click='clicked(beer.name)' ng-src="{{beer.imgUrl}}"/>
+		<div class="beerText">
 		<ul>
 			<li><strong>{{beer.name}}</strong></li>
-			<li>abv: {{beer.abv}}</li>
-			<li>ibu: {{beer.ibu}}</li>
-			<li>description: {{beer.description}}</li>
-			<li>brewery: {{beer.brewery}}</li>
-			<li>website: {{beer.webiste}}</li>
+			<li ng-if="beer.abv != 'undefined'">abv: {{beer.abv}}</li>
+			<li ng-if="beer.ibu != 'undefined'">ibu: {{beer.ibu}}</li>
+			<li ng-if="beer.description != 'undefined'">description: {{beer.description}}</li>
+			<li ng-if="beer.brewery != ''">brewery: {{beer.brewery}}</li>
+			<li ng-if="beer.website != 'undefined'">website: <a href="{{beer.website}}"> {{beer.website}}</a></li>
 		</ul>
 	</div>
-
+</div>
+</div>
 </div>
 

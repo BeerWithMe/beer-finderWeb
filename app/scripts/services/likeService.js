@@ -1,8 +1,8 @@
 angular.module('beerMeApp')
   .factory('likeButton', function ($http){
-  	var username = localStorage.userName;
 
     var like = function(beername, rating){
+      var username = localStorage.userName;
       console.log(beername, rating, username);
 
       var data = JSON.stringify(
@@ -10,8 +10,7 @@ angular.module('beerMeApp')
 				username: username,
 				beername: beername,
 				rating: rating
-			}
-      	);
+			});
       $http({
           method: 'POST',
           url: '/like',
