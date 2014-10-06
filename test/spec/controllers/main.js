@@ -1,7 +1,9 @@
 'use strict';
 
 describe('Controller: MainCtrl', function () {
-  var MainCtrl, $scope, $http, $location, $state, $httpBackend, $rootScope, userService;
+  var MainCtrl, $scope, $http, $location, $state, $httpBackend, $rootScope, $window, userService;
+
+ 
 
   // load the controller's module //inject injector to retrieve dependencies
   beforeEach(module('beerMeApp'));
@@ -13,8 +15,10 @@ describe('Controller: MainCtrl', function () {
     $http = $injector.get('$http');
     $state = $injector.get('$state');
     userService = $injector.get('userService');
-    $scope = $rootScope.$new();
     $httpBackend = $injector.get('$httpBackend');
+    $window = $injector.get('$window');
+    scope = $injector.get($rootScope).$new();
+    
 
     var $controller = $injector.get('$controller');
 
@@ -25,6 +29,7 @@ describe('Controller: MainCtrl', function () {
         $location: $location,
         $http: $http,
         $state: $state,
+        $window: $window,
         userService: userService
       });
     };
@@ -35,7 +40,7 @@ describe('Controller: MainCtrl', function () {
   afterEach(function() {
     $httpBackend.verifyNoOutstandingExpectation();
     $httpBackend.verifyNoOutstandingRequest();
-    $localStorage.removeItem('com.shortly');
+    $window.localStorage.removeItem('com.shortly');
   });
 
   it('should have a signup method', function() {
@@ -50,7 +55,7 @@ describe('Controller: MainCtrl', function () {
     $httpBackend.expectPOST('/signup').respond({token: token});
     $scope.signup();
     $httpBackend.flush();
-    expect(localStorage.getItem('com.shortly')).to.be(token);
+    expect($window.localStorage.getItem('com.shortly')).to.be(token);
   });
 
   it('should have a login method', function() {
@@ -63,7 +68,7 @@ describe('Controller: MainCtrl', function () {
     $httpBackend.expectPOST('/login').respond({token: token});
     $scope.login();
     $httpBackend.flush();
-    expect(localStorage.getItem('com.shortly')).to.be(token);
+    expect($window.localStorage.getItem('com.shortly')).to.be(token);
   });
 });
 

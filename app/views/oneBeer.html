@@ -13,9 +13,10 @@
 			<div ng-else-if="userRating === 1"><em><strong>You gave this beer {{userRating}} star. Changed your mind? Rate it again.</em></strong></div>
 			<div ng-else><em><strong>You gave this beer {{userRating}} stars. Changed your mind? Rate it again.</em></strong></div>
 			
+			<!-- <rating ng-model="beer.Recommendation" max="userRating" readonly="false"></rating> -->
 			
 			<your-rating class="yourRatingStars" beer-to-be-rated="beername"></your-rating>
-			<button ng-click="getSimilarBeers(ibu, abv, description)">Show Me Similar Beers</button>
+			<button class="btn btn-primary" ng-click="getAllBeers(ibu, abv, description)">Show Me Similar Beers</button>
 		</div>
 	<div ng-if="beername === ''">
 		This beer doesn't exist

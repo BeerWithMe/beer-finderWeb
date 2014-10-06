@@ -30,6 +30,7 @@ module.exports = function(config) {
       "app/bower_components/angular-bootstrap/ui-bootstrap.min.js",
       "app/bower_components/ng-elif/src/elif.js",
       // "app/bower_components/ngFx/dist/ngFx.js",
+      'app/scripts/services/userService.js',
       'app/scripts/**/*.js',
       'test/mock/**/*.js',
       'test/spec/**/*.js'

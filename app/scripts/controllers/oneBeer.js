@@ -36,7 +36,7 @@ angular.module('beerMeApp')
 			console.log('hi')
 			$scope.beername = '';
   		});
-  	$scope.getSimilarBeers = similarBeerService.getAllTheBeers;
+  	$scope.getAllBeers = similarBeerService.getAllTheBeers;
 
 
   	
