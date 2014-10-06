@@ -66,7 +66,8 @@ h2 {
 .recommendationText {
   margin-left: 100px;
   cursor: pointer;
-  cursor: hand; }
+  cursor: hand;
+  width: 50%; }
 
 .recommendationContainer {
   margin-left: 20px; }
