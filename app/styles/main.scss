@@ -13,6 +13,12 @@ body {
 }
 /*BEERME---------------This is the syling for the index & main view------------------BEERME*/
 
+.beerImage:hover, .yourRatingStars:hover, .singleBeerImg:hover {
+  cursor: pointer;
+} 
+
+
+
 .mainElement{
   /*height:calc(100% - 51px);*/
   height: 750px
@@ -167,6 +173,10 @@ h2 {
   width: 512px;
   margin-left: 20px;
   margin-top: 100px;
+}
+
+.description {
+  margin-bottom: 20px;
 }
 
 

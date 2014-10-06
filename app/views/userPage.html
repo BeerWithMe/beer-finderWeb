@@ -9,9 +9,11 @@
 </div>
 
 <h2 class="headline"><em>Check out the Beers you've rated!</em></h2>
+
 <div ng-repeat="rating in userLikes track by $index">
 
-	<h2 ng-if="rating.length>0">{{5 - $index}} Stars</h2>
+	<h2 ng-if="rating.length>0 && $index !== 4">{{5 - $index}} Stars</h2>
+	<h2 ng-else-if="rating.length>0 && $index === 4">{{5 - $index}} Star</h2>
 
 	<div class="searchResultsContainer" ng-repeat="beer in rating">
 		<div class="beerImageContainer">
@@ -19,11 +21,11 @@
 		<div class="beerText">
 		<ul>
 			<li><strong>{{beer.name}}</strong></li>
-			<li>abv: {{beer.abv}}</li>
-			<li>ibu: {{beer.ibu}}</li>
-			<li>description: {{beer.description}}</li>
-			<li>brewery: {{beer.brewery}}</li>
-			<li>website: <a href="{{beer.website}}"> {{beer.website}}</a></li>
+			<li ng-if="beer.abv != 'undefined'">abv: {{beer.abv}}</li>
+			<li ng-if="beer.ibu != 'undefined'">ibu: {{beer.ibu}}</li>
+			<li ng-if="beer.description != 'undefined'">description: {{beer.description}}</li>
+			<li ng-if="beer.brewery != ''">brewery: {{beer.brewery}}</li>
+			<li ng-if="beer.website != 'undefined'">website: <a href="{{beer.website}}"> {{beer.website}}</a></li>
 		</ul>
 	</div>
 </div>
