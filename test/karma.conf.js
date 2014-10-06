@@ -26,7 +26,7 @@ module.exports = function(config) {
       'app/bower_components/angular-route/angular-route.js',
       'app/bower_components/angular-sanitize/angular-sanitize.js',
       'app/bower_components/angular-touch/angular-touch.js',
-      'node_modules/angular-ui-router/release/angular-ui-router.js',
+      // 'node_modules/angular-ui-router/release/angular-ui-router.js',
       "app/bower_components/angular-bootstrap/ui-bootstrap.min.js",
       "app/bower_components/ng-elif/src/elif.js",
       // "app/bower_components/ngFx/dist/ngFx.js",

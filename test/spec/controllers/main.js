@@ -25,7 +25,7 @@ describe('Controller: MainCtrl', function () {
     // used to create our AuthController for testing
     createController = function () {
       return $controller('MainCtrl', {
-        $scope: $scope,
+        $scope: scope,
         $location: $location,
         $http: $http,
         $state: $state,

@@ -19,9 +19,11 @@ angular.module('beerMeApp')
 	}
 })
 
-.controller('OneBeerController', function ($scope, $rootScope, beerRequest, userPageService, similarBeerService){
+.controller('OneBeerController', function ($scope, $rootScope, beerRequest, userPageService, similarBeerService, searchResultsService){
 
 	console.log("$rootScope.beer in OneBeerController: ", $rootScope.beer)
+
+	$scope.loading = false;
 
 	beerRequest.getSingleBeer($rootScope.beer, localStorage.userName)
 		.success(function(data, status, headers, config) {
@@ -36,8 +38,13 @@ angular.module('beerMeApp')
 			console.log('hi')
 			$scope.beername = '';
   		});
-  	$scope.getAllBeers = similarBeerService.getAllTheBeers;
 
+  	// $scope.getAllBeers = similarBeerService.getAllTheBeers;
 
+    $scope.getAllBeers = function() {
+    	searchResultsService.pour();
+    	$scope.loading = true; 
+    	similarBeerService.getAllTheBeers($scope.ibu, $scope.abv, $scope.description); 
+    }
   	
 })
