@@ -2,6 +2,7 @@
   "name": "beerme",
   "version": "0.0.0",
   "dependencies": {
+    "angular-ui-router": "^0.2.11",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.8.3",
     "chai": "^1.9.2",
@@ -24,6 +25,7 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-filerev": "^0.2.1",
     "grunt-google-cdn": "^0.4.0",
+    "grunt-karma": "^0.9.0",
     "grunt-newer": "^0.7.0",
     "grunt-ng-annotate": "^0.3.0",
     "grunt-svgmin": "^0.4.0",
@@ -31,7 +33,11 @@
     "grunt-wiredep": "^1.7.0",
     "jshint-stylish": "^0.2.0",
     "jwt-simple": "^0.2.0",
+    "karma": "^0.12.24",
+    "karma-jasmine": "^0.1.5",
+    "karma-mocha": "^0.1.9",
     "load-grunt-tasks": "^0.4.0",
+    "mocha": "^1.21.4",
     "moment": "^2.8.3",
     "neo4j": "^1.1.0",
     "passport": "^0.2.1",
@@ -44,5 +50,9 @@
   },
   "scripts": {
     "test": "grunt test"
+  },
+  "devDependencies": {
+    "karma-jasmine": "^0.1.5",
+    "karma-phantomjs-launcher": "^0.1.4"
   }
 }

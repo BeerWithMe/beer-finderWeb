@@ -19,6 +19,7 @@ angular
     'ngTouch',
     'ui.bootstrap',
     'elif'
+    // 'ngFx'
     // 'beerMeApp.oneBeer',
     // 'beerMeApp.recommendations'
   ])
