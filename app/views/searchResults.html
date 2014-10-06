@@ -49,6 +49,6 @@
 </div>
 </div>
 
-<pagination total-items="totalItems" ng-model="currentPage" items-per-page="7" ng-change="pageChanged()"></pagination>
+<pagination ng-class="{onBottom: loading}" total-items="totalItems" ng-model="currentPage" items-per-page="7" max-size="10" ng-change="pageChanged()"></pagination>
 
 
