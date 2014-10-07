@@ -11,6 +11,10 @@ body {
   /*overflow-y: hidden;*/
   height:100%;
 }
+
+.noBullet {
+  list-style-type: none;
+}
 /*BEERME---------------This is the syling for the index & main view------------------BEERME*/
 
 .beerImage:hover, .yourRatingStars:hover, .singleBeerImg:hover {
