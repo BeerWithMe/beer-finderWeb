@@ -11,6 +11,10 @@ body {
   /*overflow-y: hidden;*/
   height:100%;
 }
+
+.noBullet {
+  list-style-type: none;
+}
 /*BEERME---------------This is the syling for the index & main view------------------BEERME*/
 
 .beerImage:hover, .yourRatingStars:hover, .singleBeerImg:hover {
@@ -86,6 +90,7 @@ h2 {
   margin-left: 100px;
   cursor: pointer;
   cursor: hand;
+  width: 50%;
 }
 
 .recommendationContainer {
@@ -159,6 +164,7 @@ h2 {
 
 .filterBlock {
   margin-left: 10px;
+  margin-bottom: 10px;
 }
 
 /*BEERME---------------Single Beer View styling-----------------BEERME*/
@@ -177,6 +183,10 @@ h2 {
 
 .description {
   margin-bottom: 20px;
+}
+
+.similarBeerButton {
+  margin-top: 10px;
 }
 
 
@@ -376,9 +386,9 @@ h2 {
      -moz-animation-fill-mode:both;
           animation-fill-mode:both;
   
-  -webkit-animation-duration:5s;
-     -moz-animation-duration:5s;
-          animation-duration:5s;
+  -webkit-animation-duration:7s;
+     -moz-animation-duration:7s;
+          animation-duration:7s;
   
   -webkit-animation-delay:3.5s; 
      -moz-animation-delay:3.5s;
@@ -387,9 +397,9 @@ h2 {
 
 
 .animated.drunk {
-  -webkit-animation-duration:2s;
-     -moz-animation-duration:2s;
-          animation-duration:2s;
+  -webkit-animation-duration:4s;
+     -moz-animation-duration:4s;
+          animation-duration:4s;
 }
 
 @-webkit-keyframes drunk {
