@@ -9,6 +9,9 @@ body {
   /*overflow-y: hidden;*/
   height: 100%; }
 
+.noBullet {
+  list-style-type: none; }
+
 /*BEERME---------------This is the syling for the index & main view------------------BEERME*/
 .beerImage:hover, .yourRatingStars:hover, .singleBeerImg:hover {
   cursor: pointer; }
@@ -139,6 +142,9 @@ h2 {
 
 .description {
   margin-bottom: 20px; }
+
+.similarBeerButton {
+  margin-top: 10px; }
 
 /*------------------------BEERME LOADING ANIMATION-----------------*/
 /*body { background-color: #0e83cd }*/

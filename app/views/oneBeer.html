@@ -28,9 +28,9 @@
 		<img class="singleBeerImg" ng-if="imgUrl != 'undefined' && imgUrl != undefined" ng-src="{{imgUrl}}"/>
 		<div class="singleBeerText">
 			<div><strong>{{beername}}</strong></div>
-			<div ng-if="abv !='undefined' && abv != undefined">abv: {{abv}}</div>
-			<div ng-if="ibu != 'undefined' && ibu != undefined">ibu: {{ibu}}</div>
-			<div class="description" ng-if="description != 'undefined' && description != undefined">description: {{description}}</div>
+			<div ng-if="abv !='undefined' && abv != undefined"><strong>ABV: </strong>{{abv}}</div>
+			<div ng-if="ibu != 'undefined' && ibu != undefined"><strong>IBU: </strong>{{ibu}}</div>
+			<div class="description" ng-if="description != 'undefined' && description != undefined"><strong>Description: </strong>{{description}}</div>
 
 			<div ng-if="userRating == undefined"><em><strong>Have you tried this one yet?  Rate it!</em></strong></div>
 			<div ng-else-if="userRating === 1"><em><strong>You gave this beer {{userRating}} star. Changed your mind? Rate it again.</em></strong></div>
@@ -39,7 +39,7 @@
 			<!-- <rating ng-model="beer.Recommendation" max="userRating" readonly="false"></rating> -->
 			
 			<your-rating class="yourRatingStars" beer-to-be-rated="beername"></your-rating>
-			<button class="btn btn-primary" ng-click="getAllBeers(ibu, abv, description)">Show Me Similar Beers</button>
+			<button class="btn btn-primary similarBeerButton"ng-click="getAllBeers(ibu, abv, description)">Show Me Similar Beers</button>
 		</div>
 	<div ng-if="beername === ''">
 		This beer doesn't exist
