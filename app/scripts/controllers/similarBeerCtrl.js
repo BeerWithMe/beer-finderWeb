@@ -4,9 +4,24 @@ angular.module('beerMeApp')
 	.controller('similarBeers',function ($scope, $cookieStore, $stateParams, similarBeerService, recommendationsRequest){
 
     $scope.similarBeers = similarBeerService.getSimilarBeers();
+    if ($scope.similarBeers && $scope.similarBeers.length > 0) {
+      localStorage.setItem('similarBeers', JSON.stringify($scope.similarBeers));
+    }
     $scope.sortofSimilarBeers = similarBeerService.getSortofSimilarBeers();
-    $scope.beerResults = $scope.similarBeers.concat($scope.sortofSimilarBeers);
-
+    if ($scope.sortofSimilarBeers && $scope.sortofSimilarBeers.length > 0) {
+      localStorage.setItem('sortofSimilarBeers', JSON.stringify($scope.sortofSimilarBeers));
+    }
+    
+    if ($scope.similarBeers && $scope.sortofSimilarBeers) {
+      $scope.beerResults = $scope.similarBeers.concat($scope.sortofSimilarBeers);
+    } else {
+      var simBeers = localStorage.getItem('similarBeers');
+      var parsedSimBeers = JSON.parse(simBeers);
+      var sortaSimBeers = localStorage.getItem('sortofSimilarBeers');
+      var parsedSorta = JSON.parse(sortaSimBeers);
+      $scope.beerResults = parsedSimBeers.concat(parsedSorta);
+    }
+    
     $scope.originalBeer = $cookieStore.get('beername');
     $scope.iconUrl = $cookieStore.get('image'); 
 
