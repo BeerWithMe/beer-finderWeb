@@ -53,6 +53,6 @@
 
 </div>
 
-<pagination ng-class="{onBottom: loading}" total-items="totalItems" ng-model="currentPage" items-per-page="7" max-size="10" ng-change="pageChanged()"></pagination>
+<pagination ng-if="beerResults.length>7" ng-class="{onBottom: loading}" total-items="totalItems" ng-model="currentPage" items-per-page="7" max-size="10" ng-change="pageChanged()"></pagination>
 
 </div>
