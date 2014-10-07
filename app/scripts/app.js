@@ -19,7 +19,9 @@ angular
     'ngTouch',
     'ui.bootstrap',
     'elif',
-    'ui.utils'
+    'ui.utils',
+    // 'ngFx'
+    'google-maps'
   ])
   .config(function ($stateProvider, $urlRouterProvider, $httpProvider){
     $httpProvider.interceptors.push('TokenInterceptor');

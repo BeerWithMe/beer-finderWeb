@@ -34,4 +34,7 @@ angular.module('beerMeApp')
     
 
     $scope.clicked = recommendationsRequest.clicked; 
+
+    $scope.map = recommendationsRequest.gMap;
+    $scope.MarkersWithLabel = recommendationsRequest.makeMarker;
   });

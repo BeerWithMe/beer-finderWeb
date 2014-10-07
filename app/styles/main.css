@@ -83,6 +83,10 @@ h2 {
   margin-top: 10px;
   background-color: rgba(9, 36, 119, 0.3); }
 
+.angular-google-map-container {
+  height: 400px;
+  width: 900px; }
+
 /*BEERME---------------Questionnaire page styling-----------------BEERME*/
 .surveyHead {
   width: 500px; }
