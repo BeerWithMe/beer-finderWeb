@@ -1,3 +1,5 @@
+<div class="recommendationContainer">
+
 <div>
 	<search></search>
 	<form role="form" class="form-inline">
@@ -5,19 +7,24 @@
 	</form>
 </div>  
 
-<div class="similarResultsContainer" ng-repeat= "beer in beerResults">
-	<div class="beerImageContainer"> 
-		<img class="beerImage" ng-click='clicked(beer.name)' ng-src="{{beer.imgUrl}}"/>
-	<div class="beerText">
-		<ul>
-			<li><strong>{{beer.name}}</strong></li>
-			<li ng-if="beer.abv !='undefined'">abv: {{beer.abv}}</li>
-			<li ng-if="beer.ibu !='undefined'">ibu: {{beer.ibu}}</li>
-			<li ng-if="beer.description !='undefined'">description: {{beer.description}}</li>
-			<li ng-if="beer.brewery !=''">brewery: {{beer.brewery}}</li>
-			<li ng-if="beer.website !='undefined'">website: <a href="{{beer.website}}"> {{beer.website}}</a></li>
+<div ng-repeat= "beer in filteredbeerResults">
+	<div class="recommendationImage"> 
+		<img ng-click='clicked(beer.name)' ng-src="{{beer.iconUrl}}"/>
+	</div>
+	<div class="recommendationText">
+		<ul class="noBullet">
+			<li><strong><em>{{beer.name}}</strong></em></li>
+			<li ng-if="beer.abv !='undefined'"><strong>ABV: </strong>{{beer.abv}}</li>
+			<li ng-if="beer.ibu !='undefined'"><strong>IBU: </strong>{{beer.ibu}}</li>
+			<li ng-if="beer.description !='undefined'"><strong>Description: </strong>{{beer.description}}</li>
+			<li ng-if="beer.brewery !=''"><strong>Brewery: </strong>{{beer.brewery}}</li>
+			<li ng-if="beer.website !='undefined'"><strong>Website: </strong><a href="{{beer.website}}"> {{beer.website}}</a></li>
 			<li><your-rating class="yourRatingStars" beer-to-be-rated="beer.name"></your-rating></li>
 		</ul>
 	</div>
-	
+	<div class="recsDivider"></div>
+</div>
+
+<pagination total-items="totalItems" ng-model="currentPage" items-per-page="7" max-size="10" ng-change="pageChanged()"></pagination>
+
 </div>
