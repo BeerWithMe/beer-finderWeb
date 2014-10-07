@@ -59,6 +59,7 @@ var generateRecommendationQuery = ['MATCH (u1:User)-[r:Likes]->(b:Beer),',
                                   'RETURN beer AS Beer, reco AS Recommendation'].join('\n');
 
 
+
 db.getAllBeer = function(callback){
 	db.query(getAllBeerQuery, {}, function(err, allBeers){
 		if(err){
