@@ -1,11 +1,14 @@
 'user strict';
 
 angular.module('beerMeApp')
-	.controller('similarBeers',function ($scope, similarBeerService, $stateParams, recommendationsRequest){
+	.controller('similarBeers',function ($scope, similarBeerService, $stateParams, recommendationsRequest, $rootScope){
 
     $scope.similarBeers = similarBeerService.getSimilarBeers();
     $scope.sortofSimilarBeers = similarBeerService.getSortofSimilarBeers();
     $scope.beerResults = $scope.similarBeers.concat($scope.sortofSimilarBeers);
+
+    $scope.originalBeer = $rootScope.beer; 
+    $scope.iconUrl = $rootScope.image; 
 
     $scope.totalItems = $scope.beerResults.length; 
     $scope.itemsPerPage = 7;

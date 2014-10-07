@@ -32,6 +32,7 @@ angular.module('beerMeApp')
 			$scope.abv = data.abv;
 			$scope.description = data.description;
 			$scope.imgUrl = data.imgUrl;
+      $scope.iconUrl = data.iconUrl;
 			$scope.userRating = data.userRating
 	  })
 		.error(function(data, status, headers, config) {
@@ -42,6 +43,7 @@ angular.module('beerMeApp')
   	// $scope.getAllBeers = similarBeerService.getAllTheBeers;
 
     $scope.getAllBeers = function() {
+      $rootScope.image = $scope.iconUrl;
     	searchResultsService.pour();
     	$scope.loading = true; 
     	similarBeerService.getAllTheBeers($scope.ibu, $scope.abv, $scope.description); 

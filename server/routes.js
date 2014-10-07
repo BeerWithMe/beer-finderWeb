@@ -28,7 +28,7 @@ module.exports = function(app) {
     console.log('received request :',req.body)
     var IBU = req.body.ibu;
     var ABV = req.body.abv;
-    var description = req.body.description;
+    var description = req.body.description; 
     var getKeywords = function(description){
       var words = description.split(' ')
       for(var i=0; i<words.length; i++){
