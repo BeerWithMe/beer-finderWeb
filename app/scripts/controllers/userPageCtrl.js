@@ -1,7 +1,7 @@
 'user strict';
 
 angular.module('beerMeApp')
-	.controller('userPageCtrl',function($scope, $stateParams, userPageService, recommendationsRequest, $location, $window){
+	.controller('userPageCtrl',function($scope, $stateParams, $location, $window, userPageService, recommendationsRequest, locationService){
 
 		$scope.userName = localStorage.getItem('userName');
 		$scope.goToRecommendations = function(){
@@ -11,6 +11,8 @@ angular.module('beerMeApp')
 			console.log('the results are :',results)
 			$scope.userLikes = results;
 		})
+
+		locationService.getLocation(locationService.setPosition, locationService.handleError, 120000);
 
 		$scope.clicked = recommendationsRequest.clicked
 

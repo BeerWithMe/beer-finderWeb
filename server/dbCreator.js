@@ -1,6 +1,6 @@
 var _ = require('underscore');
 var neo4j = require('neo4j');
-var db = new neo4j.GraphDatabase('http://beermeappinteger.cloudapp.net:7474/');
+var db = new neo4j.GraphDatabase('http://beermeapp.cloudapp.net:7474/');
 var http = require('http');
 var fs = require('fs');
 var utils = require('./utils');
@@ -109,7 +109,7 @@ db.createBeerNode = function(beerObj, callback){
           'zip': zip,
           'state': state,
           'city': city,
-          'long-lat': {'longitute': longitude, 'latitude': latitude}
+          'longlat': {'longitude': longitude, 'latitude': latitude}
         }
         locations.push(brewInfo);
         //locations now looks like this [{zip:,state:,etc...},{zip:,state:,etc...}]
@@ -174,7 +174,7 @@ db.createBeerNode = function(beerObj, callback){
                       // from the MERGE query for number values so that they
                       // don't get stringified
 
-                      if(x === 'long-lat'){
+                      if(x === 'longlat'){
                         // params1['value'] = locations[k][x];
                         params1['type'] = x;
                         params1['longitude'] = locations[k][x].longitude;
@@ -258,9 +258,9 @@ db.dumpBeersIntoDB = function(path) {
   // Counter is only here so we can keep track of our queries via console logs
   // It is not part of the program's functionality
  
-  var counter = 651;
+  var counter = 1;
 
-  var totalPages = 662;
+  var totalPages = 1;
   for (var i=counter; i<=totalPages; i++) {
 
     // Using IIFE in order to have console.log transparency while get
