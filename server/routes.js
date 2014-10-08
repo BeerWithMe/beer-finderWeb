@@ -128,8 +128,6 @@ module.exports = function(app) {
   })
 
 
-
-
 // This endpoint is for getting beer information for a specific beer
   app.post('/beer', [bodyParser(), jwtauth], function(req, res){
     var beername = req.body.beername;
@@ -217,4 +215,31 @@ module.exports = function(app) {
     }
 
   });
+
+  /////////////////////////////////////////////////////////////
+  ///////////////BEGIN IOS SPECIAL ENDPOINTS//////////////////
+  ////////////////////////////////////////////////////////////
+
+  // We receive a JSON object contained a username and password
+  //{username: xxxxxx, password: xxxxxx}
+  app.post('/IOSsignup', function(req, res) {
+    db.addUserToDatabaseIfUserDoesNotExist(req, function(message, token){
+      if(message === 'createUser'){
+        res.send('User successfully created!');
+      } else {
+        res.send('Username already taken');
+      }
+    })
+  })
+
+  app.post('/IOSlogin', function(req, res){  
+    db.authenticateUser(req, function(message, token){
+      if(message === 'sendToken'){
+        res.send('User logged in successfully');
+      } else {
+        res.send('Wrong password');
+      }
+    });
+  }) 
+
 };

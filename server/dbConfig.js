@@ -252,7 +252,7 @@ db.findAllBeersWithNameContaining = function(beerString,callback){
 };
 
 // call callback if user is authorized
-db.authenticateUser = function( userInfo, callback){
+db.authenticateUser = function(userInfo, ios, callback){
   console.log('inside authenticateUser')
   var params = {
       username: userInfo.body.username,
