@@ -38,17 +38,19 @@ angular.module('beerMeApp')
       for(var i = 0; i < beers.length; i++){
         var marker = {};
         marker.options = {
-          labelContent: i,
+          labelAnchor: '10 39',
+          labelContent: i + 1,
           labelClass: 'labelMarker'
         }
 
-        marker.id = i;
-        marker.longitude = beers.longitude;
-        marker.latitude = beers.latitude;
+        marker["id"] = i + 1;
+        marker.longitude = beers[i].longitude;
+        marker.latitude = beers[i].latitude;
 
         markers.push(marker);
       }
 
+      return markers;
     };
 
     var  getRecommendation: function(username){
@@ -78,6 +80,6 @@ angular.module('beerMeApp')
       gMap: gMap,
       getRecommendation: getRecommendation,
       clicked: clicked,
-      makeMarker: makeMarker
+      makeMarkers: makeMarkers
     };
   });

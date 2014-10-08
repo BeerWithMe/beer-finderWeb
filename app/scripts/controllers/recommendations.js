@@ -36,5 +36,17 @@ angular.module('beerMeApp')
     $scope.clicked = recommendationsRequest.clicked; 
 
     $scope.map = recommendationsRequest.gMap;
-    $scope.MarkersWithLabel = recommendationsRequest.makeMarker;
-  });
+
+    var beers = [
+        {
+            longitude: -122.40867880000002,
+            latitude: 37.7835565
+        },
+        {
+            longitude: -122.40867880000002,
+            latitude: 40.7835565
+        }
+    ]
+    $scope.MarkersWithLabel = recommendationsRequest.makeMarkers(beers);
+    console.log($scope.MarkersWithLabel);
+});

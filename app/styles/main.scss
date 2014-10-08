@@ -111,7 +111,18 @@ h2 {
   width: 900px;
 }
 
-
+.labelMarker{
+  font-size: 15px;
+  font-weight: bold; 
+  color: #FFFFFF;
+  font-family: "DINNextRoundedLTProMediumRegular"; 
+  border-radius: 50%; 
+  background-color: blue;
+  width: 20px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 20px;
+}
 /*BEERME---------------Questionnaire page styling-----------------BEERME*/
 
 .surveyHead {
