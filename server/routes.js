@@ -29,6 +29,8 @@ module.exports = function(app) {
     var IBU = req.body.ibu;
     var ABV = req.body.abv;
     var description = req.body.description; 
+    var latitude = req.body.latitude;
+    var longitude = req.body.longitude;
     var getKeywords = function(description){
       var words = description.split(' ')
       for(var i=0; i<words.length; i++){
@@ -80,7 +82,7 @@ module.exports = function(app) {
     var keyword = getKeywords(description)[0];
     var optionalKeyword = getKeywords(description)[1];
     console.log('about to query DB: ',IBU,ABV,keyword,optionalKeyword)
-    db.getMeTheBeers(IBU, ABV, keyword, optionalKeyword, function(similarBeers,sortofSimilarBeers){
+    db.getMeTheBeers(IBU, ABV, keyword, optionalKeyword, latitude, longitude, function(similarBeers,sortofSimilarBeers){
       // similarBeers = data.similarBeers;
       // sortofSimilarBeers = data.sortofSimilarBeers;
       var data = {

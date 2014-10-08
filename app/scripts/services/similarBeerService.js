@@ -5,12 +5,16 @@ angular.module('beerMeApp')
     var sortofSimilarBeers;
     var similarBeerServ = {
       getAllTheBeers: function(IBU,ABV,DESCRIPTION){
+        var userLat = localStorage.getItem('latitude');
+        var userLong = localStorage.getItem('longitude');
       	console.log('Inside getAllTheBeers in similarBeerService')
       	console.log('sending post request for ',IBU,ABV,DESCRIPTION)
       	var params = {
       		ibu: IBU,
       		abv: ABV,
-      		description: DESCRIPTION
+      		description: DESCRIPTION,
+          latitude: userLat,
+          longitude: userLong
       	}
 
       	$http({
