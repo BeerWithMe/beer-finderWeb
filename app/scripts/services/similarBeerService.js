@@ -1,5 +1,5 @@
 angular.module('beerMeApp')
-  .factory('similarBeerService', function ($http, $rootScope, $state, $location){
+  .factory('similarBeerService', function ($http, $state, $location){
     console.log('loaded similarBeerService')
     var similarBeers;
     var sortofSimilarBeers;

@@ -7,6 +7,8 @@
 	</form>
 </div>  
 
+<h2>Here are some beers similar to {{originalBeer}} <img ng-if="iconUrl != 'http://blogs.citypages.com/food/beer%20thumbnail.jpg'" ng-src="{{iconUrl}}"></h2>
+
 <div ng-repeat= "beer in filteredbeerResults">
 	<div class="recommendationImage"> 
 		<img ng-click='clicked(beer.name)' ng-src="{{beer.iconUrl}}"/>
