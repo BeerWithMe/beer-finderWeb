@@ -1,5 +1,5 @@
 angular.module('beerMeApp')
-  .factory('recommendationsRequest', function ($http, $rootScope, $state){
+  .factory('recommendationsRequest', function ($http, $rootScope, $state, $cookieStore){
     var recommendationsRequest = {
       getRecommendation: function(username){
         return $http({
@@ -9,8 +9,9 @@ angular.module('beerMeApp')
       },
 
       clicked: function(beername){
-        $rootScope.beer = beername;
-        console.log("This is $rootScope.beer", $rootScope.beer)
+        // $rootScope.beer = beername;
+        $cookieStore.put('beername', beername);
+        console.log("This is cookiestore beer", $cookieStore.get('beername'))
         $state.go('beer');
       }
     }

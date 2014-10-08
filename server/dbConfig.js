@@ -179,19 +179,6 @@ db.generateRecommendation = function(user, callback){
   });
 };
 
-// db.getUserRating = function(username, beer){
-//   var params = {username: username, beername: beername};
-//   db.query("MATCH (n:User {username})})-[r:Likes]-(b:Beer {name: {beername})}) RETURN r", params, function(err, data){
-//     if (err){
-//       console.log('Error:', err);
-//     }
-//     var ratingObj = data['r']['data']; //{rating: 3}
-//     var rating = ratingObj.rating;
-//     }
-//   })
-// }
-
-
 db.showUserLikes = function(username,callback){
   var params = {username: username};
   db.query("MATCH (n:User {username: ({username})})-[r:Likes]-(b) RETURN b,r",params,function(err,data){
@@ -252,7 +239,7 @@ db.findAllBeersWithNameContaining = function(beerString,callback){
 };
 
 // call callback if user is authorized
-db.authenticateUser = function( userInfo, callback){
+db.authenticateUser = function(userInfo, ios, callback){
   console.log('inside authenticateUser')
   var params = {
       username: userInfo.body.username,

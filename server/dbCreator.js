@@ -109,8 +109,7 @@ db.createBeerNode = function(beerObj, callback){
           'zip': zip,
           'state': state,
           'city': city,
-          'longitude': longitude,
-          'latitude': latitude
+          'long-lat': {'longitute': longitude, 'latitude': latitude}
         }
         locations.push(brewInfo);
         //locations now looks like this [{zip:,state:,etc...},{zip:,state:,etc...}]
@@ -174,12 +173,15 @@ db.createBeerNode = function(beerObj, callback){
                       // The reason for this if statement is we need to remove a quotation 
                       // from the MERGE query for number values so that they
                       // don't get stringified
-                      if(typeof locations[k][x] === "number"){
-                        params1['value'] = locations[k][x];
+
+                      if(x === 'long-lat'){
+                        // params1['value'] = locations[k][x];
                         params1['type'] = x;
+                        params1['longitude'] = locations[k][x].longitude;
+                        params1['latitude'] = locations[k][x].latitude;
                         // console.log('about to create a relationship for :',params.beername,params.type)
                         //if node doesn't exist, make location node and relation to beername
-                          db.query('MATCH (b:Beer {name: ({beername})}) with b MERGE (n:'+params1.type+' {'+params1.type+': '+params1.value+'}) merge (n)<-[:'+params1.type+']-(b)',params1,function(err,data){
+                          db.query('MATCH (b:Beer {name: ({beername})}) with b MERGE (n:'+params1.type+' {longitude: '+params1.longitude+', latitude: '+params1.latitude+'}) merge (n)<-[:'+params1.type+']-(b)',params1,function(err,data){
                             if(err) {
                               console.log(err)
                             }
