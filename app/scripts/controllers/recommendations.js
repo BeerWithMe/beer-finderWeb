@@ -47,14 +47,21 @@ angular.module('beerMeApp')
     // $scope.secondMap.control.refresh({latitude: 32.779680, longitude: -79.935493});   
     var beers = [
         {
+            name: 'budlight created by boss bo',
             longitude: -122.40867880000002,
             latitude: 37.7835565
         },
         {
+            name: 'rocket',
             longitude: -122.40867880000002,
             latitude: 40.7835565
+        },
+        {
+            name: 'shark',
+            longitude: -122.40867880000002,
+            latitude: 40.5634343
         }
     ]
     $scope.MarkersWithLabel = recommendationsRequest.makeMarkers(beers);
-    console.log($scope.MarkersWithLabel);
+
 });

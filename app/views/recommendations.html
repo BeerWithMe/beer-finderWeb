@@ -10,10 +10,12 @@
 Hey, {{userName}}. Here are some recommendations for you.
 </h1>
 
-{{map.center}}
-{{map.zoom}}
+{{MarkersWithLabel[0].show}}
 <google-map center="map.center" zoom="map.zoom" control="map.control">
-	<markers models="MarkersWithLabel" coords="'self'" options="'options'" isLabel='true'>
+	<markers models="MarkersWithLabel" coords="'self'" options="'options'" click="'onClick'" isLabel="true">
+<!-- 		<windows show="'show'">
+			<div ng-non-bindable>{{title}}</div>
+		</windows> -->
 	</markers>
 </google-map>
 

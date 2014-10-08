@@ -36,10 +36,16 @@ angular.module('beerMeApp')
           labelClass: 'labelMarker'
         }
 
-        marker["id"] = i + 1;
+        marker["id"] = i;
         marker.longitude = beers[i].longitude;
         marker.latitude = beers[i].latitude;
+        marker.title = beers[i].name;
+        marker.show = false;
 
+        marker.onClick = function() {
+                console.log("Clicked!");
+                marker.show = !marker.show;
+        };
         markers.push(marker);
       }
 
