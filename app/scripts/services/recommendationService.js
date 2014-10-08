@@ -68,7 +68,7 @@ angular.module('beerMeApp')
         });
     };
 
-    var clicked: function(beername){
+    var clicked = function(beername){
         // $rootScope.beer = beername;
         $cookieStore.put('beername', beername);
         console.log("This is cookiestore beer", $cookieStore.get('beername'))
