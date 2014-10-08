@@ -128,8 +128,6 @@ module.exports = function(app) {
   })
 
 
-
-
 // This endpoint is for getting beer information for a specific beer
   app.post('/beer', [bodyParser(), jwtauth], function(req, res){
     var beername = req.body.beername;
@@ -217,4 +215,67 @@ module.exports = function(app) {
     }
 
   });
+
+  /////////////////////////////////////////////////////////////
+  ///////////////BEGIN IOS SPECIAL ENDPOINTS//////////////////
+  ////////////////////////////////////////////////////////////
+
+  // We receive a JSON object containing a username and password
+  //{username: xxxxxx, password: xxxxxx}
+  app.post('/IOSsignup', function(req, res) {
+    db.addUserToDatabaseIfUserDoesNotExist(req, function(message, token){
+      if(message === 'createUser'){
+        res.send('User successfully created!');
+      } else {
+        res.send('Username already taken');
+      }
+    })
+  })
+
+  //// We receive a JSON object containing a username and password
+  app.post('/IOSlogin', function(req, res){  
+    db.authenticateUser(req, function(message, token){
+      if(message === 'sendToken'){
+        res.send('User logged in successfully');
+      } else {
+        res.send('Wrong password');
+      }
+    });
+  })
+
+  // We receive a JSON object containing just a username
+  app.get('/IOSrecommendations', function(req, res){
+    var username = req.body.username;
+    db.generateRecommendation(username, function(err, result){
+      if(err){
+        res.status(400).send("Error");
+      }else{
+        var data = {beers: result};
+        res.send(data);
+      }
+    });    
+  }) 
+
+  // This endpoint is for creating like relationship between users and beers.
+  app.post('/IOSlike', function(req, res){
+    var user = {username: req.body.username};
+    var beer = {beername: req.body.beername};
+    var rating = parseInt(req.body.rating);
+
+    db.generateLikes(user, beer, rating, function(err){
+      if(err){
+        res.status(400).send("Error");
+      }else{
+        db.generateSimilarity(user, function(err){
+          if(err){
+            res.status(400).send("Error");
+          }else{
+            res.send("Success");
+          }
+        });
+      }
+    })
+  });
+
+
 };
