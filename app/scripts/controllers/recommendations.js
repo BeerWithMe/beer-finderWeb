@@ -37,6 +37,14 @@ angular.module('beerMeApp')
 
     $scope.map = recommendationsRequest.gMap;
 
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(function(position){
+          $scope.map.control.refresh({latitude: position.coords.latitude, longitude: position.coords.longitude});
+          $scope.map.zoom = 11;
+        });
+    }
+
+    // $scope.secondMap.control.refresh({latitude: 32.779680, longitude: -79.935493});   
     var beers = [
         {
             longitude: -122.40867880000002,

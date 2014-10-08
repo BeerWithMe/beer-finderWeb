@@ -7,22 +7,15 @@ angular.module('beerMeApp')
     
     var initMap = function(map){
       map.center = {
-        // Hack Reactor
-        latitude: 37.7835565,
-        longitude: -122.40867880000002 
+        // Center of USA
+        latitude: 39.702967436166105,
+        longitude: -97.14059911250001
       }
 
-      if(navigator.geolocation){
-        navigator.geolocation.getCurrentPosition(function(position){
-          console.log("position: ", position);
-          map.center = {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude
-          }
-        });
-      }
+      // Zoom that show the whole USA map
+      map.zoom = 4;
 
-      map.zoom = 11;
+      map.control = {};
     };
 
     initMap(gMap);
