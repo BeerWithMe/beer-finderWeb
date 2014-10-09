@@ -2,9 +2,18 @@ angular.module('beerMeApp')
   .factory('recommendationsRequest', function ($http, $rootScope, $state, $cookieStore){
     var recommendationsRequest = {
       getRecommendation: function(username){
+        var userLat = localStorage.getItem('latitude');
+        var userLong = localStorage.getItem('longitude');
+        console.log('user lat, long in rec service ', userLat , userLong);
+        var data = JSON.stringify({
+          username: username,
+          latitude: userLat,
+          longitude: userLong
+        });
         return $http({
-          method: 'GET',
-          url: '/' + username + '/recommendations'
+          method: 'POST',
+          url: '/' + username + '/recommendations',
+          data: data
         });
       },
 
