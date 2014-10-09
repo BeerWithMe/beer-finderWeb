@@ -52,7 +52,7 @@ angular.module('beerMeApp')
       return markers;
     };
 
-    var  getRecommendation: function(username){
+    var  getRecommendation = function(username){
         var userLat = localStorage.getItem('latitude');
         var userLong = localStorage.getItem('longitude');
         console.log('user lat, long in rec service ', userLat , userLong);
