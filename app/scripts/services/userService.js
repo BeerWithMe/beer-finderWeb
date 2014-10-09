@@ -61,7 +61,9 @@ angular.module('beerMeApp')
         })
       },
       goHome: function(username) {
-        $location.path('/userPage/'+ localStorage.userName);
+        if (username != null) {
+          $location.path('/userPage/'+ localStorage.userName);
+        }
       }
     }
     return userService
