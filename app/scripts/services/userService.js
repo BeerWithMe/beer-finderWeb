@@ -61,7 +61,7 @@ angular.module('beerMeApp')
         })
       },
       goHome: function(username) {
-        if (username != null) {
+        if (localStorage.getItem('userName') != 'null') {
           $location.path('/userPage/'+ localStorage.userName);
         }
       }
