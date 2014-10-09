@@ -28,6 +28,22 @@ angular.module('beerMeApp')
       $scope.beerResults = parsedSimBeers.concat(parsedSorta);
     }
     
+    //removes duplicates from array. Since one beer can have more than one location, there are dups.  
+    $scope.newBeerResults = [];
+    var nameStore = {};
+    for (var i = 0; i < $scope.beerResults.length; i++){
+      if (!nameStore[$scope.beerResults[i].name]) {
+        nameStore[$scope.beerResults[i].name] = true;
+        $scope.newBeerResults.push($scope.beerResults[i]);
+      }
+    }
+
+    //sorts results by distance from user
+    $scope.newBeerResults = $scope.newBeerResults.sort(function(a, b){
+      return a.distance >= b.distance ? 1 : -1
+    })
+    
+    
     //these retrieve the original beer searched on and its icon image from the $cookieStore
     $scope.originalBeer = $cookieStore.get('beername');
     $scope.iconUrl = $cookieStore.get('image'); 
@@ -44,9 +60,14 @@ angular.module('beerMeApp')
       var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
       var end = begin + $scope.itemsPerPage;
 
-      $scope.filteredbeerResults = $scope.beerResults.slice(begin, end);
+      $scope.filteredbeerResults = $scope.newBeerResults.slice(begin, end);
     })
-    
+
     //goes to one beer view
     $scope.clicked = recommendationsRequest.clicked;
 	})
+
+
+
+
+
