@@ -14,10 +14,14 @@ angular.module('beerMeApp')
     
     if ($scope.similarBeers && $scope.sortofSimilarBeers) {
       $scope.beerResults = $scope.similarBeers.concat($scope.sortofSimilarBeers);
+    } else if ($scope.similarBeers && !$scope.sortofSimilarBeers){
+      $scope.beerResults = $scope.similarBeerService
+    } else if (!$scope.similarBeers && $scope.sortofSimilarBeers) {
+      $scope.beerResults = $scope.sortofSimilarBeers
     } else {
-      var simBeers = localStorage.getItem('similarBeers');
+      var simBeers = localStorage.getItem('similarBeers') || '[]';
       var parsedSimBeers = JSON.parse(simBeers);
-      var sortaSimBeers = localStorage.getItem('sortofSimilarBeers');
+      var sortaSimBeers = localStorage.getItem('sortofSimilarBeers') || '[]';
       var parsedSorta = JSON.parse(sortaSimBeers);
       $scope.beerResults = parsedSimBeers.concat(parsedSorta);
     }
