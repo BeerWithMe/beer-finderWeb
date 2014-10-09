@@ -13,6 +13,8 @@ angular.module('beerMeApp')
     if ($scope.sortofSimilarBeers && $scope.sortofSimilarBeers.length > 0) {
       localStorage.setItem('sortofSimilarBeers', JSON.stringify($scope.sortofSimilarBeers));
     }
+
+    console.log('SIM = ',$scope.similarBeers, 'SORTOF = ',$scope.sortofSimilarBeers )
     
     if ($scope.similarBeers && $scope.sortofSimilarBeers) {
       $scope.beerResults = $scope.similarBeers.concat($scope.sortofSimilarBeers);
@@ -38,11 +40,12 @@ angular.module('beerMeApp')
       }
     }
 
-    //sorts results by distance from user
-    $scope.newBeerResults = $scope.newBeerResults.sort(function(a, b){
-      return a.distance >= b.distance ? 1 : -1
-    })
-    
+    //sorts results by distance from user if we know user's location
+    if (localStorage.latitude && localStorage.longitue && localStorage.latitude !== 'undefined' && localStorage.longitude !== 'undefined') {
+      $scope.newBeerResults = $scope.newBeerResults.sort(function(a, b){
+        return a.distance >= b.distance ? 1 : -1
+      })
+    }
     
     //these retrieve the original beer searched on and its icon image from the $cookieStore
     $scope.originalBeer = $cookieStore.get('beername');

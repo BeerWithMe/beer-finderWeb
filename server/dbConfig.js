@@ -341,7 +341,7 @@ db.getMeTheBeers = function(IBU, ABV, keyword, optionalKeyword, callback){
   }
   console.log('nadda')
   var similarIbuAbvQuery = "MATCH (allBeers:Beer)-[r:longLat]-(n) WHERE allBeers.ibu <> 'undefined' AND allBeers.abv <> 'undefined' WITH allBeers as beers, n as location WHERE beers.ibu >({IBUmin}) AND beers.ibu<({IBUmax}) AND beers.abv >({ABVmin}) AND beers.abv<({ABVmax})  RETURN beers, location"
-  return db.findSimilarBeers(similarIbuAbvQuery,IBU,ABV,keyword,optionalKeyword,latitude, longitude, callback);
+  return db.findSimilarBeers(similarIbuAbvQuery,IBU,ABV,keyword,optionalKeyword,callback);
 }
 
 // var similarIbuAbvQuery = "MATCH (allBeers:Beer) WHERE allBeers.ibu <> 'undefined' AND allBeers.abv <> 'undefined' WITH allBeers as beers WHERE beers.ibu >({IBUmin}) AND beers.ibu<({IBUmax}) AND beers.abv >({ABVmin}) AND beers.abv<({ABVmax})  RETURN beers"
@@ -364,7 +364,16 @@ db.findSimilarBeers = function(queryString,IBU,ABV,keyword, optionalKeyword, cal
       var beers = [];
       for(var i=0;i<data.length;i++){
         var beerNode = data[i].beers.data;
-        beerNode.latitude = data[i].location.data.latitude;
+        if (data[i].location.data.latitude) {
+          beerNode.latitude = data[i].location.data.latitude;
+        } else {
+          beerNode.latitude = 'undefined';
+        }
+        if (data[i].location.data.longitude) {
+          beerNode.longitude = data[i].location.data.longitude;
+        } else {
+          beerNode.longitude = 'undefined';
+        }
         beerNode.longitude = data[i].location.data.longitude;
         beers.push(beerNode);
       }
