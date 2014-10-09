@@ -31,7 +31,7 @@
 	<h2 class="animated drunk sign">Loading...</h2>
 	</div>
 
-<h3 ng-if="beerResults.length===0">Hmmm, we couldn't find anything matching that.</h2>
+<h3 ng-if="beerResults.length===0 && !loading">Hmmm, we couldn't find anything matching that.</h2>
 
 <div class="searchResultsContainer" ng-repeat= "beer in filteredbeerResults | filter: filter">
 	<div class="recommendationImage" ng-click='clicked(beer.name)'> 
