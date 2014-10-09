@@ -261,9 +261,14 @@ db.dumpBeersIntoDB = function(path) {
   // Counter is only here so we can keep track of our queries via console logs
   // It is not part of the program's functionality
  
+
   var counter = 601;
 
   var totalPages = 659;
+
+  var counter = 1;
+
+  var totalPages = 1;
   for (var i=counter; i<=totalPages; i++) {
 
     // Using IIFE in order to have console.log transparency while get
