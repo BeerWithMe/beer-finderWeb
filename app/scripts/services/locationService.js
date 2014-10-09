@@ -1,6 +1,6 @@
 angular.module('beerMeApp')
   .factory('locationService', function (){
-
+    //hi
     var locationService = {
       setPosition: function(position) {
         localStorage.setItem('longitude', position.coords.longitude);
