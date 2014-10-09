@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('beerMeApp')
-	.controller('similarBeers',function ($scope, $cookieStore, $stateParams, similarBeerService, recommendationsRequest){
+	.controller('similarBeers',function ($filter, $scope, $cookieStore, $stateParams, similarBeerService, recommendationsRequest){
     
     $scope.haveLocation = false; 
 
@@ -59,11 +59,15 @@ angular.module('beerMeApp')
     $scope.pageCount = function () {
       return Math.ceil($scope.totalItems / $scope.itemsPerPage);
     };
-    $scope.$watch('currentPage + itemsPerPage', function() {
+
+    $scope.$watch(function() {
+      return [$scope.currentPage, $scope.itemsPerPage, $scope.filter].join('-');
+    }, function() {
       var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
       var end = begin + $scope.itemsPerPage;
-
-      $scope.filteredbeerResults = $scope.newBeerResults.slice(begin, end);
+      var prefilteredBeers = $filter('filter')($scope.newBeerResults, $scope.filter);
+      $scope.totalItems = prefilteredBeers.length;
+      $scope.filteredbeerResults = prefilteredBeers.slice(begin, end);
     })
 
     //goes to one beer view
