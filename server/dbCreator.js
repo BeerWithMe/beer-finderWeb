@@ -1,6 +1,6 @@
 var _ = require('underscore');
 var neo4j = require('neo4j');
-var db = new neo4j.GraphDatabase('http://beermeappinteger.cloudapp.net:7474/');
+var db = new neo4j.GraphDatabase('http://beermeapp.cloudapp.net:7474/');
 var http = require('http');
 var fs = require('fs');
 var utils = require('./utils');
@@ -109,7 +109,7 @@ db.createBeerNode = function(beerObj, callback){
           'zip': zip,
           'state': state,
           'city': city,
-          'long-lat': {'longitute': longitude, 'latitude': latitude}
+          'longLat': {'longitude': longitude, 'latitude': latitude}
         }
         locations.push(brewInfo);
         //locations now looks like this [{zip:,state:,etc...},{zip:,state:,etc...}]
@@ -174,11 +174,13 @@ db.createBeerNode = function(beerObj, callback){
                       // from the MERGE query for number values so that they
                       // don't get stringified
 
-                      if(x === 'long-lat'){
+                      if(x === 'longLat' && typeof locations[k][x]['longitude'] == 'number' && typeof locations[k][x]['latitude'] == 'number'){
+
+
                         // params1['value'] = locations[k][x];
                         params1['type'] = x;
-                        params1['longitude'] = locations[k][x].longitude;
-                        params1['latitude'] = locations[k][x].latitude;
+                        params1['longitude'] = locations[k][x]['longitude'];
+                        params1['latitude'] = locations[k][x]['latitude'];
                         // console.log('about to create a relationship for :',params.beername,params.type)
                         //if node doesn't exist, make location node and relation to beername
                           db.query('MATCH (b:Beer {name: ({beername})}) with b MERGE (n:'+params1.type+' {longitude: '+params1.longitude+', latitude: '+params1.latitude+'}) merge (n)<-[:'+params1.type+']-(b)',params1,function(err,data){
@@ -187,7 +189,8 @@ db.createBeerNode = function(beerObj, callback){
                             }
                             // console.log('wrote relationships between beer and')
                           })
-                      } else {
+                      } else if(x != 'longLat') {
+
                         params1['value'] = locations[k][x];
                         params1['type'] = x;
                         // console.log('about to create a relationship for :',params.beername,params.type)
@@ -258,9 +261,9 @@ db.dumpBeersIntoDB = function(path) {
   // Counter is only here so we can keep track of our queries via console logs
   // It is not part of the program's functionality
  
-  var counter = 651;
+  var counter = 601;
 
-  var totalPages = 662;
+  var totalPages = 659;
   for (var i=counter; i<=totalPages; i++) {
 
     // Using IIFE in order to have console.log transparency while get
