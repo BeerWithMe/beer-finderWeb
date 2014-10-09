@@ -8,14 +8,15 @@
 </div>  
 
 <h2>Here are some beers similar to {{originalBeer}} <img ng-if="iconUrl != 'http://blogs.citypages.com/food/beer%20thumbnail.jpg'" ng-src="{{iconUrl}}"></h2>
-<p ng-if="localStorage.getItem('longitude')"><strong>We hope you'll support your local brew scene, so we've put the beers made closest to you up top! If you're looking for something else, that's cool - just use the filter to find what you want.</strong></p>
+<p ng-if="haveLocation"><strong>We hope you'll support your local brew scene, so we've put the beers made closest to you up top! If you're looking for something else, that's cool - just use the filter to find what you want.</strong></p>
 
-<div ng-repeat= "beer in filteredbeerResults | orderBy: 'distance' | unique: 'name'">
+<div ng-repeat= "beer in filteredbeerResults | orderBy: 'distance'">
 	<div class="recommendationImage"> 
 		<img ng-click='clicked(beer.name)' ng-src="{{beer.iconUrl}}"/>
 	</div>
 	<div class="recommendationText">
 		<ul class="noBullet">
+			<li ng-if="beer.distance <= 50"><strong>Super Local!</strong></li>
 			<li><strong><em>{{beer.name}}</strong></em></li>
 			<li ng-if="beer.abv !='undefined'"><strong>ABV: </strong>{{beer.abv}}</li>
 			<li ng-if="beer.ibu !='undefined'"><strong>IBU: </strong>{{beer.ibu}}</li>

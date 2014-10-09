@@ -3,6 +3,7 @@
 angular.module('beerMeApp')
 	.controller('similarBeers',function ($scope, $cookieStore, $stateParams, similarBeerService, recommendationsRequest){
     
+    $scope.haveLocation = false; 
 
     //the various options here keep track of the similar beers so that the data isn't lost on page reload
     $scope.similarBeers = similarBeerService.getSimilarBeers();
@@ -13,8 +14,6 @@ angular.module('beerMeApp')
     if ($scope.sortofSimilarBeers && $scope.sortofSimilarBeers.length > 0) {
       localStorage.setItem('sortofSimilarBeers', JSON.stringify($scope.sortofSimilarBeers));
     }
-
-    console.log('SIM = ',$scope.similarBeers, 'SORTOF = ',$scope.sortofSimilarBeers )
     
     if ($scope.similarBeers && $scope.sortofSimilarBeers) {
       $scope.beerResults = $scope.similarBeers.concat($scope.sortofSimilarBeers);
@@ -41,7 +40,8 @@ angular.module('beerMeApp')
     }
 
     //sorts results by distance from user if we know user's location
-    if (localStorage.latitude && localStorage.longitue && localStorage.latitude !== 'undefined' && localStorage.longitude !== 'undefined') {
+    if (localStorage.latitude && localStorage.longitude && localStorage.latitude !== 'undefined' && localStorage.longitude !== 'undefined') {
+      $scope.haveLocation = true; 
       $scope.newBeerResults = $scope.newBeerResults.sort(function(a, b){
         return a.distance >= b.distance ? 1 : -1
       })
