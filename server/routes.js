@@ -29,6 +29,8 @@ module.exports = function(app) {
     var IBU = req.body.ibu;
     var ABV = req.body.abv;
     var description = req.body.description; 
+    // var latitude = req.body.latitude;
+    // var longitude = req.body.longitude;
     var getKeywords = function(description){
       var words = description.split(' ')
       for(var i=0; i<words.length; i++){
@@ -104,6 +106,7 @@ module.exports = function(app) {
 
   // When users SIGN UP, main.html sends a post request to /signup
   app.post('/signup', function(req, res) {
+    console.log("REGULAR SIGNUP!!!", req.body);
     db.addUserToDatabaseIfUserDoesNotExist(req, function(message, token){
       if(message === 'createUser'){
         res.json(token);
@@ -225,11 +228,13 @@ module.exports = function(app) {
   // We receive a JSON object containing a username and password
   //{username: xxxxxx, password: xxxxxx}
   app.post('/IOSsignup', function(req, res) {
+
     db.addUserToDatabaseIfUserDoesNotExist(req, function(message, token){
       if(message === 'createUser'){
+        console.log("RES RES RES: " , res);
         res.send('User successfully created!');
       } else {
-        res.send('Username already taken');
+        res.status(407).send('Username already taken');
       }
     })
   })
@@ -278,6 +283,5 @@ module.exports = function(app) {
       }
     })
   });
-
 
 };

@@ -16,7 +16,8 @@
     "ui-bootstrap": "~0.11.2",
     "angular-bootstrap": "~0.11.2",
     "ng-elif": "*",
-    "ngFx": "~1.0.4"
+    "ngFx": "~1.0.4",
+    "ui-utils": "~0.1.1"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.0",

@@ -23,8 +23,6 @@ angular.module('beerMeApp')
 
 	$scope.loading = false;
 
-  console.log('cookiestore in OBC ', $cookieStore.get('beername'))
-
 	beerRequest.getSingleBeer($cookieStore.get('beername'), localStorage.userName)
 		.success(function(data, status, headers, config) {
 			$scope.beername = data.name;
@@ -39,8 +37,6 @@ angular.module('beerMeApp')
 			console.log('hi')
 			$scope.beername = '';
   		});
-
-    
 
     $scope.getAllBeers = function() {
     	$cookieStore.put('image', $scope.iconUrl);
