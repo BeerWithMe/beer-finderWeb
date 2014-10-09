@@ -82,7 +82,7 @@ module.exports = function(app) {
     var keyword = getKeywords(description)[0];
     var optionalKeyword = getKeywords(description)[1];
     console.log('about to query DB: ',IBU,ABV,keyword,optionalKeyword)
-    db.getMeTheBeers(IBU, ABV, keyword, optionalKeyword, latitude, longitude, function(similarBeers,sortofSimilarBeers){
+    db.getMeTheBeers(IBU, ABV, keyword, optionalKeyword, function(similarBeers,sortofSimilarBeers){
       // similarBeers = data.similarBeers;
       // sortofSimilarBeers = data.sortofSimilarBeers;
       var data = {

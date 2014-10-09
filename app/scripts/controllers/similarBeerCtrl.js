@@ -2,7 +2,9 @@
 
 angular.module('beerMeApp')
 	.controller('similarBeers',function ($scope, $cookieStore, $stateParams, similarBeerService, recommendationsRequest){
+    
 
+    //the various options here keep track of the similar beers so that the data isn't lost on page reload
     $scope.similarBeers = similarBeerService.getSimilarBeers();
     if ($scope.similarBeers && $scope.similarBeers.length > 0) {
       localStorage.setItem('similarBeers', JSON.stringify($scope.similarBeers));
@@ -26,9 +28,12 @@ angular.module('beerMeApp')
       $scope.beerResults = parsedSimBeers.concat(parsedSorta);
     }
     
+    //these retrieve the original beer searched on and its icon image from the $cookieStore
     $scope.originalBeer = $cookieStore.get('beername');
     $scope.iconUrl = $cookieStore.get('image'); 
+    
 
+    //this controls pagination
     $scope.totalItems = $scope.beerResults.length; 
     $scope.itemsPerPage = 7;
     $scope.currentPage = 1;
@@ -42,5 +47,6 @@ angular.module('beerMeApp')
       $scope.filteredbeerResults = $scope.beerResults.slice(begin, end);
     })
     
+    //goes to one beer view
     $scope.clicked = recommendationsRequest.clicked;
 	})

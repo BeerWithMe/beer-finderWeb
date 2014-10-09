@@ -322,7 +322,7 @@ db.addUserToDatabaseIfUserDoesNotExist = function(userInfo, callback){
 }
 // var similarIbuAbvQuery = "MATCH (allBeers:Beer) WHERE allBeers.ibu <> 'undefined' AND allBeers.abv <> 'undefined' WITH allBeers as beers WHERE beers.ibu >50 AND beers.ibu<60 AND beers.abv >8 AND beers.abv<11  RETURN beers"
 
-db.getMeTheBeers = function(IBU, ABV, keyword, optionalKeyword, latitude, longitude, callback){
+db.getMeTheBeers = function(IBU, ABV, keyword, optionalKeyword, callback){
   console.log(IBU,ABV,keyword,optionalKeyword)
   if(!IBU && !ABV){
     console.log('no ibu and abv')
@@ -345,7 +345,7 @@ db.getMeTheBeers = function(IBU, ABV, keyword, optionalKeyword, latitude, longit
 }
 
 // var similarIbuAbvQuery = "MATCH (allBeers:Beer) WHERE allBeers.ibu <> 'undefined' AND allBeers.abv <> 'undefined' WITH allBeers as beers WHERE beers.ibu >({IBUmin}) AND beers.ibu<({IBUmax}) AND beers.abv >({ABVmin}) AND beers.abv<({ABVmax})  RETURN beers"
-db.findSimilarBeers = function(queryString,IBU,ABV,keyword, optionalKeyword, latitude, longitude, callback){
+db.findSimilarBeers = function(queryString,IBU,ABV,keyword, optionalKeyword, callback){
   var params = {
     IBUmin: IBU-10,
     IBUmax: parseFloat(IBU+10),
@@ -359,10 +359,13 @@ db.findSimilarBeers = function(queryString,IBU,ABV,keyword, optionalKeyword, lat
       console.log('For some reason Error :',err)
     } else {
       // console.log(data[1].allBeers.data);
-      console.log('the data: ',data)
+      // console.log('the data: ',data)
+      // console.log('location', data[0].location.data)
       var beers = [];
       for(var i=0;i<data.length;i++){
         var beerNode = data[i].beers.data;
+        beerNode.latitude = data[i].location.data.latitude;
+        beerNode.longitude = data[i].location.data.longitude;
         beers.push(beerNode);
       }
       var checkForKeyword = function(keyword, optionalKeyword, string){
@@ -389,10 +392,12 @@ db.findSimilarBeers = function(queryString,IBU,ABV,keyword, optionalKeyword, lat
       var similarTypeBeers = [];
       var otherBeers = [];
       for(var k=0; k<beers.length;k++){
-        if(checkForKeyword(keyword, optionalKeyword, beers[k].description)){
-          similarTypeBeers.push(beers[k]);
-        } else {
-          otherBeers.push(beers[k]);
+        if (beers[k].description) {
+          if(checkForKeyword(keyword, optionalKeyword, beers[k].description)){
+            similarTypeBeers.push(beers[k]);
+          } else {
+            otherBeers.push(beers[k]);
+          }
         }
       }
       var otherBeers = otherBeers.slice(0,50);
