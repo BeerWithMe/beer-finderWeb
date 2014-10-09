@@ -16,7 +16,10 @@ angular.module('beerMeApp')
       $scope.totalItems = results.length;
       $scope.itemsPerPage = 7;
       $scope.currentPage = 1;
+      console.log('at end of function')
 		});
+
+    console.log('results = ' ,$scope.beerResults)
 
     $scope.pageCount = function () {
       return Math.ceil($scope.totalItems / $scope.itemsPerPage);
