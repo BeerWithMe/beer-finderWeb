@@ -39,12 +39,50 @@ var createNewBeerQuery = ["CREATE (n:Beer {name: ({name}), ibu: ({ibu}), abv: ({
 var createNewBeerQueryWithBrewery = "CREATE (n:Beer {name: ({name}), ibu: ({ibu}), abv: ({abv}), description: ({description}), imgUrl: ({imgUrl}), iconUrl: ({iconUrl}), medUrl: ({medUrl}), brewery: ({brewery}), website: ({website}) })"
 var getOneBeerByNameQuery = "MATCH (n:Beer {name: {name}}) OPTIONAL MATCH (n)-[r:Likes]-(u:User {username: {username}}) RETURN n,r,u;"
 
-var generateSimilarityQuery = ["MATCH (u1:User {username: ({username})})-[x:Likes]->(b:Beer)<-[y:Likes]-(u2:User)",
-                               "WITH SUM(x.rating * y.rating) AS xyDotProduct,",
-                                    "SQRT(REDUCE(xDot = 0.0, a IN COLLECT(x.rating) | xDot + a^2)) AS xLength,", 
-                                    "SQRT(REDUCE(yDot = 0.0, b IN COLLECT(y.rating) | yDot + b^2)) AS yLength,",
-                                    "u1, u2", 
-                               "MERGE (u1)-[s:Similarity]->(u2) SET s.similarity = xyDotProduct / (xLength * yLength)"].join('\n');
+//How to find Euclidian Distance for all users against Mike:
+/*
+MATCH (u1:User {username: 'Mike'})-[x:Likes]->(b:Beer)<-[y:Likes]-(u2:User)
+WITH count(b) AS commonBeers,
+  u1.username AS user1, u2.username AS user2,
+  collect(x.rating) as u1Ratings,
+  collect(y.rating) as u2Ratings,
+  collect((x.rating-y.rating)^2) as ratings,
+collect(b.name) as beers
+WITH 
+extract(i in ratings | i/commonBeers) as normedDist,
+1-(sqrt(reduce(total=0.0, k in extract(i in ratings | i/commonBeers) | total+k ))/4) as euclDist,user1,user2,commonBeers,beers,u1Ratings,u2Ratings
+RETURN user1,user2,commonBeers, beers,u1Ratings, u2Ratings,normedDist ,euclDist
+*/
+
+//Set similarity relationships for all users connected to Mike (this works):
+
+/*
+MATCH (u1:User {username: 'Mike'})-[x:Likes]->(b:Beer)<-[y:Likes]-(u2:User)
+WITH count(b) AS commonBeers,
+  u1.username AS user1, u2.username AS user2,u1,u2,
+  collect((x.rating-y.rating)^2) as ratings,
+collect(b.name) as beers
+WITH 
+commonBeers,beers,u1,u2,ratings
+Merge (u1)-[s:Similarity]->(u2) SET s.similarity = 1-(sqrt(reduce(total=0.0, k in extract(i in ratings | i/commonBeers) | total+k ))/4)
+*/
+var generateSimilarityQuery = [
+                                "MATCH (u1:User {username: ({username})}) -[x:Likes]-> (b:Beer)<-[y:Likes]-(u2:User)",
+                                "WITH count(b) AS commonBeers, u1.username AS user1, u2.username AS user2, u1, u2,",
+                                "collect((x.rating-y.rating)^2) AS ratings,",
+                                "collect(b.name) AS beers",
+                                "WITH commonBeers, beers, u1, u2, ratings",
+                                "MERGE (u1)-[s:Similarity]->(u2) SET s.similarity = 1-(SQRT(reduce(total=0.0, k in extract(i in ratings | i/commonBeers) | total+k))/4)"
+                              ].join('\n'); 
+
+
+
+// var generateSimilarityQuery = ["MATCH (u1:User {username: ({username})})-[x:Likes]->(b:Beer)<-[y:Likes]-(u2:User)",
+//                                "WITH SUM(x.rating * y.rating) AS xyDotProduct,",
+//                                     "SQRT(REDUCE(xDot = 0.0, a IN COLLECT(x.rating) | xDot + a^2)) AS xLength,", 
+//                                     "SQRT(REDUCE(yDot = 0.0, b IN COLLECT(y.rating) | yDot + b^2)) AS yLength,",
+//                                     "u1, u2", 
+//                                "MERGE (u1)-[s:Similarity]->(u2) SET s.similarity = xyDotProduct / (xLength * yLength)"].join('\n');
 var generateLikesQuery = 'MATCH (u:User),(b:Beer)\nWHERE u.username=({username}) AND b.name=({beername})\nMERGE (u)-[l:Likes {rating: ({rating})}]->(b)'
 var checkLikesQuery = "MATCH (u:User)-[l:Likes]->(b:Beer) WHERE u.username =({username}) AND b.name =({beername}) return l";
 var updateLikesQuery = "MATCH (u:User)-[l:Likes]->(b:Beer) WHERE u.username =({username}) AND b.name =({beername}) SET l.rating = ({rating})"
