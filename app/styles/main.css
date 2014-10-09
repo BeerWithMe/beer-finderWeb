@@ -113,6 +113,9 @@ h2 {
   font-size: 55px;
   outline: none; }
 
+.pop:active {
+  background-color: red; }
+
 /*BEERME---------------User page styling-----------------BEERME*/
 .userContainer {
   margin-left: 20px; }
