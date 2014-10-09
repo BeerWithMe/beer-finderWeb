@@ -10,6 +10,8 @@ angular.module('beerMeApp')
         if (err.code == 1) {
           //user said no, let it go
           console.log('user said no');
+          localStorage.setItem('longitude', 'undefined');
+          localStorage.setItem('latitude', 'undefined');
         }
       },
       getLocation: function(setPosition, handleError, expire) {
@@ -18,6 +20,8 @@ angular.module('beerMeApp')
         } else {
           //no native support
           console.log('download a newer browser!');
+          localStorage.setItem('longitude', 'undefined');
+          localStorage.setItem('latitude', 'undefined');
         }
       }
     }

@@ -157,10 +157,14 @@ db.generateLikes = function(user, beer, rating, callback){
   });
 };
 
-db.generateRecommendation = function(user, callback){
+db.generateRecommendation = function(username, userLat, userLong, callback){
   var params = {
-    username: user.username
+    username: username,
+    userLat: parseFloat(userLat),
+    userLong: parseFloat(userLong)
   };
+  // console.log('PARAMA ', params)
+  
 
   db.query(generateRecommendationQuery, params, function(err, result){
     if(err){

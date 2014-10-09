@@ -192,7 +192,7 @@ module.exports = function(app) {
 
 // This endpoint is for getting recommendations for a user.
 
-  app.get('/:user/recommendations', [bodyParser(), jwtauth], function(req, res){
+  app.post('/:user/recommendations', [bodyParser(), jwtauth], function(req, res){
     var username = req.headers['x-username'];
     var Urluser = {username: req.params.user};
     if(username !== Urluser.username){
@@ -200,9 +200,11 @@ module.exports = function(app) {
       res.status(400).send("Error")
 
     } else {
-      console.log("recommendationsRoute" );
-
-      db.generateRecommendation(Urluser, function(err, result){
+      var username = req.body.username;
+      var userLat = req.body.latitude;
+      var userLong = req.body.longitude; 
+      console.log('USERDATA ', username, userLat, userLong);
+      db.generateRecommendation(username, userLat, userLong, function(err, result){
         if(err){
           res.status(400).send("Error");
         }else{
