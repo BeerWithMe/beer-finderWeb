@@ -1,9 +1,10 @@
 'user strict';
 
 angular.module('beerMeApp')
-	.controller('searchResults',function ($scope, searchResultsService, $stateParams, recommendationsRequest){
+	.controller('searchResults',function ($filter, $scope, searchResultsService, $stateParams, recommendationsRequest){
 
     $scope.loading = true;
+    $scope.beerResults = [];
     searchResultsService.pour();
 
 		// This function grabs the search term from the url, and sends a post request to
@@ -16,18 +17,23 @@ angular.module('beerMeApp')
       $scope.totalItems = results.length;
       $scope.itemsPerPage = 7;
       $scope.currentPage = 1;
+      console.log('at end of function')
 		});
+
+    console.log('results = ' ,$scope.beerResults)
 
     $scope.pageCount = function () {
       return Math.ceil($scope.totalItems / $scope.itemsPerPage);
     };
-    $scope.$watch('currentPage + itemsPerPage', function() {
+
+    $scope.$watch(function() {
+      return [$scope.currentPage, $scope.itemsPerPage, $scope.filter].join('-');
+    }, function() {
       var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
       var end = begin + $scope.itemsPerPage;
-      
-      // if ($scope.beerResults) {
-        $scope.filteredbeerResults = $scope.beerResults.slice(begin, end);
-      // }
+      var prefilteredBeers = $filter('filter')($scope.beerResults, $scope.filter);
+      $scope.totalItems = prefilteredBeers.length;
+      $scope.filteredbeerResults = prefilteredBeers.slice(begin, end);
     })
 
     $scope.clicked = recommendationsRequest.clicked; 

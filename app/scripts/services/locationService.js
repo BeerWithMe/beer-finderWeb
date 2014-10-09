@@ -26,6 +26,5 @@ angular.module('beerMeApp')
       }
     }
     
-
     return locationService
   })
