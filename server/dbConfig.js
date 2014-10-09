@@ -1,6 +1,6 @@
 var _ = require('underscore');
 var neo4j = require('neo4j');
-var db = new neo4j.GraphDatabase('http://beermeappinteger.cloudapp.net:7474/');
+var db = new neo4j.GraphDatabase('http://beermeapp.cloudapp.net:7474/');
 var http = require('http');
 var fs = require('fs');
 var utils = require('./utils');
@@ -157,10 +157,14 @@ db.generateLikes = function(user, beer, rating, callback){
   });
 };
 
-db.generateRecommendation = function(user, callback){
+db.generateRecommendation = function(username, userLat, userLong, callback){
   var params = {
-    username: user.username
+    username: username,
+    userLat: parseFloat(userLat),
+    userLong: parseFloat(userLong)
   };
+  // console.log('PARAMA ', params)
+  
 
   db.query(generateRecommendationQuery, params, function(err, result){
     if(err){
