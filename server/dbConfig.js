@@ -326,21 +326,21 @@ db.getMeTheBeers = function(IBU, ABV, keyword, optionalKeyword, callback){
   console.log(IBU,ABV,keyword,optionalKeyword)
   if(!IBU && !ABV){
     console.log('no ibu and abv')
-    var similarIbuAbvQuery = "MATCH (allBeers:Beer)-[r:longLat]-(n) WHERE allBeers.ibu = 'undefined' AND allBeers.abv = 'undefined' WITH allBeers as beers, n as location RETURN beers, location limit 1000"
+    var similarIbuAbvQuery = "MATCH (allBeers:Beer)-[r:longLat]-(n) WHERE allBeers.ibu = 'undefined' AND allBeers.abv = 'undefined' WITH allBeers as beers, n as location RETURN beers, location limit 50"
     return db.findSimilarBeers(similarIbuAbvQuery,IBU,ABV,keyword,optionalKeyword,callback);
   }
   if(IBU==='undefined'){
     console.log('no ibu')
-    var similarIbuAbvQuery = "MATCH (allBeers:Beer)-[r:longLat]-(n) WHERE allBeers.ibu = 'undefined' AND allBeers.abv <> 'undefined' WITH allBeers as beers, n as location WHERE beers.abv >({ABVmin}) AND beers.abv<({ABVmax})  RETURN beers, location"
+    var similarIbuAbvQuery = "MATCH (allBeers:Beer)-[r:longLat]-(n) WHERE allBeers.ibu = 'undefined' AND allBeers.abv <> 'undefined' WITH allBeers as beers, n as location WHERE beers.abv >({ABVmin}) AND beers.abv<({ABVmax})  RETURN beers, location limit 50"
     return db.findSimilarBeers(similarIbuAbvQuery,IBU,ABV,keyword,optionalKeyword,callback);
   }
   if(!ABV){
     console.log('no abv')
-    var similarIbuAbvQuery = "MATCH (allBeers:Beer)-[r:longLat]-(n) WHERE allBeers.ibu <> 'undefined' AND allBeers.abv = 'undefined' WITH allBeers as beers, n as location WHERE beers.ibu >({IBUmin}) AND beers.ibu<({IBUmax})  RETURN beers, location"
+    var similarIbuAbvQuery = "MATCH (allBeers:Beer)-[r:longLat]-(n) WHERE allBeers.ibu <> 'undefined' AND allBeers.abv = 'undefined' WITH allBeers as beers, n as location WHERE beers.ibu >({IBUmin}) AND beers.ibu<({IBUmax})  RETURN beers, location limit 50"
     return db.findSimilarBeers(similarIbuAbvQuery,IBU,ABV,keyword,optionalKeyword,callback);
   }
   console.log('nadda')
-  var similarIbuAbvQuery = "MATCH (allBeers:Beer)-[r:longLat]-(n) WHERE allBeers.ibu <> 'undefined' AND allBeers.abv <> 'undefined' WITH allBeers as beers, n as location WHERE beers.ibu >({IBUmin}) AND beers.ibu<({IBUmax}) AND beers.abv >({ABVmin}) AND beers.abv<({ABVmax})  RETURN beers, location"
+  var similarIbuAbvQuery = "MATCH (allBeers:Beer)-[r:longLat]-(n) WHERE allBeers.ibu <> 'undefined' AND allBeers.abv <> 'undefined' WITH allBeers as beers, n as location WHERE beers.ibu >({IBUmin}) AND beers.ibu<({IBUmax}) AND beers.abv >({ABVmin}) AND beers.abv<({ABVmax})  RETURN beers, location limit 50"
   return db.findSimilarBeers(similarIbuAbvQuery,IBU,ABV,keyword,optionalKeyword,callback);
 }
 
