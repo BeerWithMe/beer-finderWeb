@@ -39,7 +39,7 @@ var createNewBeerQuery = ["CREATE (n:Beer {name: ({name}), ibu: ({ibu}), abv: ({
 var createNewBeerQueryWithBrewery = "CREATE (n:Beer {name: ({name}), ibu: ({ibu}), abv: ({abv}), description: ({description}), imgUrl: ({imgUrl}), iconUrl: ({iconUrl}), medUrl: ({medUrl}), brewery: ({brewery}), website: ({website}) })"
 var getOneBeerByNameQuery = "MATCH (n:Beer {name: {name}}) OPTIONAL MATCH (n)-[r:Likes]-(u:User {username: {username}}) RETURN n,r,u;"
 
-//How to find Euclidian Distance for all users against Mike:
+//How to find Euclidian Distance for all users against Mike. This is just for debugging in admin view:
 /*
 MATCH (u1:User {username: 'Mike'})-[x:Likes]->(b:Beer)<-[y:Likes]-(u2:User)
 WITH count(b) AS commonBeers,
@@ -299,7 +299,7 @@ db.authenticateUser = function(userInfo, callback){
       bcrypt.compare(params.password,password, function(err,match){
         // if the password matches
         if(match){
-          console.log('matchh')
+          console.log('match')
           var token = jwt.encode(username, 'secret');
           var expires = moment().add(7, 'days').valueOf();
           console.log('token in routes js = ', token, 'expires', expires)
