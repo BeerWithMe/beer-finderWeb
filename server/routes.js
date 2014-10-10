@@ -228,7 +228,6 @@ module.exports = function(app) {
   // We receive a JSON object containing a username and password
   //{username: xxxxxx, password: xxxxxx}
   app.post('/IOSsignup', function(req, res) {
-
     db.addUserToDatabaseIfUserDoesNotExist(req, function(message, token){
       if(message === 'createUser'){
         console.log("RES RES RES: " , res);
@@ -245,7 +244,7 @@ module.exports = function(app) {
       if(message === 'sendToken'){
         res.send('User logged in successfully');
       } else {
-        res.send('Wrong password');
+        res.status.(406).send('Wrong password');
       }
     });
   })
@@ -283,5 +282,4 @@ module.exports = function(app) {
       }
     })
   });
-
 };
