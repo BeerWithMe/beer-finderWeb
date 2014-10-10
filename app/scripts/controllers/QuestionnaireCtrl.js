@@ -15,7 +15,7 @@ angular.module('beerMeApp')
     $scope.nextbeer = function(){
       if($scope.rate != 0){
       // Update the like relationship when user clicks nextbeer button.
-      likeButton.like($scope.beernameInDB, $scope.rate);
+        likeButton.like($scope.beernameInDB, $scope.rate);
       }
 
       var response = Questionnaire.changeBeer();

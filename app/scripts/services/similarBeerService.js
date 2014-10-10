@@ -1,14 +1,13 @@
 angular.module('beerMeApp')
-  .factory('similarBeerService', function ($http, $state, $location){
+  .factory('similarBeerService', function ($http, $location, $state){
     console.log('loaded similarBeerService')
     var similarBeers;
     var sortofSimilarBeers;
     var similarBeerServ = {
-      getAllTheBeers: function(IBU,ABV,DESCRIPTION){
+      getAllTheBeers: function(IBU, ABV, DESCRIPTION){
         var userLat = localStorage.getItem('latitude');
         var userLong = localStorage.getItem('longitude');
-      	console.log('Inside getAllTheBeers in similarBeerService')
-      	console.log('sending post request for ',IBU,ABV,DESCRIPTION)
+      	
       	var params = {
       		ibu: IBU,
       		abv: ABV,
@@ -23,6 +22,7 @@ angular.module('beerMeApp')
       		data: JSON.stringify(params)
       	}).success(function(data){
           if (userLat !== 'undefined' && userLong !== 'undefined') {
+            //get distance in miles between two latitude/longitude points
             var calcDistance = function(userlat, userlong, beerlat, beerlong){
               var R = 3960; //radius of earth in miles
               var a = 0.5 - Math.cos((beerlat - userlat) * Math.PI / 180)/2 + Math.cos(userlat * Math.PI / 180) * Math.cos(beerlat * Math.PI / 180) * 
@@ -40,7 +40,6 @@ angular.module('beerMeApp')
             for (var i = 0; i < sortofSimilarBeers.length; i++) {
               sortofSimilarBeers[i].distance = calcDistance(userLat, userLong, sortofSimilarBeers[i].latitude, sortofSimilarBeers[i].longitude);
             }
-            console.log('distance added? ', sortofSimilarBeers)
           }
       		$location.path('/similarBeers');
         })
@@ -51,15 +50,7 @@ angular.module('beerMeApp')
       getSortofSimilarBeers: function(){
       	return sortofSimilarBeers;
       }
-
-
-      // clicked: function(beername){
-      //   $rootScope.beer = beername;
-      //   console.log("This is $rootScope.beer", $rootScope.beer)
-      //   $state.go('beer');
-      // }
     }
-
     return similarBeerServ;
   });
 
