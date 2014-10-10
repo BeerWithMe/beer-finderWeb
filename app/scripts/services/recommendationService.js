@@ -5,48 +5,90 @@ angular.module('beerMeApp')
     // initialize and configure a google map object
     var gMap = {};
     
+
+    var userLat = localStorage.getItem('latitude');
+    var userLong = localStorage.getItem('longitude');
+
+    if(userLat === 'undefined' || userLong === 'undefined'){
+      // If user's current location is undefined, default to Center of USA
+      userLat = 39.702967436166105;
+      userLong = -97.14059911250001;
+    }
+
     var initMap = function(map){
+
       map.center = {
-        // Center of USA
-        latitude: 39.702967436166105,
-        longitude: -97.14059911250001
+        // If user's current location is undefined, default to Center of USA
+        latitude: userLat,
+        longitude: userLong
       }
 
-      // Zoom that show the whole USA map
-      map.zoom = 4;
+      map.zoom = 8;
 
       map.control = {};
     };
 
     initMap(gMap);
 
-    var makeMarkers = function(beers){
-      // angular.forEach(places, function(place){
-      //   places.options = {
-      //     title: places.name
-      //   };
-      // });
-      // return places;
-      var markers = [];
+    var sortBeersByDistance = function(beers){
+
       for(var i = 0; i < beers.length; i++){
-        var marker = {};
-        marker.options = {
-          labelAnchor: '10 39',
-          labelContent: i + 1,
-          labelClass: 'labelMarker'
+        for(var j = 0; j < beers[i].locations.length; j++){
+          var R = 6371; // km
+          var beerLong = beers[i].locations[j]._data.data.longitude;
+          var beerLat = beers[i].locations[j]._data.data.latitude;
+
+          var userLatInRadians = userLat * Math.PI / 180;
+          var beerLatInRadians = beerLat* Math.PI / 180;
+
+          var latDiff = (userLat - beerLat)* Math.PI / 180;
+          var longDiff = (userLong - beerLong)* Math.PI / 180;
+
+          var a = Math.abs(Math.sin(latDiff/2) * Math.sin(latDiff/2) +
+                  Math.cos(userLat) * Math.cos(beerLat) *
+                  Math.sin(longDiff/2) * Math.sin(longDiff/2));
+
+          var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+          var d = R * c;
+
+          if(beers[i].distance === undefined || beers[i].distance > d){
+            beers[i].distance = d;
+            beers[i].latitude = beerLat;
+            beers[i].longitude = beerLong;
+          }
         }
+      }
 
-        marker["id"] = i;
-        marker.longitude = beers[i].longitude;
-        marker.latitude = beers[i].latitude;
-        marker.title = beers[i].name;
-        marker.show = false;
+      beers.sort(function(a, b){return a.distance - b.distance});
+    };
 
-        marker.onClick = function() {
-                console.log("Clicked!");
-                marker.show = !marker.show;
-        };
-        markers.push(marker);
+    var makeMarkers = function(beers){
+      console.log(beers);
+      var markers = [];
+      var id = 0;
+      for(var i = beers.length - 1; i >= 0; i--){
+        for(var j = 0; j < beers[i].locations.length; j++){
+          var marker = {};
+
+          marker.options = {
+            labelAnchor: '10 39',
+            labelContent: beers[i].Beer.label,
+            labelClass: 'labelMarker'
+          }
+
+          marker["id"] = id++;
+          marker.longitude = beers[i].locations[j]._data.data.longitude;
+          marker.latitude = beers[i].locations[j]._data.data.latitude;
+          marker.title = beers[i].Beer.name;
+          marker.show = false;
+
+          marker.onClick = function() {
+            console.log("Clicked!", marker.options.labelContent);
+            marker.show = !marker.show;
+          };
+
+          markers.push(marker);
+        }
       }
 
       return markers;
@@ -79,6 +121,7 @@ angular.module('beerMeApp')
       gMap: gMap,
       getRecommendation: getRecommendation,
       clicked: clicked,
-      makeMarkers: makeMarkers
+      makeMarkers: makeMarkers,
+      sortBeersByDistance: sortBeersByDistance
     };
   });

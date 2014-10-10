@@ -28,7 +28,7 @@ Hey, {{userName}}. Here are some recommendations for you.
 	</div>
 	<div class="recommendationText">
 		<ul class="noBullet">
-			<li><strong><em>{{beer.Beer.name}}</em></strong></li>
+			<li><strong><em>{{beer.Beer.label}}: {{beer.Beer.name}}</em></strong></li>
 			<li ng-if="beer.Beer.abv !='undefined'"><strong>ABV: </strong>{{beer.Beer.abv}}</li>
 			<li ng-if="beer.Beer.ibu !='undefined'"><strong>IBU: </strong>{{beer.Beer.ibu}}</li>
 			<li ng-if="beer.Beer.website !='undefined'"><strong>Website: </strong><a href="{{beer.Beer.website}}"> {{beer.Beer.website}}</a></li>
