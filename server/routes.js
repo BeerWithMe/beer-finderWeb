@@ -4,8 +4,6 @@ var bodyParser = require('body-parser');
 var jwt = require('jwt-simple');
 var jwtauth = require('./config/middleware.js');
 var moment = require('moment');
-// moment().format();
-
 
 //Beer types:
   //coffee//
@@ -29,8 +27,7 @@ module.exports = function(app) {
     var IBU = req.body.ibu;
     var ABV = req.body.abv;
     var description = req.body.description; 
-    // var latitude = req.body.latitude;
-    // var longitude = req.body.longitude;
+    
     var getKeywords = function(description){
       var words = description.split(' ')
       for(var i=0; i<words.length; i++){

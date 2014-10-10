@@ -20,9 +20,6 @@ angular
     'ui.bootstrap',
     'elif',
     'ui.utils'
-    // 'ngFx'
-    // 'beerMeApp.oneBeer',
-    // 'beerMeApp.recommendations'
   ])
   .config(function ($stateProvider, $urlRouterProvider, $httpProvider){
     $httpProvider.interceptors.push('TokenInterceptor');
@@ -67,7 +64,6 @@ angular
     $urlRouterProvider.otherwise('/home');
   })
   .run(function ($rootScope, $location, userService) {
-    // $rootScope.$on('$locationChangeStart', function(event, nextRoute, currentRoute){
     $rootScope.$on('$routeChangeStart', function(event, nextRoute, currentRoute){
       if (nextRoute !== '/home' && localStorage.loggedIn === "false") {
         $location.path('/home');
