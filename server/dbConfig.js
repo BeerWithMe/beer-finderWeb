@@ -100,17 +100,6 @@ var generateRecommendationQuery = [
                                     "RETURN b AS Beer, avgRating AS Recommendation, locations"
                                   ].join('\n');
 
-//NEW RECOMMENDATION QUERY
-// MATCH (u1:User)-[r:Likes]->(b:Beer)-[loc:longLat]->(location),
-// (u1)<-[s:Similarity]-(u2:User {username:({username}))})
-// WHERE NOT ((u2)-[:Likes]->(b))
-// WITH b, r.rating AS rating,COLLECT(location) AS locations, s.similarity as similarity
-// WHERE similarity > 0.6
-// WITH b, locations, COLLECT(similarity) AS similarities, COLLECT(rating) AS ratings
-// WITH REDUCE(x = 0, i IN similarities | x+i)*1.0 / LENGTH(similarities) AS avgSimilarity,locations,b,similarities, REDUCE(x = 0, i IN ratings | x+i)*1.0 / LENGTH(similarities) AS avgRating, ratings
-// ORDER BY avgRating DESC, LENGTH(ratings) DESC, avgSimilarity DESC
-// WHERE avgRating >2
-// return b AS Beer, avgRating AS Recommendation
 
 db.getAllBeer = function(callback){
 	db.query(getAllBeerQuery, {}, function(err, allBeers){
@@ -313,7 +302,7 @@ db.authenticateUser = function(userInfo, callback){
       bcrypt.compare(params.password,password, function(err,match){
         // if the password matches
         if(match){
-          console.log('match')
+          console.log('matchh')
           var token = jwt.encode(username, 'secret');
           var expires = moment().add(7, 'days').valueOf();
           console.log('token in routes js = ', token, 'expires', expires)
