@@ -3,7 +3,7 @@
 //this initiates the call to the server to generate recommendations, and receives the response array
 
 angular.module('beerMeApp')
-  .controller('RecommendCtrl', function ($rootScope, $scope, $state, $stateParams, $window, recommendationsRequest) {
+  .controller('RecommendCtrl', function ($filter, $rootScope, $scope, $state, $stateParams, $window, recommendationsRequest) {
     
     $scope.recommendationsList = [];
 
@@ -11,8 +11,27 @@ angular.module('beerMeApp')
 
     recommendationsRequest.getRecommendation($scope.userName)
     	.success(function(data, status, headers, config){
-    		 $scope.recommendationsList = data.beers;
+    		  $scope.recommendationsList = data.beers;
+          $scope.totalItems = data.length;
+          $scope.itemsPerPage = 7;
+          $scope.currentPage = 1;
     	});
+     
+    //controls pagination and filtering
+    $scope.pageCount = function () {
+      return Math.ceil($scope.totalItems / $scope.itemsPerPage);
+    };
+
+    $scope.$watch(function() {
+      return [$scope.currentPage, $scope.itemsPerPage, $scope.filter].join('-');
+    }, function() {
+      var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
+      var end = begin + $scope.itemsPerPage;
+      var prefilteredBeers = $filter('filter')($scope.recommendationsList, $scope.filter);
+      $scope.totalItems = prefilteredBeers.length;
+      $scope.filteredbeerResults = prefilteredBeers.slice(begin, end);
+    })
+    
 
     $scope.clicked = recommendationsRequest.clicked; 
   });
