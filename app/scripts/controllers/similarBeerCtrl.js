@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('beerMeApp')
-	.controller('similarBeers',function ($filter, $scope, $cookieStore, $stateParams, similarBeerService, recommendationsRequest){
+	.controller('similarBeers',function ($cookieStore, $filter, $scope, $stateParams, recommendationsRequest, similarBeerService){
     
     $scope.haveLocation = false; 
 
@@ -52,7 +52,7 @@ angular.module('beerMeApp')
     $scope.iconUrl = $cookieStore.get('image'); 
     
 
-    //this controls pagination
+    //this controls pagination and filtering
     $scope.totalItems = $scope.beerResults.length; 
     $scope.itemsPerPage = 7;
     $scope.currentPage = 1;

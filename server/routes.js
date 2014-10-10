@@ -4,8 +4,6 @@ var bodyParser = require('body-parser');
 var jwt = require('jwt-simple');
 var jwtauth = require('./config/middleware.js');
 var moment = require('moment');
-// moment().format();
-
 
 //Beer types:
   //coffee//
@@ -29,8 +27,7 @@ module.exports = function(app) {
     var IBU = req.body.ibu;
     var ABV = req.body.abv;
     var description = req.body.description; 
-    // var latitude = req.body.latitude;
-    // var longitude = req.body.longitude;
+    
     var getKeywords = function(description){
       var words = description.split(' ')
       for(var i=0; i<words.length; i++){
@@ -228,7 +225,6 @@ module.exports = function(app) {
   // We receive a JSON object containing a username and password
   //{username: xxxxxx, password: xxxxxx}
   app.post('/IOSsignup', function(req, res) {
-
     db.addUserToDatabaseIfUserDoesNotExist(req, function(message, token){
       if(message === 'createUser'){
         console.log("RES RES RES: " , res);
@@ -245,7 +241,7 @@ module.exports = function(app) {
       if(message === 'sendToken'){
         res.send('User logged in successfully');
       } else {
-        res.send('Wrong password');
+        res.status.(406).send('Wrong password');
       }
     });
   })
@@ -283,5 +279,4 @@ module.exports = function(app) {
       }
     })
   });
-
 };

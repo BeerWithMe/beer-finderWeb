@@ -1,5 +1,5 @@
 angular.module('beerMeApp')
-  .factory('userService', function ($window, $location, $http, $state){
+  .factory('userService', function ($http, $location, $state, $window){
 
     var userService = {
     	setUserName: function(name, token, expire){
@@ -45,23 +45,24 @@ angular.module('beerMeApp')
           url: '/signup',
           data: data
         }).success(function(data,status){
-          if(data === 'Username already taken'){
+          if (data === 'Username already taken'){
             alert(data);
           } else {
           console.log('User created!');
           var jwttoken = data.token;
           console.log('token in scope.signup', jwttoken)
           var tokenExpire = data.expires
-          console.log('expire in scope.signup', tokenExpire)
           userService.setUserName(userName, jwttoken, tokenExpire);
           $state.go('questionnaire');
           }
-        }).error(function(error,status){
-          console.log('signup Error: ',error)
+        }).error(function(error, status){
+          console.log('signup Error: ', error)
         })
       },
       goHome: function(username) {
-        $location.path('/userPage/'+ localStorage.userName);
+        if (localStorage.getItem('userName') != 'null') {
+          $location.path('/userPage/'+ localStorage.userName);
+        }
       }
     }
     return userService

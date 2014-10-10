@@ -1,7 +1,7 @@
 'user strict';
 
 angular.module('beerMeApp')
-	.controller('searchResults',function ($filter, $scope, searchResultsService, $stateParams, recommendationsRequest){
+	.controller('searchResults',function ($filter, $scope, $stateParams, recommendationsRequest, searchResultsService){
 
     $scope.loading = true;
     $scope.beerResults = [];
@@ -17,11 +17,9 @@ angular.module('beerMeApp')
       $scope.totalItems = results.length;
       $scope.itemsPerPage = 7;
       $scope.currentPage = 1;
-      console.log('at end of function')
 		});
 
-    console.log('results = ' ,$scope.beerResults)
-
+    //controls pagination and filtering
     $scope.pageCount = function () {
       return Math.ceil($scope.totalItems / $scope.itemsPerPage);
     };
@@ -35,6 +33,7 @@ angular.module('beerMeApp')
       $scope.totalItems = prefilteredBeers.length;
       $scope.filteredbeerResults = prefilteredBeers.slice(begin, end);
     })
-
+    
+    //sends user to single beer view
     $scope.clicked = recommendationsRequest.clicked; 
 	})
