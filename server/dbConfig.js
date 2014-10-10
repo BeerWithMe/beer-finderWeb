@@ -86,16 +86,19 @@ var generateSimilarityQuery = [
 var generateLikesQuery = 'MATCH (u:User),(b:Beer)\nWHERE u.username=({username}) AND b.name=({beername})\nMERGE (u)-[l:Likes {rating: ({rating})}]->(b)'
 var checkLikesQuery = "MATCH (u:User)-[l:Likes]->(b:Beer) WHERE u.username =({username}) AND b.name =({beername}) return l";
 var updateLikesQuery = "MATCH (u:User)-[l:Likes]->(b:Beer) WHERE u.username =({username}) AND b.name =({beername}) SET l.rating = ({rating})"
-var generateRecommendationQuery = ['MATCH (u1:User)-[r:Likes]->(b:Beer),',
-                                  '(u1)-[s:Similarity]-(u2:User {username:({username})})',
-                                  'WHERE NOT((u2)-[:Likes]->(b))',
-                                  'WITH b, s.similarity AS similarity,',
-                                  'r.rating AS rating', 
-                                  'ORDER BY b.name, similarity DESC',
-                                  'WITH b AS beer, COLLECT(rating)[0..3] AS ratings',
-                                  'WITH beer, REDUCE(s = 0, i IN ratings | s + i)*1.0 / LENGTH(ratings) AS reco ORDER BY reco DESC',
-                                  'RETURN beer AS Beer, reco AS Recommendation'].join('\n');
-
+var generateRecommendationQuery = [
+                                    "MATCH (u1:User)-[r:Likes]->(b:Beer)-[loc:longLat]->(location),",
+                                    "(u1)<-[s:Similarity]-(u2:User {username:({username})})",
+                                    "WHERE NOT ((u2)-[:Likes]->(b))",
+                                    "WITH b, r.rating AS rating,COLLECT(location) AS locations, s.similarity as similarity",
+                                    "WHERE similarity > 0.6",
+                                    "WITH b, locations, COLLECT(similarity) AS similarities, COLLECT(rating) AS ratings",
+                                    "WITH REDUCE(x = 0, i IN similarities | x+i)*1.0 / LENGTH(similarities) AS avgSimilarity,",
+                                    "locations,b,similarities, REDUCE(x = 0, i IN ratings | x+i)*1.0 / LENGTH(similarities) AS avgRating, ratings",
+                                    "ORDER BY avgRating DESC, LENGTH(ratings) DESC, avgSimilarity DESC",
+                                    "WHERE avgRating >2",
+                                    "RETURN b AS Beer, avgRating AS Recommendation, locations"
+                                  ].join('\n');
 
 
 db.getAllBeer = function(callback){
@@ -299,7 +302,7 @@ db.authenticateUser = function(userInfo, callback){
       bcrypt.compare(params.password,password, function(err,match){
         // if the password matches
         if(match){
-          console.log('match')
+          console.log('matchh')
           var token = jwt.encode(username, 'secret');
           var expires = moment().add(7, 'days').valueOf();
           console.log('token in routes js = ', token, 'expires', expires)
