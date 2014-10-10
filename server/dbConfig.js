@@ -11,95 +11,94 @@ var bcrypt = require('bcrypt-nodejs');
 var bodyParser = require('body-parser');
 
 module.exports = db;
-///////////////////////////
-//Helper Funcs
-//////////////////////////
-// db.createIfDoesntExist = function(nodeType,properties,callback){
-//   var params = {
-//     nodeType: nodeType
-//   };
-//   for (var i in properties){
-//     params[i] = properties[i]
-//   }
-//   db.query("MERGE (n:({nodeType}) {({}) } )",params,function(err,result){
-//     if(err){
-//       callback(err)
-//     } else {
-//       callback();
-//     }
-//   })
-// }
 
-//How to delete everything in the database: db.query("match (n) optional match (n)-[r]-() delete n, r",function(){})
+/////////////////////////////////////////////////////////
+//THESE ARE THE QUERIES WE USE FOR OUR DATABASE FUNCTIONS
+/////////////////////////////////////////////////////////
 
+var generateLikesQuery = 'MATCH (u:User),(b:Beer)\nWHERE u.username=({username}) AND b.name=({beername})\nMERGE (u)-[l:Likes {rating: ({rating})}]->(b)'
+var checkLikesQuery = "MATCH (u:User)-[l:Likes]->(b:Beer) WHERE u.username =({username}) AND b.name =({beername}) return l";
+var updateLikesQuery = "MATCH (u:User)-[l:Likes]->(b:Beer) WHERE u.username =({username}) AND b.name =({beername}) SET l.rating = ({rating})"
 var getAllBeerQuery = "MATCH (n:Beer) RETURN n;";
-
 var createNewBeerQuery = ["CREATE (n:Beer {name: ({name}), ibu: ({ibu}), abv: ({abv}), description: ({description}), imgUrl: ({imgUrl}), iconUrl: ({iconUrl}), medUrl: ({medUrl}), brewery: ({brewery}), website: ({website}) })",
-						  "RETURN n;"].join('\n');
+              "RETURN n;"].join('\n');
 var createNewBeerQueryWithBrewery = "CREATE (n:Beer {name: ({name}), ibu: ({ibu}), abv: ({abv}), description: ({description}), imgUrl: ({imgUrl}), iconUrl: ({iconUrl}), medUrl: ({medUrl}), brewery: ({brewery}), website: ({website}) })"
 var getOneBeerByNameQuery = "MATCH (n:Beer {name: {name}}) OPTIONAL MATCH (n)-[r:Likes]-(u:User {username: {username}}) RETURN n,r,u;"
 
-//How to find Euclidian Distance for all users against Mike. This is just for debugging in admin view:
-/*
-MATCH (u1:User {username: 'Mike'})-[x:Likes]->(b:Beer)<-[y:Likes]-(u2:User)
-WITH count(b) AS commonBeers,
-  u1.username AS user1, u2.username AS user2,
-  collect(x.rating) as u1Ratings,
-  collect(y.rating) as u2Ratings,
-  collect((x.rating-y.rating)^2) as ratings,
-collect(b.name) as beers
-WITH 
-extract(i in ratings | i/commonBeers) as normedDist,
-1-(sqrt(reduce(total=0.0, k in extract(i in ratings | i/commonBeers) | total+k ))/4) as euclDist,user1,user2,commonBeers,beers,u1Ratings,u2Ratings
-RETURN user1,user2,commonBeers, beers,u1Ratings, u2Ratings,normedDist ,euclDist
-*/
+/////////////////////////////////////////////////
+//Recommendation Engine: Overview
+/////////////////////////////////////////////////
+//1) Treat each user's beer ratings as a vector representing that user's overall preferences
+//2) Assign similarity scores to all users based on the Euclidean Distance between their respective
+//   preference vectors. Do this every time a user hits the like button on the UI.
+//3) To find recommendations, find all user nodes who like a beer that the current user also likes
+//4) Among those users, generate a list of every single user:beer:rating:userSimiliarity combination in the database
+//6) Filter out all combinations where userSimilarity is < 0.6. This effectively reduces our data set
+//   to only include users with similar tastes
+//7) Aggregate the results into a set such that each unique element represents all combinations for a single beer,
+//   in the form of a list that contains the beer itself, an array of its respective ratings, and an array
+//   of its resepetive userSimilarity scores.
+//8) For each beer element, distill its ratings into one average ratings score, and one avg userSimilarity score
+//9) Order all beers first by their avg rating, then by the number of users who rated it,
+//   then by the avg userSimilarity score.
+//10)Return the set of beers, and for each beer, use the avgRating as the predicted rating for current user
+/////////////////////////////////////////////////
 
-//Set similarity relationships for all users connected to Mike (this works):
-
-/*
-MATCH (u1:User {username: 'Mike'})-[x:Likes]->(b:Beer)<-[y:Likes]-(u2:User)
-WITH count(b) AS commonBeers,
-  u1.username AS user1, u2.username AS user2,u1,u2,
-  collect((x.rating-y.rating)^2) as ratings,
-collect(b.name) as beers
-WITH 
-commonBeers,beers,u1,u2,ratings
-Merge (u1)-[s:Similarity]->(u2) SET s.similarity = 1-(sqrt(reduce(total=0.0, k in extract(i in ratings | i/commonBeers) | total+k ))/4)
-*/
 var generateSimilarityQuery = [
+                                //Find all users who share a like relationship with a beer that you also like
                                 "MATCH (u1:User {username: ({username})}) -[x:Likes]-> (b:Beer)<-[y:Likes]-(u2:User)",
+                                //For each user path, count the number of beers in common with you and include it as a value
                                 "WITH count(b) AS commonBeers, u1.username AS user1, u2.username AS user2, u1, u2,",
+                                //Path should now include unique users and beers, along with an array of squared ratings differentials
                                 "collect((x.rating-y.rating)^2) AS ratings,",
+                                //The beer name colleciton is just for debugging
                                 "collect(b.name) AS beers",
                                 "WITH commonBeers, beers, u1, u2, ratings",
+                                //For each user, draw a similarity relationship from You if it doesn't already exist
+                                //Then set the similarity rating to be the Euclidean distance between your ratings and the user's ratings
+                                //Normalize the Euclidean distance to be between 0-1.
                                 "MERGE (u1)-[s:Similarity]->(u2) SET s.similarity = 1-(SQRT(reduce(total=0.0, k in extract(i in ratings | i/commonBeers) | total+k))/4)"
                               ].join('\n'); 
 
 
-
-// var generateSimilarityQuery = ["MATCH (u1:User {username: ({username})})-[x:Likes]->(b:Beer)<-[y:Likes]-(u2:User)",
-//                                "WITH SUM(x.rating * y.rating) AS xyDotProduct,",
-//                                     "SQRT(REDUCE(xDot = 0.0, a IN COLLECT(x.rating) | xDot + a^2)) AS xLength,", 
-//                                     "SQRT(REDUCE(yDot = 0.0, b IN COLLECT(y.rating) | yDot + b^2)) AS yLength,",
-//                                     "u1, u2", 
-//                                "MERGE (u1)-[s:Similarity]->(u2) SET s.similarity = xyDotProduct / (xLength * yLength)"].join('\n');
-var generateLikesQuery = 'MATCH (u:User),(b:Beer)\nWHERE u.username=({username}) AND b.name=({beername})\nMERGE (u)-[l:Likes {rating: ({rating})}]->(b)'
-var checkLikesQuery = "MATCH (u:User)-[l:Likes]->(b:Beer) WHERE u.username =({username}) AND b.name =({beername}) return l";
-var updateLikesQuery = "MATCH (u:User)-[l:Likes]->(b:Beer) WHERE u.username =({username}) AND b.name =({beername}) SET l.rating = ({rating})"
 var generateRecommendationQuery = [
+                                    //Find all beers, users, and like relationships
                                     "MATCH (u1:User)-[r:Likes]->(b:Beer)-[loc:longLat]->(location),",
+                                    //Isolate for only users who are similar to you
                                     "(u1)<-[s:Similarity]-(u2:User {username:({username})})",
+                                    //Isolate for only paths with beers you haven't rated
                                     "WHERE NOT ((u2)-[:Likes]->(b))",
+                                    //Paths should now include unique beer, rating, similarity combinations
                                     "WITH b, r.rating AS rating,COLLECT(location) AS locations, s.similarity as similarity",
+                                    //Remove paths with similarities lower than 0.6
                                     "WHERE similarity > 0.6",
+                                    //Paths should now include unique beers and nothing else. Each beer should have only one path, with
+                                    //all of its ratings and similarities collected into arrays
                                     "WITH b, locations, COLLECT(similarity) AS similarities, COLLECT(rating) AS ratings",
+                                    //Aggregate the similarities and the ratings to be single averaged values
                                     "WITH REDUCE(x = 0, i IN similarities | x+i)*1.0 / LENGTH(similarities) AS avgSimilarity,",
                                     "locations,b,similarities, REDUCE(x = 0, i IN ratings | x+i)*1.0 / LENGTH(similarities) AS avgRating, ratings",
+                                    //Order the beers first by avgRating, then by number of people who rated it, then by similarity score
                                     "ORDER BY avgRating DESC, LENGTH(ratings) DESC, avgSimilarity DESC",
+                                    //Filter for only beers with ratings above 2
                                     "WHERE avgRating >2",
+                                    //Return beers along with avgRating(which we use as rec prediction) and locations array
                                     "RETURN b AS Beer, avgRating AS Recommendation, locations"
                                   ].join('\n');
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//How to find Euclidian Distance for all users against Mike. This is just for debugging in admin view:
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// MATCH (u1:User {username: 'Mike'})-[x:Likes]->(b:Beer)<-[y:Likes]-(u2:User)
+// WITH count(b) AS commonBeers,
+//   u1.username AS user1, u2.username AS user2,
+//   collect(x.rating) as u1Ratings,
+//   collect(y.rating) as u2Ratings,
+//   collect((x.rating-y.rating)^2) as ratings,
+// collect(b.name) as beers
+// WITH 
+// extract(i in ratings | i/commonBeers) as normedDist,
+// 1-(sqrt(reduce(total=0.0, k in extract(i in ratings | i/commonBeers) | total+k ))/4) as euclDist,user1,user2,commonBeers,beers,u1Ratings,u2Ratings
+// RETURN user1,user2,commonBeers, beers,u1Ratings, u2Ratings,normedDist ,euclDist
 
 db.getAllBeer = function(callback){
 	db.query(getAllBeerQuery, {}, function(err, allBeers){
@@ -471,8 +470,3 @@ db.findSimilarBeers = function(queryString,IBU,ABV,keyword, optionalKeyword, cal
   //saison
   //lambic
   //barleywine
-
-// db.findSimilarBeers(58,8,null,null,function(similar,other){
-//   console.log('similar type beers: ',similar.length);
-//   console.log('other beers: ',other.length)
-// })

@@ -11,52 +11,18 @@ var bcrypt = require('bcrypt-nodejs');
 var bodyParser = require('body-parser');
 
 module.exports = db;
-///////////////////////////
-//Helper Funcs
-//////////////////////////
-// db.createIfDoesntExist = function(nodeType,properties,callback){
-//   var params = {
-//     nodeType: nodeType
-//   };
-//   for (var i in properties){
-//     params[i] = properties[i]
-//   }
-//   db.query("MERGE (n:({nodeType}) {({}) } )",params,function(err,result){
-//     if(err){
-//       callback(err)
-//     } else {
-//       callback();
-//     }
-//   })
-// }
 
 //How to delete everything in the database: db.query("match (n) optional match (n)-[r]-() delete n, r",function(){})
 
 var getAllBeerQuery = "MATCH (n:Beer) RETURN n;";
-
 var createNewBeerQuery = ["CREATE (n:Beer {name: ({name}), ibu: ({ibu}), abv: ({abv}), description: ({description}), imgUrl: ({imgUrl}), iconUrl: ({iconUrl}), medUrl: ({medUrl}), brewery: ({brewery}), website: ({website}) })",
 						  "RETURN n;"].join('\n');
 var createNewBeerQueryWithBrewery = "CREATE (n:Beer {name: ({name}), ibu: ({ibu}), abv: ({abv}), description: ({description}), imgUrl: ({imgUrl}), iconUrl: ({iconUrl}), medUrl: ({medUrl}), brewery: ({brewery}), website: ({website}) })"
 var getOneBeerByNameQuery = "MATCH (n:Beer {name: {name}}) RETURN n;"
-
-var generateSimilarityQuery = ["MATCH (u1:User {username: ({username})})-[x:Likes]->(b:Beer)<-[y:Likes]-(u2:User)",
-                               "WITH SUM(x.rating * y.rating) AS xyDotProduct,",
-                                    "SQRT(REDUCE(xDot = 0.0, a IN COLLECT(x.rating) | xDot + a^2)) AS xLength,", 
-                                    "SQRT(REDUCE(yDot = 0.0, b IN COLLECT(y.rating) | yDot + b^2)) AS yLength,",
-                                    "u1, u2", 
-                               "MERGE (u1)-[s:Similarity]->(u2) SET s.similarity = xyDotProduct / (xLength * yLength)"].join('\n');
 var generateLikseQuery = 'MATCH (u:User),(b:Beer)\nWHERE u.username=({username}) AND b.name=({beername})\nMERGE (u)-[l:Likes {rating: ({rating})}]->(b)'
 var checkLikesQuery = "MATCH (u:User)-[l:Likes]->(b:Beer) WHERE u.username =({username}) AND b.name =({beername}) return l";
 var updateLikesQuery = "MATCH (u:User)-[l:Likes]->(b:Beer) WHERE u.username =({username}) AND b.name =({beername}) SET l.rating = ({rating})"
-var generateRecommendationQuery = ['MATCH (u1:User)-[r:Likes]->(b:Beer),',
-                                  '(u1)-[s:Similarity]-(u2:User {username:({username})})',
-                                  'WHERE NOT((u2)-[:Likes]->(b))',
-                                  'WITH b, s.similarity AS similarity,',
-                                  'r.rating AS rating', 
-                                  'ORDER BY b.name, similarity DESC',
-                                  'WITH b AS beer, COLLECT(rating)[0..3] AS ratings',
-                                  'WITH beer, REDUCE(s = 0, i IN ratings | s + i)*1.0 / LENGTH(ratings) AS reco ORDER BY reco DESC',
-                                  'RETURN beer AS Beer, reco AS Recommendation'].join('\n');
+
 
 
 
