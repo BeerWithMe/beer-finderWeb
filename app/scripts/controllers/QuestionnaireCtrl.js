@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('beerMeApp')
-  .controller('QuestionnaireCtrl', function ($scope, $routeParams, likeButton, Questionnaire, $location) {
+  .controller('QuestionnaireCtrl', function ($location, $routeParams, $scope, likeButton, Questionnaire) {
 
     Questionnaire.counter = 0;
-    console.log('counter = ', Questionnaire.counter)
+    //initialize with first beer in list
     $scope.beername = Questionnaire.initialBeers[0].name;
     $scope.imgUrl = Questionnaire.initialBeers[0].imgUrl;
     $scope.beernameInDB = Questionnaire.initialBeers[0].beernameInDB;
@@ -14,7 +14,7 @@ angular.module('beerMeApp')
     // loads the next beer in the predetermined survey list
     $scope.nextbeer = function(){
       if($scope.rate != 0){
-      // Update the like relationship when user clicked nextbeer button.
+      // Update the like relationship when user clicks nextbeer button.
         likeButton.like($scope.beernameInDB, $scope.rate);
       }
 
@@ -28,7 +28,8 @@ angular.module('beerMeApp')
         $scope.message = response.message;
       }
     };
-
+    
+    //called when button clicked at end of survey
     $scope.goToRecommendations = function(){
       $location.path('/'+ localStorage.userName + '/recommendations');
     }

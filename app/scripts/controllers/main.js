@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('beerMeApp')
-  .controller('MainCtrl', function ($scope, $http, $location, $state, userService) {
+  .controller('MainCtrl', function ($http, $location, $scope, $state, userService) {
 
     $scope.login = function(userName, passWord){
       // create JSON object that will become req.body

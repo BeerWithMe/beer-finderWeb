@@ -1,6 +1,9 @@
+
+//attempts to get user's location when their homepage loads
+
 angular.module('beerMeApp')
   .factory('locationService', function (){
-    //hi
+  
     var locationService = {
       setPosition: function(position) {
         localStorage.setItem('longitude', position.coords.longitude);

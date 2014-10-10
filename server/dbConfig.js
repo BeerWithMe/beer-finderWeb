@@ -299,7 +299,7 @@ db.authenticateUser = function(userInfo, callback){
       bcrypt.compare(params.password,password, function(err,match){
         // if the password matches
         if(match){
-          console.log('matchh')
+          console.log('match')
           var token = jwt.encode(username, 'secret');
           var expires = moment().add(7, 'days').valueOf();
           console.log('token in routes js = ', token, 'expires', expires)
