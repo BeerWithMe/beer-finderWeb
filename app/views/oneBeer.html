@@ -38,7 +38,7 @@
 			
 			<!-- <rating ng-model="beer.Recommendation" max="userRating" readonly="false"></rating> -->
 			
-			<your-rating class="yourRatingStars" beer-to-be-rated="beername"></your-rating>
+			<span><strong>Your Rating: </strong><span><your-rating class="yourRatingStars" beer-to-be-rated="beername"></your-rating>
 			<button class="btn btn-primary similarBeerButton"ng-click="getAllBeers(ibu, abv, description)">Show Me Similar Beers</button>
 		</div>
 	<div ng-if="beername === ''">
