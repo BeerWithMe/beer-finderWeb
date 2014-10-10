@@ -241,7 +241,7 @@ module.exports = function(app) {
       if(message === 'sendToken'){
         res.send('User logged in successfully');
       } else {
-        res.status.(406).send('Wrong password');
+        res.status(406).send('Wrong password');
       }
     });
   })
