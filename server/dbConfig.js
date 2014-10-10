@@ -12,15 +12,37 @@ var bodyParser = require('body-parser');
 
 module.exports = db;
 
+/////////////////////////////////////////////////////////
+//THESE ARE THE QUERIES WE USE FOR OUR DATABASE FUNCTIONS
+/////////////////////////////////////////////////////////
 
-//How to delete everything in the database: db.query("match (n) optional match (n)-[r]-() delete n, r",function(){})
-
+var generateLikesQuery = 'MATCH (u:User),(b:Beer)\nWHERE u.username=({username}) AND b.name=({beername})\nMERGE (u)-[l:Likes {rating: ({rating})}]->(b)'
+var checkLikesQuery = "MATCH (u:User)-[l:Likes]->(b:Beer) WHERE u.username =({username}) AND b.name =({beername}) return l";
+var updateLikesQuery = "MATCH (u:User)-[l:Likes]->(b:Beer) WHERE u.username =({username}) AND b.name =({beername}) SET l.rating = ({rating})"
 var getAllBeerQuery = "MATCH (n:Beer) RETURN n;";
-
 var createNewBeerQuery = ["CREATE (n:Beer {name: ({name}), ibu: ({ibu}), abv: ({abv}), description: ({description}), imgUrl: ({imgUrl}), iconUrl: ({iconUrl}), medUrl: ({medUrl}), brewery: ({brewery}), website: ({website}) })",
-						  "RETURN n;"].join('\n');
+              "RETURN n;"].join('\n');
 var createNewBeerQueryWithBrewery = "CREATE (n:Beer {name: ({name}), ibu: ({ibu}), abv: ({abv}), description: ({description}), imgUrl: ({imgUrl}), iconUrl: ({iconUrl}), medUrl: ({medUrl}), brewery: ({brewery}), website: ({website}) })"
 var getOneBeerByNameQuery = "MATCH (n:Beer {name: {name}}) OPTIONAL MATCH (n)-[r:Likes]-(u:User {username: {username}}) RETURN n,r,u;"
+
+/////////////////////////////////////////////////
+//Recommendation Engine: Overview
+/////////////////////////////////////////////////
+//1) Treat each user's beer ratings as a vector representing that user's overall preferences
+//2) Assign similarity scores to all users based on the Euclidean Distance between their respective
+//   preference vectors. Do this every time a user hits the like button on the UI.
+//3) To find recommendations, find all user nodes who like a beer that the current user also likes
+//4) Among those users, generate a list of every single user:beer:rating:userSimiliarity combination in the database
+//6) Filter out all combinations where userSimilarity is < 0.6. This effectively reduces our data set
+//   to only include users with similar tastes
+//7) Aggregate the results into a set such that each unique element represents all combinations for a single beer,
+//   in the form of a list that contains the beer itself, an array of its respective ratings, and an array
+//   of its resepetive userSimilarity scores.
+//8) For each beer element, distill its ratings into one average ratings score, and one avg userSimilarity score
+//9) Order all beers first by their avg rating, then by the number of users who rated it,
+//   then by the avg userSimilarity score.
+//10)Return the set of beers, and for each beer, use the avgRating as the predicted rating for current user
+/////////////////////////////////////////////////
 
 var generateSimilarityQuery = [
                                 //Find all users who share a like relationship with a beer that you also like
@@ -39,9 +61,6 @@ var generateSimilarityQuery = [
                               ].join('\n'); 
 
 
-var generateLikesQuery = 'MATCH (u:User),(b:Beer)\nWHERE u.username=({username}) AND b.name=({beername})\nMERGE (u)-[l:Likes {rating: ({rating})}]->(b)'
-var checkLikesQuery = "MATCH (u:User)-[l:Likes]->(b:Beer) WHERE u.username =({username}) AND b.name =({beername}) return l";
-var updateLikesQuery = "MATCH (u:User)-[l:Likes]->(b:Beer) WHERE u.username =({username}) AND b.name =({beername}) SET l.rating = ({rating})"
 var generateRecommendationQuery = [
                                     //Find all beers, users, and like relationships
                                     "MATCH (u1:User)-[r:Likes]->(b:Beer)-[loc:longLat]->(location),",
@@ -451,8 +470,3 @@ db.findSimilarBeers = function(queryString,IBU,ABV,keyword, optionalKeyword, cal
   //saison
   //lambic
   //barleywine
-
-// db.findSimilarBeers(58,8,null,null,function(similar,other){
-//   console.log('similar type beers: ',similar.length);
-//   console.log('other beers: ',other.length)
-// })
