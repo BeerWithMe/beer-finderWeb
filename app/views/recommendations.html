@@ -35,4 +35,6 @@ Hey, {{userName}}. Here are some recommendations for you.
 	<div class="recsDivider"></div>
 </div>
 
+<pagination ng-show="pageCount()>1" ng-class="{onBottom: loading}" total-items="totalItems" ng-model="currentPage" items-per-page="7" max-size="10" ng-change="pageChanged()"></pagination>
+
 </div>
