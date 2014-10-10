@@ -7,10 +7,8 @@
   </div>
 
   <div class="ratingContainer center-block">
-    <h4>My Rating</h4>
-    <rating class="stars center-block"  ng-model="rate" max="5" readonly="false"></rating>
+    <your-rating class="yourRatingStars stars" beer-to-be-rated="beernameInDB" ng-click='submitRate(); nextbeer()'></your-rating>
 
-    <button class="likeButtonClass" ng-click="nextbeer()" ng-if="!message">Next Beer</button>
     <strong>{{message}}</strong>
 
   <button ng-click="goToRecommendations()" class="likeButtonClass" ng-show="message!=null">See Recommendations</button>

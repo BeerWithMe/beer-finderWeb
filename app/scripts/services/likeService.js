@@ -5,6 +5,7 @@ angular.module('beerMeApp')
   .factory('likeButton', function ($http){
 
     var like = function(beername, rating){
+      console.log(rating);
       var username = localStorage.userName;
 
       var data = JSON.stringify({
