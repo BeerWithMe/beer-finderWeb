@@ -2,7 +2,6 @@ angular.module('beerMeApp')
 
 .directive('search', function($location){
   return {
-    // scope: {},
     restrict: 'E',
     templateUrl: '../views/searchDirective.html',
     link: function(scope){
