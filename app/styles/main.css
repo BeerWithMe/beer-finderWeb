@@ -54,6 +54,11 @@ body {
   border-radius: 15px;
   z-index: 1; }
 
+.login-box-text {
+  color: white;
+  font-weight: 200;
+}
+
 .mainViewContainer .centerbox {
   text-align: center; }
 
@@ -61,6 +66,10 @@ body {
   width: 71%;
   margin-left: 14%;
   margin-top: 3.5%; }
+
+.primary-header {
+  float: left;
+}
 
 .imgDiv {
   padding: 10px;
@@ -79,7 +88,9 @@ body {
   height: 2px;
   width: 60%;
   margin: auto;
-  background-color: rgba(21, 72, 105, 0.8); }
+  background-color: rgba(21, 72, 105, 0.8); 
+}
+
 
 h3 {
   margin-top: 10px; }
@@ -159,12 +170,9 @@ h2 {
   font-size: 55px;
   outline: none; }
 
-<<<<<<< HEAD
 .rating {
   display: inline-block; }
 
-=======
->>>>>>> Styled home page.
 .pop:active {
   background-color: red; }
 
