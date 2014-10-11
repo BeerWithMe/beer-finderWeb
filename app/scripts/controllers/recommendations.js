@@ -11,11 +11,17 @@ angular.module('beerMeApp')
 
     recommendationsRequest.getRecommendation($scope.userName)
     	.success(function(data, status, headers, config){
-    		  $scope.recommendationsList = data.beers;
-          $scope.totalItems = data.length;
-          $scope.itemsPerPage = 7;
-          $scope.currentPage = 1;
-    	});
+            recommendationsRequest.sortBeersByDistance(data.beers);
+             $scope.recommendationsList = data.beers;
+                $scope.totalItems = data.length;
+                $scope.itemsPerPage = 7;
+                $scope.currentPage = 1;
+             for(var i = 0; i < data.beers.length; i++){
+                data.beers[i].Beer.label = i + 1;
+             }
+
+        $scope.MarkersWithLabel = recommendationsRequest.makeMarkers(data.beers);
+    });
      
     //controls pagination and filtering
     $scope.pageCount = function () {
@@ -32,6 +38,8 @@ angular.module('beerMeApp')
       $scope.filteredbeerResults = prefilteredBeers.slice(begin, end);
     })
     
-
     $scope.clicked = recommendationsRequest.clicked; 
-  });
+
+    $scope.map = recommendationsRequest.gMap;
+
+});

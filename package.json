@@ -35,6 +35,7 @@
     "jshint-stylish": "^0.2.0",
     "jwt-simple": "^0.2.0",
     "karma": "^0.12.24",
+    "karma-growl": "^0.1.0",
     "karma-jasmine": "^0.1.5",
     "karma-mocha": "^0.1.9",
     "load-grunt-tasks": "^0.4.0",

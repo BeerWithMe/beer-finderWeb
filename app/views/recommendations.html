@@ -10,6 +10,14 @@
 Hey, {{userName}}. Here are some recommendations for you.
 </h1>
 
+<google-map center="map.center" zoom="map.zoom" control="map.control">
+	<markers models="MarkersWithLabel" coords="'self'" options="'options'" click="'onClick'" isLabel="true">
+<!-- 		<windows show="'show'">
+			<div ng-non-bindable>{{title}}</div>
+		</windows> -->
+	</markers>
+</google-map>
+
 <div class="loadingText" ng-if="recommendationsList.length === 0">
 	<strong>Loading...</Strong>
 </div>
@@ -20,14 +28,14 @@ Hey, {{userName}}. Here are some recommendations for you.
 	</div>
 	<div class="recommendationText">
 		<ul class="noBullet">
-			<li><strong><em>{{beer.Beer.name}}</em></strong></li>
+			<li><strong><em>{{beer.Beer.label}}: {{beer.Beer.name}}</em></strong></li>
 			<li ng-if="beer.Beer.abv !='undefined'"><strong>ABV: </strong>{{beer.Beer.abv}}</li>
 			<li ng-if="beer.Beer.ibu !='undefined'"><strong>IBU: </strong>{{beer.Beer.ibu}}</li>
 			<li ng-if="beer.Beer.website !='undefined'"><strong>Website: </strong><a href="{{beer.Beer.website}}"> {{beer.Beer.website}}</a></li>
 			<!-- <li ng-if="beer.Beer.description !='undefined'">description: {{beer.Beer.description}}</li> -->
 			<!-- <li ng-if="beer.Beer.brewery !='undefined'">brewery: {{beer.Beer.brewery}}</li> -->
 			<li><strong>Our guess for you: </strong><rating ng-model="beer.Recommendation" max="5" readonly="true"></rating></li>
-	    <your-rating class="yourRatingStars" beer-to-be-rated="beer.Beer.name"></your-rating>
+	    <span><strong>Your Rating: </strong><span><your-rating class="yourRatingStars" beer-to-be-rated="beer.Beer.name"></your-rating>
 	  </ul>
 	</div>
 	<div class="recsDivider"></div>

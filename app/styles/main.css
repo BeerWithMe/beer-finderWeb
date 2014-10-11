@@ -83,6 +83,22 @@ h2 {
   margin-top: 10px;
   background-color: rgba(9, 36, 119, 0.3); }
 
+.angular-google-map-container {
+  height: 400px;
+  width: 900px; }
+
+.labelMarker {
+  font-size: 15px;
+  font-weight: bold;
+  color: #FFFFFF;
+  font-family: "DINNextRoundedLTProMediumRegular";
+  border-radius: 50%;
+  background-color: blue;
+  width: 20px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 20px; }
+
 /*BEERME---------------Questionnaire page styling-----------------BEERME*/
 .surveyHead {
   width: 500px; }
@@ -113,32 +129,11 @@ h2 {
   font-size: 55px;
   outline: none; }
 
-@keyframes pop-in {
-  0% {
-    opacity: 0;
-    transform: scale(0.1); }
-  100% {
-    opacity: 1;
-    transform: scale(1); } }
-@-webkit-keyframes pop-in {
-  0% {
-    opacity: 0;
-    -webkit-transform: scale(0.1); }
-  100% {
-    opacity: 1;
-    -webkit-transform: scale(1); } }
-@-moz-keyframes pop-in {
-  0% {
-    opacity: 0;
-    -moz-transform: scale(0.1); }
-  100% {
-    opacity: 1;
-    -moz-transform: scale(1); } }
+.rating {
+  display: inline-block; }
+
 .pop:active {
-  /*background-color: red;*/
-  webkit-animation: pop-in 0.5s;
-  moz-animation: pop-in 0.5s;
-  ms-animation: pop-in 0.5s; }
+  background-color: red; }
 
 /*BEERME---------------User page styling-----------------BEERME*/
 .userContainer {

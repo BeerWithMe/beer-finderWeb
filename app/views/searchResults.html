@@ -43,7 +43,7 @@
 			<li ng-if="beer.description !='undefined'"><strong>Description: </strong>{{beer.description}}</li>
 			<li ng-if="beer.brewery !=''"><strong>Brewery: </strong>{{beer.brewery}}</li>
 			<li ng-if="beer.website !='undefined'"><strong>Website: </strong><a href="{{beer.website}}"> {{beer.website}}</a></li>
-			<li><your-rating class="yourRatingStars" beer-to-be-rated="beer.name"></your-rating></li>
+			<li><span><strong>Your Rating: </strong><span><your-rating class="yourRatingStars" beer-to-be-rated="beer.name"></your-rating></li>
 		</ul>
 	</div>
 	
