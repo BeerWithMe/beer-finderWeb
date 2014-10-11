@@ -12,6 +12,8 @@ angular.module('beerMeApp')
     recommendationsRequest.getRecommendation($scope.userName)
     	.success(function(data, status, headers, config){
             recommendationsRequest.sortBeersByDistance(data.beers);
+            console.log("resort");
+            data.beers.sort(function(a, b){return b.Recommendation - a.Recommendation});
              $scope.recommendationsList = data.beers;
                 $scope.totalItems = data.length;
                 $scope.itemsPerPage = 7;
