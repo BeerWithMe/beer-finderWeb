@@ -610,10 +610,9 @@ h2 {
   width: 1000px;
   height: 350px; }
 
-.beerImage {
+.questbeerImage {
   width: 300px;
   height: 300px;
-  float: left;
   margin: 10px; }
 
 .beerText {

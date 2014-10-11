@@ -175,9 +175,11 @@ h2 {
 .pop:active {
   .glyphicon{
     transform: scale(1.6);
-  }
-  
+  }  
 }
+
+
+
 
 
 /*BEERME---------------User page styling-----------------BEERME*/
@@ -748,10 +750,9 @@ h2 {
   
 }
 
-.beerImage {
+.questbeerImage {
   width: 300px;
   height: 300px;
-  float: left;
   margin: 10px;
 }
 
