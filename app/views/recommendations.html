@@ -22,7 +22,7 @@ Hey, {{userName}}. Here are some recommendations for you.
 	<strong>Loading...</Strong>
 </div>
 
-<div ng-repeat="beer in recommendationsList | filter: filter">
+<div ng-repeat="beer in filteredbeerResults | filter: filter">
 	<div class="recommendationImage" ng-click='clicked(beer.Beer.name)'>
 		<img ng-src="{{beer.Beer.iconUrl}}"/>
 	</div>

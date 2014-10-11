@@ -39,6 +39,7 @@ angular.module('beerMeApp')
       var prefilteredBeers = $filter('filter')($scope.recommendationsList, $scope.filter);
       $scope.totalItems = prefilteredBeers.length;
       $scope.filteredbeerResults = prefilteredBeers.slice(begin, end);
+      console.log($scope.filteredbeerResults)
     })
     
     $scope.clicked = recommendationsRequest.clicked; 
