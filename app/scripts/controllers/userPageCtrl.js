@@ -23,3 +23,23 @@ angular.module('beerMeApp')
 		$scope.clicked = recommendationsRequest.clicked;
 
 	})
+
+  //$scope.userLikes looks like:
+  // { 1: [
+  //   {$$hashKey:
+  //     abv:
+  //     brewery:
+  //     description:
+  //     ibu:
+  //     iconUrl:
+  //     imgUrl:
+  //     medUrl:
+  //     name:
+  //     website:}
+  //   {another beer...}
+  //   ]
+  //   2: []
+  //   3: []
+  //   4: []
+  //   5: []
+  // }
