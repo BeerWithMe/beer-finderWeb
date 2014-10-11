@@ -160,12 +160,22 @@ h2 {
   outline: none;
 }
 
+*{
+  outline: none;
+}
+
 .rating {
   display: inline-block;
 }
 
+.glyphicon{
+  transition: 0.3s;
+}
+
 .pop:active {
-  background-color: red;
+  .glyphicon{
+    transform: scale(1.6);
+  }
   
 }
 

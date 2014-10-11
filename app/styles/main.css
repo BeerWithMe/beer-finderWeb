@@ -129,11 +129,17 @@ h2 {
   font-size: 55px;
   outline: none; }
 
+* {
+  outline: none; }
+
 .rating {
   display: inline-block; }
 
-.pop:active {
-  background-color: red; }
+.glyphicon {
+  transition: 0.3s; }
+
+.pop:active .glyphicon {
+  transform: scale(1.6); }
 
 /*BEERME---------------User page styling-----------------BEERME*/
 .userContainer {
