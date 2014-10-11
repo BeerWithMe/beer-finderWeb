@@ -16,30 +16,69 @@ body {
 .beerImage:hover, .yourRatingStars:hover, .singleBeerImg:hover {
   cursor: pointer; }
 
+.primary-header {
+  float: left; }
+
+.hmpg-btn {
+  background-color: rgba(240, 240, 240, 0.4);
+  border-color: rgba(240, 240, 240, 0.9);
+  font-weight: 200;
+  font-family: sans-serif; }
+
+.hmpg-btn:hover, .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
+  color: #fff;
+  background-color: rgba(240, 240, 240, 0.7);
+  border-color: rgba(240, 240, 240, 0.9); }
+
+.login-box-text {
+  font-weight: 100;
+  color: white;
+  font-family: sans-serif; }
+
 .mainElement {
   /*height:calc(100% - 51px);*/
   height: 750px; }
 
+.const-nav-btn {
+  color: #8a0505;
+  background-color: rgba(240, 240, 240, 0.75); }
+
 .mainViewContainer {
-  width: 40%;
+  width: 47%;
+  height: 39%;
   margin: auto;
   margin-top: 10%;
   padding: 15px;
-  border: 3px solid #535553;
-  background-color: white;
-  border-radius: 5px;
+  border: 1.7px solid #E7E4E4;
+  background-color: rgba(138, 5, 5, 0.83);
+  border-radius: 15px;
   z-index: 1; }
+
+.login-box-text {
+  color: white;
+  font-weight: 200;
+}
 
 .mainViewContainer .centerbox {
   text-align: center; }
+
+.form-control {
+  width: 71%;
+  margin-left: 14%;
+  margin-top: 3.5%; }
+
+.primary-header {
+  float: left;
+}
 
 .imgDiv {
   padding: 10px;
   width: 100%;
   height: 100%;
-  background: url("../../images/bottles-203838_1280.jpg");
+  background: url("http://www.lifeofpix.com/wp-content/uploads/2014/09/8-Life-of-Pix-free-stock-photos-restaurant-table-for-two-soho-new-york-1440x960.jpg");
   background-size: cover;
-  opacity: .75;
+  /*  opacity: .75;
+  */
   z-index: 0; }
 
 .index {
@@ -49,7 +88,9 @@ body {
   height: 2px;
   width: 60%;
   margin: auto;
-  background-color: rgba(136, 203, 175, 0.2); }
+  background-color: rgba(21, 72, 105, 0.8); 
+}
+
 
 h3 {
   margin-top: 10px; }
@@ -537,7 +578,7 @@ h2 {
   -webkit-transition: border-radius .35s ease;
        -o-transition: border-radius .35s ease;
           transition: border-radius .35s ease;
-}*/
+          }*/
 /* -------------- Styling for main.html -------------- */
 /* main page background image */
 /* -- Main page welcome container -- */
