@@ -21,23 +21,33 @@ body {
   height: 750px; }
 
 .mainViewContainer {
-  width: 40%;
+  width: 47%;
+  height: 39%;
   margin: auto;
   margin-top: 10%;
   padding: 15px;
-  border: 3px solid #535553;
-  background-color: white;
+  border: 1.5px solid #B3B3B3;
+  background-color: rgba(138, 5, 5, 0.8);
   border-radius: 5px;
   z-index: 1; }
 
+.login-box-text {
+  color: white;
+  font-weight: 200;
+}
+
 .mainViewContainer .centerbox {
   text-align: center; }
+
+.primary-header {
+  float: left;
+}
 
 .imgDiv {
   padding: 10px;
   width: 100%;
   height: 100%;
-  background: url("../../images/bottles-203838_1280.jpg");
+  background: url("https://unsplash.imgix.net/uploads%2F141223808515744db9995%2F3361b5e1?q=75&fm=jpg&auto=format&s=a56c1bef666a56f257171ebfe6439226");
   background-size: cover;
   opacity: .75;
   z-index: 0; }
@@ -49,7 +59,8 @@ body {
   height: 2px;
   width: 60%;
   margin: auto;
-  background-color: rgba(136, 203, 175, 0.2); }
+  background-color: rgba(94, 205, 248, 0.42); 
+}
 
 h3 {
   margin-top: 10px; }
