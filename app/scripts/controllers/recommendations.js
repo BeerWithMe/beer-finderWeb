@@ -11,9 +11,10 @@ angular.module('beerMeApp')
 
     recommendationsRequest.getRecommendation($scope.userName)
     	.success(function(data, status, headers, config){
-    	      // sort beers first by recommendation then by distance
-            recommendationsRequest.sortBeersByDistance(data.beers);
-            data.beers.sort(function(a, b){return b.Recommendation - a.Recommendation});
+
+            // sort beers first by recommendation then by distance
+            // recommendationsRequest.sortBeersByDistance(data.beers);
+            // data.beers.sort(function(a, b){return b.Recommendation - a.Recommendation});
             
              $scope.recommendationsList = data.beers;
                 $scope.totalItems = data.length;
