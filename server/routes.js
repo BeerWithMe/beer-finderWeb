@@ -5,6 +5,7 @@ var jwt = require('jwt-simple');
 var jwtauth = require('./config/middleware.js');
 var moment = require('moment');
 
+
 //Beer types:
   //coffee//
   //Ale
@@ -248,15 +249,26 @@ module.exports = function(app) {
 
   // We receive a JSON object containing just a username
   app.get('/IOSrecommendations', function(req, res){
-    var username = req.body.username;
-    db.generateRecommendation(username, function(err, result){
-      if(err){
-        res.status(400).send("Error");
-      }else{
-        var data = {beers: result};
-        res.send(data);
-      }
-    });    
+    console.log(req.headers);
+    console.log(req.body);
+    var username = req.headers['x-username'];
+    console.log(username);
+
+    var testResponse = {posts:[{'id': 41220, 'name': 'Budweiser', 'brewery': 'here', 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/1P45iR/upload_upBR4q-large.png'},
+    {'id': 58978, 'brewery': 'someplace', 'name': 'Racer 5 IPA', 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/o1OELJ/upload_OutGJZ-large.png'},
+    {'id': 37259, 'brewery': 'someplace else', 'name': 'Anchor Steam' , 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/Uiol9p/upload_drOw0u-large.png'},
+    {'id': 47942, 'brewery': 'someplace in SF', 'name': 'Guinness Draught', 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/StkEiv/upload_etArOb-large.png'},
+    {'id': 40135, 'brewery': 'somewhere', 'name': 'Blue Moon Belgian White' /*, 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/dDXOEp/upload_SZEtGz-large.png'*/}]};
+    res.send(testResponse);
+
+    // db.generateRecommendation(username, function(err, result){
+    //   if(err){
+    //     res.status(400).send("Error");
+    //   }else{
+    //     var data = {beers: result};
+    //     res.send(data);
+    //   }
+    // });    
   }) 
 
   // This endpoint is for creating like relationship between users and beers.
