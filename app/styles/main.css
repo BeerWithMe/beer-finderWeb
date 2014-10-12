@@ -54,11 +54,6 @@ body {
   border-radius: 15px;
   z-index: 1; }
 
-.login-box-text {
-  color: white;
-  font-weight: 200;
-}
-
 .mainViewContainer .centerbox {
   text-align: center; }
 
@@ -66,10 +61,6 @@ body {
   width: 71%;
   margin-left: 14%;
   margin-top: 3.5%; }
-
-.primary-header {
-  float: left;
-}
 
 .imgDiv {
   padding: 10px;
@@ -88,9 +79,7 @@ body {
   height: 2px;
   width: 60%;
   margin: auto;
-  background-color: rgba(21, 72, 105, 0.8); 
-}
-
+  background-color: rgba(21, 72, 105, 0.8); }
 
 h3 {
   margin-top: 10px; }
@@ -170,11 +159,17 @@ h2 {
   font-size: 55px;
   outline: none; }
 
+* {
+  outline: none; }
+
 .rating {
   display: inline-block; }
 
-.pop:active {
-  background-color: red; }
+.glyphicon {
+  transition: 0.3s; }
+
+.pop:active .glyphicon {
+  transform: scale(1.6); }
 
 /*BEERME---------------User page styling-----------------BEERME*/
 .userContainer {
@@ -578,7 +573,83 @@ h2 {
   -webkit-transition: border-radius .35s ease;
        -o-transition: border-radius .35s ease;
           transition: border-radius .35s ease;
-          }*/
+
+}*/
+/* -------------- Styling for main.html -------------- */
+/* main page background image */
+/* -- Main page welcome container -- */
+/* Welcome container divider and paragraph */
+.centerbox > p {
+  width: 85%;
+  margin: 15px auto; }
+
+/* Welcome container search bar*/
+.searchBar {
+  display: inline-block;
+  margin: 10px;
+  border: none;
+  border: 1px solid #F5F2EB;
+  background-color: white; }
+
+.searchBarButton {
+  color: #88cbaf;
+  background-color: rgba(136, 203, 175, 0.15);
+  border: 1px solid rgba(136, 203, 175, 0.9);
+  border-radius: 2px;
+  height: 25px;
+  margin-left: 0px; }
+
+.searchBarInput {
+  color: black; }
+
+.searchBarInput:active,
+.searchBarInput:hover,
+.searchBarInput:focus {
+  border: 1px solid #dcd1b8; }
+
+.searchBar:active,
+.searchBar:hover,
+.searchBar:focus {
+  outline: none; }
+
+::-webkit-input-placeholder {
+  /* WebKit browsers */
+  color: #ede7da; }
+
+:-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+  color: #ede7da;
+  opacity: 1; }
+
+::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+  color: #ede7da;
+  opacity: 1; }
+
+:-ms-input-placeholder {
+  /* Internet Explorer 10+ */
+  color: #ede7da; }
+
+/* -------------- Styling for Search Results -------------- */
+.SearchResultsContainer {
+  /*text-align: center;*/
+  width: 100%;
+  height: 450px;
+  margin: auto; }
+
+.beerImageContainer {
+  width: 1000px;
+  height: 350px; }
+
+.questbeerImage {
+  width: 300px;
+  height: 300px;
+  margin: 10px; }
+
+.beerText {
+  margin-left: 300px;
+  padding-top: 50px; }
+
 /* -------------- Styling for main.html -------------- */
 /* main page background image */
 /* -- Main page welcome container -- */

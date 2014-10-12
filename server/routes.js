@@ -5,6 +5,7 @@ var jwt = require('jwt-simple');
 var jwtauth = require('./config/middleware.js');
 var moment = require('moment');
 
+
 //Beer types:
   //coffee//
   //Ale
