@@ -1,6 +1,6 @@
 
 <div class="recommendationContainer">
-
+<div class="recommendationHeading">
 <div>
 	<search></search>
 	<filter></filter>
@@ -9,14 +9,6 @@
 <h1>
 Hey, {{userName}}. Here are some recommendations for you.
 </h1>
-
-<google-map center="map.center" zoom="map.zoom" control="map.control">
-	<markers models="MarkersWithLabel" coords="'self'" options="'options'" click="'onClick'" isLabel="true">
-<!-- 		<windows show="'show'">
-			<div ng-non-bindable>{{title}}</div>
-		</windows> -->
-	</markers>
-</google-map>
 
 <div class="loadingText" ng-if="recommendationsList.length === 0">
 	<strong>Loading...</Strong>
@@ -43,4 +35,14 @@ Hey, {{userName}}. Here are some recommendations for you.
 
 <pagination ng-show="pageCount()>1" ng-class="{onBottom: loading}" total-items="totalItems" ng-model="currentPage" items-per-page="7" max-size="10" ng-change="pageChanged()"></pagination>
 
+</div>
+<div class="mapDiv">
+<google-map center="map.center" zoom="map.zoom" control="map.control">
+	<markers models="MarkersWithLabel" coords="'self'" options="'options'" click="'onClick'" isLabel="true">
+<!-- 		<windows show="'show'">
+			<div ng-non-bindable>{{title}}</div>
+		</windows> -->
+	</markers>
+</google-map>
+</div>
 </div>

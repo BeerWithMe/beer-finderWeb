@@ -6,14 +6,14 @@ angular.module('beerMeApp')
     var gMap = {};
     
 
-    var userLat = localStorage.getItem('latitude');
-    var userLong = localStorage.getItem('longitude');
+    // var userLat = localStorage.getItem('latitude');
+    // var userLong = localStorage.getItem('longitude');
 
-    if(userLat === 'undefined' || userLong === 'undefined'){
+    // if(userLat === 'undefined' || userLong === 'undefined'){
       // If user's current location is undefined, default to Center of USA
-      userLat = 39.702967436166105;
-      userLong = -97.14059911250001;
-    }
+    var userLat = 39.702967436166105;
+    var userLong = -97.14059911250001;
+    // }
 
     var initMap = function(map){
 
@@ -23,7 +23,7 @@ angular.module('beerMeApp')
         longitude: userLong
       }
 
-      map.zoom = 8;
+      map.zoom = 3;
 
       map.control = {};
     };
@@ -73,7 +73,8 @@ angular.module('beerMeApp')
           marker.options = {
             labelAnchor: '10 39',
             labelContent: beers[i].Beer.label,
-            labelClass: 'labelMarker'
+            labelClass: 'labelMarker',
+            cursor: 'auto'
           }
 
           marker["id"] = id++;
