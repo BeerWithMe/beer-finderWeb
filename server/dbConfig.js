@@ -289,10 +289,13 @@ db.authenticateUser = function(userInfo, callback){
       username: userInfo.body.username,
       password: userInfo.body.password
     }
-  db.query('MATCH (n:User {username: ({username})}) RETURN n',params, function(err,data) {
+  db.query('OPTIONAL MATCH (n:User {username: ({username})}) RETURN n',params, function(err,data) {
     if(err) {console.log('OptionalMatch error: ',err)};
     // if the user exists
-    if (data.length) {
+    if (data[0]['n'] == null) {
+      callback('sorry no such user');
+    } else if (data.length) {
+      console.log('DATA= ', data)
       var node = data[0].n.data;
       var username = node.username;
       var password = node.password;
@@ -318,7 +321,7 @@ db.authenticateUser = function(userInfo, callback){
           callback('wrong password')
           // res.send('Wrong password');
         }
-      })
+      }) 
     }
   })
 }
