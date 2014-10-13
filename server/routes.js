@@ -265,7 +265,7 @@ app.post('/:user/recommendations', [bodyParser(), jwtauth], function(req, res){
 
   app.get('/temp-test', function(req, res){
     console.log(req.headers['x-username']);
-    var testResponse = {recommendations:[{'id': 41220, 'name': 'Budweiser', 'brewery': 'here', 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/1P45iR/upload_upBR4q-large.png'},
+    var testResponse = {recommendations:[{'id': 41220, 'name': 'Budweiser', 'brewery': 'here', 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/1P45iR/upload_upBR4q-large.png', 'abv':'5', 'description':'yada yada yada', 'ibu':'5', 'brewery-url': 'www.budweiser.com'},
     {'id': 58978, 'brewery': 'someplace', 'name': 'Racer 5 IPA', 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/o1OELJ/upload_OutGJZ-large.png'},
     {'id': 37259, 'brewery': 'someplace else', 'name': 'Anchor Steam' , 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/Uiol9p/upload_drOw0u-large.png'},
     {'id': 47942, 'brewery': 'someplace in SF', 'name': 'Guinness Draught', 'imgUrl': 'https://s3.amazonaws.com/brewerydbapi/beer/StkEiv/upload_etArOb-large.png'},
