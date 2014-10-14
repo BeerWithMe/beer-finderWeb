@@ -188,6 +188,9 @@ h1 {
   display: inline-block;
   margin-right: 20px; }
 
+.btn-rec {
+  margin-left: 20px; }
+
 /*BEERME---------------Search Directive styling-----------------BEERME*/
 .searchBlock {
   display: inline-block;
