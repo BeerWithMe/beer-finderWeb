@@ -184,6 +184,10 @@ h2 {
 .headline {
   margin-bottom: 20px; }
 
+h1 {
+  display: inline-block;
+  margin-right: 20px; }
+
 /*BEERME---------------Search Directive styling-----------------BEERME*/
 .searchBlock {
   display: inline-block;
