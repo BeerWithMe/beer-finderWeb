@@ -191,6 +191,28 @@ h1 {
 .btn-rec {
   margin-left: 20px; }
 
+.col-md-5 {
+  position: relative;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+  padding-top: 30px;
+  margin-bottom: 20px; }
+
+.col-md-7 {
+  position: relative;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+  width: 25%;
+  margin-bottom: 20px; }
+
+.img-responsive {
+  display: block;
+  width: 300px;
+  max-width: 300px;
+  height: 300px; }
+
 /*BEERME---------------Search Directive styling-----------------BEERME*/
 .searchBlock {
   display: inline-block;

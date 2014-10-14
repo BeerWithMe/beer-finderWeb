@@ -16,7 +16,24 @@
 	<h2 ng-if="rating.length>0 && $index !== 4">{{5 - $index}} Stars</h2>
 	<h2 ng-else-if="rating.length>0 && $index === 4">{{5 - $index}} Star</h2>
 
-	<div class="searchResultsContainer" ng-repeat="beer in rating">
+
+  
+	<div class="row" ng-repeat="beer in rating">
+    <div class="col-md-7">
+      <img class="img-responsive" ng-src="{{beer.imgUrl}}" alt="">
+    </div>
+    <div class="col-md-5">
+        <h3>{{beer.name}}</h3>
+        <h4 ng-if="beer.brewery != ''">{{beer.brewery}}</h4>
+        <h5 ng-if="beer.abv != 'undefined'"><strong>ABV: </strong>{{beer.abv}}</h5>
+        <h5 ng-if="beer.ibu != 'undefined'"><strong>IBU: </strong>{{beer.ibu}}</h5>
+        <h5 ng-if="beer.website != 'undefined'"><strong>Website: </strong><a href="{{beer.website}}"> {{beer.website}}</a></h5>
+        <p ng-if="beer.description != 'undefined'">{{beer.description}}</p>
+        <button class="btn btn-primary" ng-click='clicked(beer.name)'>View Beer <span class="glyphicon glyphicon-chevron-right"></span></button>
+    </div>
+  </div>
+
+	<!-- <div class="searchResultsContainer" ng-repeat="beer in rating">
 		<div class="beerImageContainer">
 			<img class="beerImage" ng-click='clicked(beer.name)' ng-src="{{beer.imgUrl}}"/>
 		<div class="beerText">
@@ -28,8 +45,8 @@
 			<li ng-if="beer.brewery != ''"><strong>Brewery: </strong>{{beer.brewery}}</li>
 			<li ng-if="beer.website != 'undefined'"><strong>Website: </strong><a href="{{beer.website}}"> {{beer.website}}</a></li>
 		</ul>
-	</div>
-</div>
+	</div> -->
+<!-- </div> -->
 </div>
 </div>
 
