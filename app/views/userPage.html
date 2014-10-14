@@ -1,15 +1,26 @@
 <div class="userContainer">
 
-<search></search>
+<search></search> 
 
 <div>
+  <h1>{{userName}}'s Page!</h1>
+</div>
+<div class="row">
+  <div class="col-lg-12">
+      <h3 class="page-header">Check out the beers you've rated!
+          <button class="btn btn-primary btn-sm btn-rec" ng-click="goToRecommendations()">See My Recommendations!</button>
+      </h3>
+  </div>
+</div>
+
+<!-- <div>
 
   <h1>{{userName}}'s Page!</h1>
 
   <button class="btn btn-primary btn-sm btn-rec" ng-click="goToRecommendations()">See My Recommendations!</button>
 </div>
 
-<h2 class="headline"><em>Check out the Beers you've rated!</em></h2>
+<h2 class="headline"><em>Check out the Beers you've rated!</em></h2> -->
 
 <div ng-repeat="rating in userLikes track by $index">
 

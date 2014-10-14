@@ -260,12 +260,32 @@ h1 {
   margin-bottom: 20px;
 }
 
+.col-md-12 {
+  position: relative;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
 .img-responsive {
   display: block;
   width: 300px;
   max-width: 300px;
   height: 300px;
 }
+
+.row {
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+.page-header {
+  padding-bottom: 9px;
+  margin: 40px 0 20px;
+  border-bottom: 1px solid #eee;
+  font-weight: normal;
+}
+
 
 
 /*BEERME---------------Search Directive styling-----------------BEERME*/
